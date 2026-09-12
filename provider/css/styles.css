@@ -244,3 +244,17 @@ textarea { min-height: 92px; resize: vertical; }
   .cards, .tiers, .contact-grid, .steps, .trust, .form-row, .included { grid-template-columns: 1fr; }
   .section { padding: 56px 0; }
 }
+
+/* ---------- Portal link ---------- */
+
+.portal-link {
+  font-weight: 800;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  text-decoration: none !important;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 2px;
+}
+.portal-link:hover { color: var(--teal); border-bottom-color: var(--teal); }
+@media (max-width: 520px) { .portal-link { display: none; } }
