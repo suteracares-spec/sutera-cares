@@ -8,7 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 /**
- * The two public forms on provider.suteracares.org.
+ * The two public forms on providers.suteracares.org.
  *
  * These are the only unauthenticated write endpoints in the portal, so
  * they are deliberately narrow: rate limited at the route, validated

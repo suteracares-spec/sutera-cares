@@ -1,5 +1,5 @@
 /* ============================================================
-   Sutera Care Provider — provider.suteracares.org
+   Sutera Care Provider — providers.suteracares.org
    Sibling to Sutera Cares: same ink, ivory, gold and typefaces,
    but teal instead of rose so the commercial arm reads as
    related to the charity without being mistaken for it.
@@ -245,19 +245,22 @@ textarea { min-height: 92px; resize: vertical; }
   .section { padding: 56px 0; }
 }
 
-/* ---------- Portal link ---------- */
+/* ---------- Portal login ---------- */
 
-.portal-link {
-  font-weight: 800;
-  font-size: 14.5px;
+.btn-login {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-color: var(--line);
   color: var(--ink-soft);
+  background: #fff;
   white-space: nowrap;
-  text-decoration: none !important;
-  border-bottom: 2px solid transparent;
-  padding-bottom: 2px;
 }
-.portal-link:hover { color: var(--teal); border-bottom-color: var(--teal); }
-@media (max-width: 520px) { .portal-link { display: none; } }
+.btn-login svg { width: 17px; height: 17px; flex: none; }
+.btn-login:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-soft); }
+
+.footer-portal { margin-bottom: 12px; }
+.footer-portal a { color: rgba(255,255,255,0.9); font-weight: 700; }
 
 /* ---------- Form intake ---------- */
 

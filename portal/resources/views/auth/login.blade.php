@@ -51,7 +51,7 @@
     <p class="signin-foot">
       This portal holds patient information. Do not sign in on a shared or
       public computer.<br>
-      <a href="https://provider.suteracares.org/">Back to the website</a>
+      <a href="https://providers.suteracares.org/">Back to the website</a>
     </p>
   </div>
 </div>

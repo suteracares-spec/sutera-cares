@@ -366,7 +366,7 @@ CREATE TABLE payments (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ---------------------------------------------------------------------
---  6. Website intake — the two forms on provider.suteracares.org
+--  6. Website intake — the two forms on providers.suteracares.org
 -- ---------------------------------------------------------------------
 
 DROP TABLE IF EXISTS enquiries;

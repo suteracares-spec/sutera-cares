@@ -55,7 +55,7 @@ return [
     'url' => env('APP_URL', 'http://localhost'),
 
     // Where the public marketing site lives; intake forms post here from it.
-    'marketing_url' => env('MARKETING_URL', 'https://provider.suteracares.org'),
+    'marketing_url' => env('MARKETING_URL', 'https://providers.suteracares.org'),
 
     /*
     |--------------------------------------------------------------------------

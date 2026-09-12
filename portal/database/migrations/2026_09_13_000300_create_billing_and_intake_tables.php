@@ -62,7 +62,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // The two forms on provider.suteracares.org land here.
+        // The two forms on providers.suteracares.org land here.
         Schema::create('enquiries', function (Blueprint $table) {
             $table->id();
             $table->string('client_name', 150);
