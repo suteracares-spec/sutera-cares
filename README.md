@@ -1,11 +1,11 @@
-# Sutra Cares — website
+# Sutera Cares — website
 
-Landing page for **Sutra Cares**, a community-led medical fund for refugees in Malaysia
+Landing page for **Sutera Cares**, a community-led medical fund for refugees in Malaysia
 (maternal health, safe birth, newborn care and medical emergencies).
 
 Static HTML/CSS — no build step, no framework. Host it anywhere (any shared host,
 Netlify, GitHub Pages, or the existing elsystem server). Content is drawn from the
-**Sutra Business Plan v1.0 (Aug 2026)** — see `Sutra Business Plan.md` in Downloads or
+**Sutera Business Plan v1.0 (Aug 2026)** — see `Sutera Business Plan.md` in Downloads or
 the Claude artifact of the same name.
 
 ## Files
@@ -74,6 +74,45 @@ Re-run the script and re-upload after any edit; extracting again overwrites.
 
 Files that go up are listed at the top of `make-deploy-zip.py`. `README.md`,
 `.git/`, `.vercel/` and the script itself are deliberately excluded.
+
+### Push to deploy (cPanel Git)
+
+The site is deployed by pushing to a git remote on the server. cPanel reads
+`.cpanel.yml` and copies the files into `public_html` on every push.
+
+There is deliberately **no Node.js** in this setup. The site is static HTML,
+CSS and SVG — there is nothing to run server-side, and putting a Node app in
+front of static files would only add something that can break.
+
+One-time setup:
+
+1. **cPanel → SSH Access → Manage SSH Keys.** Import your public key
+   (`~/.ssh/id_ed25519.pub`) and click **Manage → Authorize**. Generate a key
+   first with `ssh-keygen -t ed25519` if you don't have one.
+2. **cPanel → Git™ Version Control → Create.** Leave "Clone a Repository"
+   off, set the path to `/home/<cpaneluser>/repos/sutera-cares` and the name
+   to `sutera-cares`. Note the SSH clone URL it shows you.
+3. Add it as a remote locally. **Namecheap shared hosting uses SSH port
+   21098, not 22** — this is the usual reason the first push fails:
+
+   ```
+   git remote add cpanel ssh://<cpaneluser>@<server>.web-hosting.com:21098/home/<cpaneluser>/repos/sutera-cares
+   ```
+
+Then, to publish:
+
+```
+git push cpanel main
+```
+
+cPanel runs the tasks in `.cpanel.yml` and the change is live. Check the
+result under **Git Version Control → Manage → Pull or Deploy**.
+
+`origin` (GitHub) and `cpanel` (the live server) are separate remotes — push
+to both. Nothing deploys from GitHub on its own.
+
+Deployment copies files over; it never deletes. If a file is removed from the
+site, delete it from `public_html` by hand as well.
 
 ### Launch order
 

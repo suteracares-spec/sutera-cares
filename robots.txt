@@ -1,4 +1,4 @@
-# Sutra Cares — https://www.suteracares.org/
+# Sutera Cares — https://www.suteracares.org/
 User-agent: *
 Allow: /
 

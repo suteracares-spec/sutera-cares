@@ -1,0 +1,23 @@
+---
+# cPanel deployment. Runs on the server every time you push to the
+# cPanel git remote, copying the site into public_html.
+#
+# $HOME is the cPanel account's home directory. If a deploy ever fails
+# with an empty path, replace it with the literal path cPanel shows in
+# Git Version Control, e.g. /home/yourcpaneluser/public_html
+#
+# Adding a new file to the site? Add a matching cp line here too,
+# and to the FILES list in make-deploy-zip.py.
+deployment:
+  tasks:
+    - export DEPLOYPATH=$HOME/public_html
+    - /bin/mkdir -p $DEPLOYPATH/css $DEPLOYPATH/js $DEPLOYPATH/img
+    - /bin/cp -f .htaccess    $DEPLOYPATH/
+    - /bin/cp -f index.html   $DEPLOYPATH/
+    - /bin/cp -f 404.html     $DEPLOYPATH/
+    - /bin/cp -f robots.txt   $DEPLOYPATH/
+    - /bin/cp -f sitemap.xml  $DEPLOYPATH/
+    - /bin/cp -f css/styles.css   $DEPLOYPATH/css/
+    - /bin/cp -f js/i18n.js       $DEPLOYPATH/js/
+    - /bin/cp -f img/favicon.svg  $DEPLOYPATH/img/
+    - /bin/cp -f img/logo.svg     $DEPLOYPATH/img/
