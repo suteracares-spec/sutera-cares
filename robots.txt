@@ -1,0 +1,5 @@
+# Sutra Cares — https://www.suteracares.org/
+User-agent: *
+Allow: /
+
+Sitemap: https://www.suteracares.org/sitemap.xml

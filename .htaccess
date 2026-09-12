@@ -1,0 +1,93 @@
+# ============================================================
+# Sutra Cares — Apache / LiteSpeed config for cPanel hosting
+# Lives in public_html/. Static site: no PHP, no database.
+# ============================================================
+
+# UTF-8 matters here: the page ships Chinese and Malay text, and a
+# charset sent in the HTTP header overrides the <meta charset> in
+# the HTML. Without this a mis-set server default garbles 中文.
+AddDefaultCharset UTF-8
+
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+
+# Don't list directory contents if a folder has no index file.
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Never redirect the folder AutoSSL uses to prove the domain is
+  # yours — a redirect here can make certificate issuance fail.
+  RewriteRule ^\.well-known/ - [L]
+
+  # Canonical address, in a single redirect: https + www.
+  #
+  # This is safe to have on even before AutoSSL has issued a
+  # certificate, because the Namecheap/LiteSpeed account setting
+  # already forces HTTPS at the server level. Redirecting to http
+  # here would only add a pointless plaintext hop before that
+  # setting bounced the visitor back to https anyway.
+  RewriteCond %{HTTPS} =on [OR]
+  RewriteCond %{HTTP:X-Forwarded-Proto} =https
+  RewriteRule ^ - [E=SECURE:1]
+
+  RewriteCond %{ENV:SECURE} !=1 [OR]
+  RewriteCond %{HTTP_HOST} !^www\.suteracares\.org$ [NC]
+  RewriteRule ^ https://www.suteracares.org%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# ---- Compression -------------------------------------------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/x-javascript
+  AddOutputFilterByType DEFLATE application/xml application/xhtml+xml
+  AddOutputFilterByType DEFLATE image/svg+xml application/rss+xml
+</IfModule>
+
+# ---- Caching -----------------------------------------------
+# Deliberately modest on CSS/JS: this site is edited by hand with
+# no cache-busting filenames, so a year-long cache would hide
+# copy fixes from returning visitors for a year.
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                          "access plus 1 day"
+  ExpiresByType text/html                 "access plus 0 seconds"
+  ExpiresByType text/css                  "access plus 1 day"
+  ExpiresByType application/javascript    "access plus 1 day"
+  ExpiresByType image/svg+xml             "access plus 30 days"
+  ExpiresByType image/png                 "access plus 30 days"
+  ExpiresByType image/jpeg                "access plus 30 days"
+  ExpiresByType image/webp                "access plus 30 days"
+  ExpiresByType image/x-icon              "access plus 30 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Always re-check the HTML so edits appear immediately.
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+
+  # LAST STEP OF LAUNCH — only after https://www.suteracares.org
+  # loads with no browser warning. HSTS tells browsers to refuse
+  # plain http for this domain for a year, which is very hard to
+  # undo if the certificate turns out not to be working.
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# ---- Don't serve working files ------------------------------
+# Matches filenames only, so the .well-known/ directory used by
+# AutoSSL is unaffected.
+<FilesMatch "(^\.|\.(md|log|bak|orig)$)">
+  Require all denied
+</FilesMatch>
+
+# Belt and braces in case a repo folder is ever uploaded by mistake.
+<IfModule mod_alias.c>
+  RedirectMatch 404 /\.(git|vercel)(/|$)
+</IfModule>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found — Sutra Cares</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="/img/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Nunito+Sans:opsz,wght@6..12,400;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/styles.css">
+<style>
+  .notfound {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+  }
+  .notfound-inner { max-width: 560px; }
+  .notfound h1 { font-size: clamp(30px, 5vw, 44px); margin-bottom: 16px; }
+  .notfound p { color: var(--ink-soft); margin-bottom: 10px; }
+  .notfound .notfound-alt { font-family: var(--font-head); font-style: italic; }
+  .notfound .btn { margin-top: 26px; }
+  .notfound-heart { width: 92px; height: 92px; margin: 0 auto 22px; }
+</style>
+</head>
+<body>
+
+<main class="notfound">
+  <div class="notfound-inner">
+    <svg class="notfound-heart" viewBox="0 0 140 140" role="img" aria-hidden="true">
+      <path d="M70,118 C 48,132 24,134 8,126" fill="none" stroke="#B23A5B" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
+      <path d="M70,118 C 30,88 14,58 26,38 C 34,24 54,26 70,48 C 86,26 106,24 114,38 C 126,58 110,88 70,118 Z" fill="none" stroke="#B23A5B" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M70,118 C 30,88 14,58 26,38 C 34,24 54,26 70,48 C 86,26 106,24 114,38 C 126,58 110,88 70,118 Z" fill="none" stroke="#D9A441" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" transform="translate(70 74) scale(0.76) translate(-70 -74)"/>
+    </svg>
+
+    <h1>This page doesn't exist</h1>
+    <p>The thread led somewhere we can't find. Everything about Sutra Cares lives on our home page.</p>
+    <p class="notfound-alt" lang="ms">Halaman ini tidak wujud. Sila kembali ke laman utama.</p>
+    <p class="notfound-alt" lang="zh-Hans">此页面不存在，请返回首页。</p>
+
+    <a class="btn btn-primary btn-lg" href="/">Go to the home page</a>
+
+    <p style="margin-top:26px;font-size:15px;">
+      Need medical help for your family? <a href="/#contact">Message our hotline&nbsp;→</a>
+    </p>
+  </div>
+</main>
+
+</body>
+</html>

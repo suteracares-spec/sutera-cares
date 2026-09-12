@@ -18,8 +18,11 @@
   --night-2: #3E2334;
   --radius: 16px;
   --shadow: 0 10px 30px rgba(30, 43, 54, 0.08);
-  --font-head: "Fraunces", Georgia, "Times New Roman", serif;
-  --font-body: "Nunito Sans", "Segoe UI", system-ui, sans-serif;
+  /* Latin faces first, then system CJK so Chinese renders properly
+     without shipping a webfont. Latin glyphs still come from
+     Fraunces / Nunito Sans, which have no CJK coverage. */
+  --font-head: "Fraunces", Georgia, "Times New Roman", "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+  --font-body: "Nunito Sans", "Segoe UI", system-ui, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -128,13 +131,19 @@ section[id], div[id] { scroll-margin-top: 130px; }
 .hotline:hover .hotline-number { color: var(--rose); }
 
 .main-nav { border-top: 1px solid var(--line); }
+.nav-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
 .nav-links {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 6px 30px;
-  padding-top: 9px;
-  padding-bottom: 9px;
 }
 .nav-links a {
   color: var(--ink-soft);
@@ -143,6 +152,46 @@ section[id], div[id] { scroll-margin-top: 130px; }
   text-decoration: none !important;
 }
 .nav-links a:hover { color: var(--rose); }
+
+/* ---------- Language switcher ---------- */
+
+/* Absolutely placed so the nav links stay centred on the page,
+   not centred in what is left over beside the switcher. */
+.lang-switch {
+  display: none;
+  gap: 4px;
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+/* Only shown once the script that drives it has loaded. */
+html.js .lang-switch { display: flex; }
+
+.lang-switch button {
+  font-family: var(--font-body);
+  font-weight: 800;
+  font-size: 12.5px;
+  letter-spacing: 0.6px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  background: transparent;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  padding: 3px 12px;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.lang-switch button:hover { color: var(--rose); border-color: var(--rose); }
+.lang-switch button[aria-pressed="true"] {
+  background: var(--rose);
+  border-color: var(--rose);
+  color: #fff;
+}
+.lang-switch button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
 
 /* ---------- Hero ---------- */
 
@@ -559,7 +608,25 @@ section[id], div[id] { scroll-margin-top: 130px; }
 .footer-legal { max-width: 760px; margin: 0 auto 14px; }
 .footer-copy { color: rgba(255, 255, 255, 0.5); }
 
+/* ---------- Chinese typography ----------
+   Set on <html> by js/i18n.js. CJK wants looser lines and much
+   tighter tracking than the Latin display settings above. */
+
+html[lang^="zh"] body { line-height: 1.8; }
+html[lang^="zh"] h1,
+html[lang^="zh"] h2,
+html[lang^="zh"] h3 { line-height: 1.4; }
+html[lang^="zh"] .eyebrow { letter-spacing: 1px; }
+html[lang^="zh"] .contact-card h3 { letter-spacing: 1px; }
+
 /* ---------- Responsive ---------- */
+
+/* Below this the centred nav links would run into the absolutely
+   positioned switcher, so the two stack instead. */
+@media (max-width: 1100px) {
+  .nav-row { flex-direction: column; gap: 9px; }
+  .lang-switch { position: static; transform: none; }
+}
 
 @media (max-width: 980px) {
   .hero-grid { grid-template-columns: 1fr; padding-top: 56px; padding-bottom: 56px; }
