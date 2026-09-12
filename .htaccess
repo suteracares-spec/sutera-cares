@@ -73,11 +73,20 @@ Options -Indexes
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Permissions-Policy "geolocation=(), microphone=(), camera=(), interest-cohort=()"
 
-  # LAST STEP OF LAUNCH — only after https://www.suteracares.org
-  # loads with no browser warning. HSTS tells browsers to refuse
-  # plain http for this domain for a year, which is very hard to
-  # undo if the certificate turns out not to be working.
-  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # HSTS — browsers refuse plain http for this domain.
+  #
+  # Deliberately WITHOUT includeSubDomains. The certificate covers
+  # suteracares.org and www only; mail., webmail. and cpanel. still
+  # serve the shared *.web-hosting.com certificate. includeSubDomains
+  # would make webmail unreachable — with no click-through — in any
+  # browser that had seen this header.
+  #
+  # max-age is 30 days rather than the usual year because this
+  # certificate came from SSL.com, not AutoSSL, and cPanel warns it
+  # will not auto-renew. A short window means a missed renewal costs
+  # weeks, not a year. Raise it to 31536000 after the first renewal
+  # is seen to work.
+  Header always set Strict-Transport-Security "max-age=2592000"
 </IfModule>
 
 # ---- Don't serve working files ------------------------------
