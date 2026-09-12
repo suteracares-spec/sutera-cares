@@ -1,0 +1,414 @@
+<title>Sutera Care Provider Build Plan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --ground:#FAF7F2; --surface:#FFFFFF; --raised:#F3EEE6;
+    --ink:#16242C; --ink-soft:#55666E; --ink-faint:#8A969C;
+    --teal:#1C6B62; --teal-bright:#2A8A7E; --teal-wash:#E8F1EF;
+    --gold:#B0801F; --gold-wash:#F7EEDA;
+    --clay:#A0503B; --clay-wash:#F8EAE5;
+    --line:#E3DDD3; --line-firm:#CEC5B7;
+    --shadow:0 1px 2px rgba(22,36,44,.05), 0 8px 24px rgba(22,36,44,.05);
+    --mono:"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --body:"Nunito Sans","Segoe UI",system-ui,sans-serif;
+    --display:"Fraunces",Georgia,"Times New Roman",serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:#0E1A1E; --surface:#16262B; --raised:#1C3037;
+      --ink:#E7EDEE; --ink-soft:#A0B0B5; --ink-faint:#74868C;
+      --teal:#54AEA1; --teal-bright:#6FC5B7; --teal-wash:#16332F;
+      --gold:#DCA94E; --gold-wash:#33290F;
+      --clay:#D4826A; --clay-wash:#33201A;
+      --line:#26393F; --line-firm:#374E55;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:#0E1A1E; --surface:#16262B; --raised:#1C3037;
+    --ink:#E7EDEE; --ink-soft:#A0B0B5; --ink-faint:#74868C;
+    --teal:#54AEA1; --teal-bright:#6FC5B7; --teal-wash:#16332F;
+    --gold:#DCA94E; --gold-wash:#33290F;
+    --clay:#D4826A; --clay-wash:#33201A;
+    --line:#26393F; --line-firm:#374E55;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  }
+
+  *{box-sizing:border-box;}
+  body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16.5px;line-height:1.65;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.15;text-wrap:balance;margin:0;}
+  p,ul,ol,table{margin:0;}
+  a{color:var(--teal);}
+
+  .wrap{display:grid;grid-template-columns:1fr;gap:0;max-width:1180px;margin:0 auto;padding:0 28px 96px;}
+  @media (min-width:1120px){
+    .wrap{grid-template-columns:190px minmax(0,1fr);gap:56px;}
+    .toc{display:block;}
+  }
+
+  /* ---- masthead ---- */
+  .masthead{grid-column:1/-1;padding:56px 0 38px;border-bottom:2px solid var(--ink);margin-bottom:44px;}
+  .kicker{font-size:12px;font-weight:800;letter-spacing:2.2px;text-transform:uppercase;color:var(--teal);margin-bottom:14px;}
+  .masthead h1{font-size:clamp(34px,5.2vw,52px);letter-spacing:-.015em;margin-bottom:16px;}
+  .standfirst{font-size:19px;color:var(--ink-soft);max-width:62ch;}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:26px;font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);}
+  .meta b{color:var(--ink-soft);font-weight:500;}
+
+  /* ---- contents rail ---- */
+  .toc{display:none;position:sticky;top:28px;align-self:start;font-size:13.5px;}
+  .toc h4{font-family:var(--body);font-size:11px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px;}
+  .toc ol{list-style:none;padding:0;counter-reset:t;display:flex;flex-direction:column;gap:9px;}
+  .toc li{counter-increment:t;}
+  .toc a{display:flex;gap:9px;color:var(--ink-soft);text-decoration:none;line-height:1.35;}
+  .toc a::before{content:counter(t);font-family:var(--mono);font-size:11px;color:var(--ink-faint);padding-top:2px;}
+  .toc a:hover{color:var(--teal);}
+
+  /* ---- sections ---- */
+  main{min-width:0;}
+  section{margin-bottom:60px;scroll-margin-top:24px;}
+  section > h2{font-size:27px;letter-spacing:-.01em;padding-bottom:10px;border-bottom:1px solid var(--line-firm);margin-bottom:22px;}
+  section p{max-width:68ch;color:var(--ink-soft);}
+  section p + p{margin-top:14px;}
+  section p strong, li strong{color:var(--ink);font-weight:700;}
+  h3{font-size:19px;margin:30px 0 10px;}
+  .lede{font-size:17.5px;color:var(--ink);}
+
+  ul.plain{list-style:none;padding:0;display:flex;flex-direction:column;gap:9px;max-width:68ch;margin-top:14px;}
+  ul.plain li{position:relative;padding-left:20px;color:var(--ink-soft);}
+  ul.plain li::before{content:"";position:absolute;left:2px;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--teal);}
+
+  /* ---- alert ---- */
+  .alert{border-left:4px solid var(--clay);background:var(--clay-wash);border-radius:0 10px 10px 0;padding:18px 22px;margin-bottom:16px;}
+  .alert h3{margin:0 0 6px;font-size:17px;color:var(--ink);}
+  .alert p{color:var(--ink-soft);font-size:15.5px;max-width:none;}
+  .alert.warn{border-left-color:var(--gold);background:var(--gold-wash);}
+
+  /* ---- tables ---- */
+  .scroll{overflow-x:auto;margin-top:18px;border:1px solid var(--line);border-radius:10px;background:var(--surface);}
+  table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:640px;}
+  th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--line);vertical-align:top;}
+  thead th{background:var(--raised);font-size:11.5px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--ink-soft);white-space:nowrap;}
+  tbody tr:last-child td{border-bottom:0;}
+  td:first-child{font-weight:700;color:var(--ink);}
+  .yes{color:var(--teal-bright);font-weight:800;}
+  .no{color:var(--ink-faint);}
+  .part{color:var(--gold);font-weight:700;font-size:13px;}
+
+  /* ---- schema ---- */
+  .schema{font-family:var(--mono);font-size:13px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px;overflow-x:auto;margin-top:18px;line-height:1.75;color:var(--ink-soft);}
+  .schema .t{color:var(--teal);font-weight:600;}
+  .schema .k{color:var(--gold);}
+  .schema .c{color:var(--ink-faint);}
+
+  /* ---- phases ---- */
+  .phases{list-style:none;padding:0;counter-reset:p;display:flex;flex-direction:column;gap:2px;margin-top:20px;}
+  .phases li{counter-increment:p;display:grid;grid-template-columns:56px minmax(0,1fr);gap:20px;padding:20px 0;border-top:1px solid var(--line);}
+  .phases li:last-child{border-bottom:1px solid var(--line);}
+  .phases li::before{content:"0" counter(p);font-family:var(--mono);font-size:19px;font-weight:600;color:var(--teal);padding-top:1px;}
+  .phases h3{margin:0 0 4px;font-size:18px;}
+  .phases p{font-size:15.5px;max-width:62ch;}
+  .dur{font-family:var(--mono);font-size:12px;color:var(--ink-faint);display:block;margin-top:7px;}
+
+  /* ---- role cards ---- */
+  .roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-top:20px;}
+  .role{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;box-shadow:var(--shadow);}
+  .role .tag{font-family:var(--mono);font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;}
+  .role h3{margin:0 0 8px;font-size:18px;}
+  .role p{font-size:14.5px;max-width:none;}
+
+  .decisions{counter-reset:d;list-style:none;padding:0;display:flex;flex-direction:column;gap:14px;margin-top:20px;}
+  .decisions li{counter-increment:d;display:grid;grid-template-columns:30px minmax(0,1fr);gap:14px;}
+  .decisions li::before{content:"Q" counter(d);font-family:var(--mono);font-size:12px;font-weight:600;color:var(--gold);padding-top:4px;}
+  .decisions b{display:block;color:var(--ink);}
+  .decisions span{color:var(--ink-soft);font-size:15.5px;}
+
+  footer{grid-column:1/-1;border-top:1px solid var(--line-firm);padding-top:22px;margin-top:20px;font-size:14px;color:var(--ink-faint);}
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="kicker">Build plan · Internal</p>
+    <h1>Sutera Care Provider</h1>
+    <p class="standfirst">A four-role operations dashboard for a home-caregiver business — placing caregivers with elderly and home-bound clients, scheduling them, and recording what happened on every visit.</p>
+    <div class="meta">
+      <span><b>Host</b> cPanel · server410 · MySQL</span>
+      <span><b>Domain</b> provider.suteracares.org</span>
+      <span><b>Roles</b> admin · caregiver · guardian · patient</span>
+      <span><b>Estimate</b> 11–15 weeks</span>
+    </div>
+  </header>
+
+  <nav class="toc">
+    <h4>Contents</h4>
+    <ol>
+      <li><a href="#first">Read first</a></li>
+      <li><a href="#orgs">Two organisations</a></li>
+      <li><a href="#stack">The stack</a></li>
+      <li><a href="#roles">Four roles</a></li>
+      <li><a href="#data">Data model</a></li>
+      <li><a href="#phases">Build phases</a></li>
+      <li><a href="#pdpa">PDPA &amp; security</a></li>
+      <li><a href="#decisions">Your decisions</a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+    <section id="first">
+      <h2>Read first</h2>
+
+      <div class="alert">
+        <h3>Rotate the database password</h3>
+        <p>The credentials for <code>sutempck_adeel</code> were sent in plain text over chat. Change that password in cPanel → MySQL Databases before any code is written. Treat the old one as public. The new one goes in a single file outside the web root, listed in <code>.gitignore</code>, and never in the repository — this project already pushes to GitHub.</p>
+      </div>
+
+      <div class="alert warn">
+        <h3>Don't call it nursing</h3>
+        <p>Your brief said "basic nursing care". Nursing is a regulated profession in Malaysia under the Nurses Act 1950, and describing unlicensed caregivers as providing nursing care creates a real problem — for the business, and for a family who agrees to care believing it is clinical. The website I built says <b>personal care</b>, <b>daily living assistance</b> and <b>caregiver</b> throughout, and names what is out of scope: no injections, wound dressing, IV lines or catheters. Keep that line in the product too — the care plan should refuse to accept clinical tasks.</p>
+      </div>
+
+      <div class="alert warn">
+        <h3>The guardian is your real user, not the patient</h3>
+        <p>An 82-year-old with limited mobility is rarely the one logging in. The daughter arranging the care is. Build the guardian dashboard properly and keep the patient view minimal — a schedule and who is coming. Getting this backwards is the most common way home-care software ends up unused.</p>
+      </div>
+    </section>
+
+    <section id="orgs">
+      <h2>Two organisations, one family of brands</h2>
+      <p class="lede">Sutera Cares is a non-profit medical fund. Sutera Care Provider is a commercial home-care business. They share a name and a design language, and nothing else.</p>
+      <p>This separation has to be real, not cosmetic, because the charity's credibility depends on it. A donor who suspects their gift subsidises a private company stops giving.</p>
+      <ul class="plain">
+        <li><strong>Separate books.</strong> Separate bank accounts, separate accounting. The charity's funds never touch the business.</li>
+        <li><strong>Separate databases.</strong> Don't put patient records and donor records in one schema. The business needs a database of its own.</li>
+        <li><strong>Separate login systems.</strong> No shared accounts between charity staff and provider staff.</li>
+        <li><strong>Stated publicly.</strong> Both sites say the relationship plainly; the provider FAQ answers it directly.</li>
+      </ul>
+      <p>Where they may legitimately connect: the provider can donate a share of profit to the fund, as a documented transaction in both sets of books. That is a sponsorship, and it should look like one.</p>
+    </section>
+
+    <section id="stack">
+      <h2>The stack</h2>
+      <p class="lede">Laravel 11 with MySQL, on the cPanel host you already have.</p>
+      <p>This is the pragmatic choice rather than the exciting one, and the reasoning is mostly about what you get without writing it: authentication, password hashing, session handling, CSRF protection, SQL-injection-safe queries, and a permissions system built for exactly the four-role problem you have. Every one of those is a place where a hand-rolled system leaks health records.</p>
+
+      <h3>What runs where</h3>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Layer</th><th>Choice</th><th>Why this one</th></tr></thead>
+          <tbody>
+            <tr><td>Framework</td><td>Laravel 11 (PHP 8.2+)</td><td>Auth, policies, migrations and escaping built in. Runs natively on cPanel — no process manager.</td></tr>
+            <tr><td>Admin panel</td><td>Filament 3</td><td>Generates the admin CRUD — patients, caregivers, assignments — in days rather than weeks. Role-aware out of the box.</td></tr>
+            <tr><td>Caregiver &amp; guardian UI</td><td>Custom Blade + Alpine.js</td><td>These are phone-first and used one-handed in someone's home. A generic admin panel is wrong for them.</td></tr>
+            <tr><td>Database</td><td>MySQL 8 (<code>sutempck_suteracares</code>)</td><td>Already provisioned. Fine at this scale for years.</td></tr>
+            <tr><td>Scheduled jobs</td><td>cPanel cron → <code>artisan schedule:run</code></td><td>Shift reminders, invoice generation, expiring police-check alerts.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Two things to sort before development starts</h3>
+      <ul class="plain">
+        <li><strong>SSH access.</strong> Still refused on account <code>sutempck</code>. Composer needs it. Without SSH you can upload <code>vendor/</code> inside the deploy zip, but that turns a 10-second install into a 60&nbsp;MB upload every time a package changes.</li>
+        <li><strong>Document root.</strong> The subdomain must point at <code>provider/public</code>, not <code>provider</code>. Pointing it at the project root exposes <code>.env</code> — with the database password in it — to anyone who guesses the URL.</li>
+      </ul>
+
+      <p><strong>What I did not recommend, and why.</strong> Plain PHP is tempting because it deploys anywhere, but you would hand-write login, sessions and access control — the three things most often got wrong, on a system holding health data. Node on shared hosting is fragile and buys nothing here.</p>
+    </section>
+
+    <section id="roles">
+      <h2>Four roles</h2>
+      <p>Every role sees a different product, not the same product with buttons hidden. Hiding a button is not access control.</p>
+
+      <div class="roles">
+        <div class="role">
+          <p class="tag">admin</p>
+          <h3>Office &amp; coordinators</h3>
+          <p>Runs the business. Registers clients, vets caregivers, builds care plans, assigns and schedules, handles billing, reads every record.</p>
+        </div>
+        <div class="role">
+          <p class="tag">caregiver</p>
+          <h3>The person doing the work</h3>
+          <p>On a phone, in a client's home. Sees only their own shifts and only the clients assigned to them. Checks in, works the task list, writes a visit note, checks out.</p>
+        </div>
+        <div class="role">
+          <p class="tag">guardian</p>
+          <h3>Family member</h3>
+          <p>Usually paying, usually the decision-maker. Sees their relative's schedule, who is coming, what happened on each visit, and the invoices.</p>
+        </div>
+        <div class="role">
+          <p class="tag">patient</p>
+          <h3>The person receiving care</h3>
+          <p>Deliberately minimal. Today's and this week's schedule, the caregiver's name and photo, and a way to raise a concern. Many will never log in — that's fine.</p>
+        </div>
+      </div>
+
+      <h3>Who can see and do what</h3>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Capability</th><th>Admin</th><th>Caregiver</th><th>Guardian</th><th>Patient</th></tr></thead>
+          <tbody>
+            <tr><td>All patient records</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+            <tr><td>Own / linked patient record</td><td class="yes">Yes</td><td class="part">Assigned only</td><td class="part">Linked only</td><td class="part">Self only</td></tr>
+            <tr><td>Create &amp; edit care plan</td><td class="yes">Yes</td><td class="no">No</td><td class="part">Request change</td><td class="no">No</td></tr>
+            <tr><td>Assign caregiver to patient</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+            <tr><td>Build &amp; publish schedules</td><td class="yes">Yes</td><td class="part">View own</td><td class="part">View linked</td><td class="part">View own</td></tr>
+            <tr><td>Check in / out of a shift</td><td class="part">Correct</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td></tr>
+            <tr><td>Write visit notes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="no">No</td><td class="no">No</td></tr>
+            <tr><td>Read visit notes</td><td class="yes">Yes</td><td class="part">Own visits</td><td class="part">If permitted</td><td class="part">Own</td></tr>
+            <tr><td>Caregiver records &amp; pay rates</td><td class="yes">Yes</td><td class="part">Own profile</td><td class="no">No</td><td class="no">No</td></tr>
+            <tr><td>Invoices &amp; payments</td><td class="yes">Yes</td><td class="no">No</td><td class="part">Own invoices</td><td class="no">No</td></tr>
+            <tr><td>Raise a concern</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+            <tr><td>Read the audit log</td><td class="part">Owner only</td><td class="no">No</td><td class="no">No</td><td class="no">No</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top:16px;"><strong>"If permitted"</strong> is a real switch, not a nicety. Families disagree, and an estranged relative should not automatically read intimate personal-care notes. Per-guardian flags on the link record decide it.</p>
+    </section>
+
+    <section id="data">
+      <h2>Data model</h2>
+      <p>Thirteen tables carry the whole system. The shape worth noticing: a <b>care plan</b> is versioned and separate from an <b>assignment</b>, because the plan describes what the person needs and the assignment describes who delivers it. Caregivers change; the plan shouldn't have to be rewritten when they do.</p>
+
+      <div class="schema">
+<span class="t">users</span>            id · name · email · phone · password_hash · <span class="k">role</span> · status · last_login_at · two_factor_secret
+<span class="t">patients</span>         id · code · name · <span class="k">ic_number 🔒</span> · dob · gender · address · area · mobility_level
+                 languages · allergies · notes · primary_guardian_id · status
+<span class="t">guardians</span>        id · user_id → users · patient_id → patients · relationship · is_primary
+                 <span class="k">can_view_notes</span> · <span class="k">can_view_invoices</span>          <span class="c">// the permission switch</span>
+<span class="t">caregivers</span>       id · user_id → users · <span class="k">ic_number 🔒</span> · gender · languages · skills
+                 police_check_expires_at · hourly_rate · max_travel_km · status
+<span class="t">care_plans</span>       id · patient_id → patients · <span class="k">version</span> · effective_from · agreed_by · notes
+<span class="t">care_plan_tasks</span>  id · care_plan_id → care_plans · category · description · frequency · time_of_day
+<span class="t">assignments</span>      id · patient_id · caregiver_id · care_plan_id · start_date · end_date · status
+<span class="t">shifts</span>           id · assignment_id → assignments · date · start_time · end_time · status
+<span class="t">visit_logs</span>       id · shift_id → shifts · check_in_at · check_out_at · check_in_lat · check_in_lng
+                 tasks_completed <span class="c">(json)</span> · notes · concern_flagged
+<span class="t">services</span>         id · name · category · unit · base_rate          <span class="c">// incl. massage &amp; wellness</span>
+<span class="t">invoices</span>         id · patient_id · period_start · period_end · subtotal · total · status
+<span class="t">invoice_lines</span>    id · invoice_id → invoices · shift_id · service_id · qty · rate · amount
+<span class="t">audit_log</span>        id · user_id · action · subject_type · subject_id · ip · created_at
+
+<span class="c">🔒 = encrypted at rest (Laravel encrypted cast). IC numbers are national
+     identity numbers — sensitive personal data, and useless to an attacker
+     if the database is dumped but the app key is not.</span>
+      </div>
+
+      <h3>Decisions baked into this shape</h3>
+      <ul class="plain">
+        <li><strong>Guardians are a link table, not a column.</strong> A patient often has several family members involved, with different levels of access. One <code>guardian_id</code> on the patient would force you to pick a favourite child.</li>
+        <li><strong>Shifts are generated rows, not a rule.</strong> "Mon–Fri 9–5" becomes actual dated rows, because real life is full of exceptions — a public holiday, a hospital admission, a caregiver off sick. You cannot cancel a single day of a recurrence rule.</li>
+        <li><strong>Check-in captures location.</strong> Not to police caregivers, but because "was anyone actually there on Tuesday" is the question you will be asked in a dispute, and memory is not evidence.</li>
+        <li><strong>Invoice lines point at shifts.</strong> Billing derives from work recorded, so an invoice can always be explained line by line.</li>
+      </ul>
+    </section>
+
+    <section id="phases">
+      <h2>Build phases</h2>
+      <p>Ordered by dependency — each phase is usable on its own, so the office can start working in the system before it is finished. Durations assume one developer working steadily, not full time.</p>
+
+      <ol class="phases">
+        <li>
+          <div>
+            <h3>Foundations</h3>
+            <p>Laravel installed, subdomain pointed at <code>public/</code>, database connected, login, the four roles, the audit log, and encrypted backups running. Nothing visible to a user, and skipping it is how projects get rebuilt.</p>
+            <span class="dur">1–2 weeks</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Admin core</h3>
+            <p>Register patients and guardians, vet and record caregivers, write versioned care plans. At the end of this phase the office can throw away its spreadsheet.</p>
+            <span class="dur">2–3 weeks</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Assignment &amp; scheduling</h3>
+            <p>Match caregivers to patients, generate shifts from a pattern, handle exceptions and reassignment. The hardest phase, and the one that earns the system its keep.</p>
+            <span class="dur">2–3 weeks</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Caregiver phone view</h3>
+            <p>Today's shifts, check in and out, work through the task list, write the visit note. Big targets, few taps, and tolerant of bad signal in a stairwell — queue the check-in locally and sync when it can.</p>
+            <span class="dur">2 weeks</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Guardian portal</h3>
+            <p>The week ahead, who is coming, visit notes where permitted, invoices, and a way to raise a concern that reaches a human. This is what families judge you on.</p>
+            <span class="dur">1–2 weeks</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Billing</h3>
+            <p>Generate invoices from completed shifts, apply holiday and travel surcharges, record payments, chase what is overdue.</p>
+            <span class="dur">2 weeks</span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Patient view &amp; hardening</h3>
+            <p>The minimal patient screen, two-factor for admins, a penetration pass over access control, and a rehearsed restore from backup. Not optional on a system holding health records.</p>
+            <span class="dur">1–2 weeks</span>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section id="pdpa">
+      <h2>PDPA &amp; security</h2>
+      <p class="lede">Health information is <b>sensitive personal data</b> under Malaysia's Personal Data Protection Act 2010, which is a stricter category than ordinary personal data.</p>
+      <p>I am not a lawyer and this is not legal advice — before you take a first paying client, get an hour with a Malaysian lawyer who knows PDPA. What follows is what the system should do regardless.</p>
+
+      <h3>Obligations to check with a lawyer</h3>
+      <ul class="plain">
+        <li><strong>Registration.</strong> Healthcare is a class of data user that may be required to register with the Personal Data Protection Commissioner. Confirm whether a caregiving business falls in scope.</li>
+        <li><strong>Explicit consent.</strong> Sensitive personal data generally needs explicit consent, recorded — not implied by signing a service contract. Capture it as a dated record against the patient.</li>
+        <li><strong>Cross-border transfer.</strong> PDPA restricts moving personal data outside Malaysia. Your hosting is already Malaysian-facing; keep backups in-country too, and check before adopting any foreign cloud service.</li>
+        <li><strong>Retention.</strong> Records must not be kept longer than necessary. Decide a retention period and build the deletion, rather than keeping everything forever by default.</li>
+        <li><strong>Access &amp; correction.</strong> A person can demand to see and correct their data. Make that a feature, not a scramble.</li>
+      </ul>
+
+      <h3>What the build does about it</h3>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Control</th><th>Implementation</th></tr></thead>
+          <tbody>
+            <tr><td>Password storage</td><td>Bcrypt via Laravel. Never reversible, never logged, never emailed.</td></tr>
+            <tr><td>Two-factor</td><td>Required for every admin account. They can see all records; that account is the prize.</td></tr>
+            <tr><td>Encryption at rest</td><td>IC numbers and free-text medical notes encrypted with the app key, held outside the database.</td></tr>
+            <tr><td>Access logging</td><td>Every read of a patient record writes to <code>audit_log</code> — who, what, when, from where.</td></tr>
+            <tr><td>Transport</td><td>HTTPS only, HSTS on. Already in place for the parent domain.</td></tr>
+            <tr><td>Session policy</td><td>Idle timeout, and re-authentication before viewing a full record on a shared office machine.</td></tr>
+            <tr><td>Backups</td><td>Nightly, encrypted, off the web server, retained 30 days — and a restore actually rehearsed, because an untested backup is a guess.</td></tr>
+            <tr><td>Data minimisation</td><td>No patient identifiers in URLs, logs or error messages. No health detail in email or SMS notifications.</td></tr>
+            <tr><td>Leavers</td><td>Deactivating a caregiver revokes access immediately and preserves their past visit records.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="decisions">
+      <h2>Decisions I need from you</h2>
+      <p>These change what gets built, so they are worth settling before phase 1 rather than during it.</p>
+
+      <ol class="decisions">
+        <li><span><b>Who operates this day to day?</b> One coordinator, or several? It decides whether "admin" is one role or splits into coordinator and owner, with pay rates and financials visible only to the owner.</span></li>
+        <li><span><b>Do caregivers use their own phones?</b> Almost certainly yes — which makes the phone view a website, not an app, and makes offline tolerance a requirement rather than a nicety.</span></li>
+        <li><span><b>How do you want to be paid?</b> Invoice and bank transfer is the simplest start and needs no gateway. Online card payment adds a payment provider, PCI considerations and a month of work.</span></li>
+        <li><span><b>Is massage and wellness the same funnel?</b> A one-off massage booking is a different shape from an ongoing care placement — no care plan, no assignment, just a booking. Decide whether it shares the scheduling system or sits beside it.</span></li>
+        <li><span><b>What happens on day one of a dispute?</b> If a family says a caregiver did not show up, what do you want to be able to produce? That answer sets how strict check-in has to be.</span></li>
+        <li><span><b>Who builds it?</b> This is a three-to-four-month part-time build for one competent Laravel developer. Worth being clear whether that is you, a hire, or me.</span></li>
+      </ol>
+    </section>
+
+    <footer>
+      Plan prepared for Sutera Care Provider · companion to the marketing site at provider.suteracares.org · revise as decisions land.
+    </footer>
+
+  </main>
+</div>
