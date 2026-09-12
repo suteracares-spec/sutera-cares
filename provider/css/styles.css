@@ -258,3 +258,20 @@ textarea { min-height: 92px; resize: vertical; }
 }
 .portal-link:hover { color: var(--teal); border-bottom-color: var(--teal); }
 @media (max-width: 520px) { .portal-link { display: none; } }
+
+/* ---------- Form intake ---------- */
+
+/* Honeypot. Off-screen rather than display:none, because some bots skip
+   hidden inputs but happily fill positioned ones. */
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.sent {
+  background: #E7F1EF;
+  border-left: 4px solid var(--teal);
+  border-radius: 0 10px 10px 0;
+  padding: 16px 20px;
+  margin: 0 0 26px;
+  color: var(--ink);
+  font-size: 16px;
+}
+.sent strong { color: var(--teal-deep); }

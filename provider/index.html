@@ -236,13 +236,23 @@
   <section class="section" id="quote">
     <div class="container">
       <h2>Request a quote</h2>
+      <p class="sent" id="sent-enquiry" hidden>
+        <strong>Thank you.</strong> We have your enquiry and will reply within one working day.
+      </p>
+      <p class="sent" id="sent-application" hidden>
+        <strong>Thank you for applying.</strong> We contact shortlisted applicants within a week.
+      </p>
       <p class="section-lead">The person arranging care is often not the person receiving it, so we ask for both. Nothing here commits you to anything.</p>
       <div class="form-grid">
 
         <div class="form-card">
           <h3>Care enquiry</h3>
           <p>We reply within one working day.</p>
-          <form method="post" action="#" novalidate>
+          <form method="post" action="https://provider.suteracares.org/portal/intake/enquiry">
+            <p class="hp" aria-hidden="true">
+              <label for="e-website">Leave this field empty</label>
+              <input id="e-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </p>
             <fieldset>
               <legend>Your details</legend>
               <label for="c-name">Your name *</label>
@@ -305,7 +315,11 @@
         <div class="form-card" id="careers">
           <h3>Work with us</h3>
           <p>We are hiring caregivers across the Klang Valley.</p>
-          <form method="post" action="#" novalidate>
+          <form method="post" action="https://provider.suteracares.org/portal/intake/application">
+            <p class="hp" aria-hidden="true">
+              <label for="a-website">Leave this field empty</label>
+              <input id="a-website" name="website" type="text" tabindex="-1" autocomplete="off">
+            </p>
             <fieldset>
               <legend>Applicant details</legend>
               <label for="a-name">Full name *</label>
@@ -451,5 +465,20 @@
   </div>
 </footer>
 
+<script>
+  // The forms post to the portal, which sends the visitor back here with
+  // ?sent=... Show the matching confirmation and tidy the URL so a refresh
+  // does not repeat it.
+  (function () {
+    var sent = new URLSearchParams(location.search).get('sent');
+    if (!sent) return;
+    var el = document.getElementById('sent-' + sent);
+    if (el) {
+      el.hidden = false;
+      el.scrollIntoView({ block: 'center' });
+    }
+    history.replaceState(null, '', location.pathname + location.hash);
+  })();
+</script>
 </body>
 </html>

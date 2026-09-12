@@ -18,6 +18,17 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // Sessions carry access to health records; treat them accordingly.
         $middleware->redirectGuestsTo(fn () => route('login'));
+
+        // The two website forms post from the static marketing site, which is
+        // a different origin and cannot carry a session CSRF token. Exempting
+        // them costs nothing real: CSRF defends against an attacker making an
+        // ALREADY SIGNED-IN user act without meaning to, and these endpoints
+        // are anonymous — anyone can submit them by visiting the page. The
+        // actual threats here are spam and flooding, which the route's rate
+        // limit and the honeypot field handle.
+        $middleware->validateCsrfTokens(except: [
+            'intake/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

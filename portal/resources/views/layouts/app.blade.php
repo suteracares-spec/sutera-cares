@@ -26,6 +26,8 @@
     @if (auth()->user()->isStaff())
       <a href="{{ route('admin.dashboard') }}" @class(['on' => request()->routeIs('admin.dashboard')])>Dashboard</a>
       <a href="{{ route('admin.patients.index') }}" @class(['on' => request()->routeIs('admin.patients.*')])>Clients</a>
+      <a href="{{ route('admin.caregivers.index') }}" @class(['on' => request()->routeIs('admin.caregivers.*')])>Caregivers</a>
+      <a href="{{ route('admin.enquiries.index') }}" @class(['on' => request()->routeIs('admin.enquiries.*')])>Enquiries</a>
     @endif
   </nav>
 
