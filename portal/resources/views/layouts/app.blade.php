@@ -32,7 +32,9 @@
   </nav>
 
   <div class="who">
-    <span class="name">{{ auth()->user()->name }}</span>
+    <a class="name" href="{{ route('account.edit') }}"
+       style="color:inherit;text-decoration:none;border-bottom:2px solid transparent"
+       @class(['on' => request()->routeIs('account.*')])>{{ auth()->user()->name }}</a>
     <span class="role">{{ ucfirst(auth()->user()->role) }}</span>
     <form method="POST" action="{{ route('logout') }}">@csrf
       <button type="submit">Sign out</button>

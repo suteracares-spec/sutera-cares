@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CaregiverController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\PatientController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\IntakeController;
 use Illuminate\Support\Facades\Route;
@@ -17,7 +18,10 @@ use Illuminate\Support\Facades\Route;
 | because hiding a link is not access control.
 */
 
-Route::redirect('/', '/login');
+// Named route, not a literal path. The portal is served from a
+// subdirectory (/portal), and a literal '/login' would send visitors to
+// the site root, where no such page exists.
+Route::get('/', fn () => redirect()->route('login'));
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'show'])->name('login');
@@ -26,6 +30,14 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')->name('logout');
+
+// ---- Your own account, whatever your role ---------------------------
+Route::middleware('auth')->prefix('account')->name('account.')->group(function () {
+    Route::get('/', [AccountController::class, 'edit'])->name('edit');
+    Route::put('/details', [AccountController::class, 'updateDetails'])->name('details');
+    Route::put('/password', [AccountController::class, 'updatePassword'])
+        ->middleware('throttle:6,1')->name('password');
+});
 
 // ---- Public intake --------------------------------------------------
 // The only unauthenticated writes in the portal. Rate limited hard,
