@@ -106,12 +106,21 @@ section[id] { scroll-margin-top: 130px; }
 .hero-note { font-size: 15px; color: rgba(255,255,255,0.8); }
 .hero-note a { color: var(--gold); font-weight: 700; }
 
-.hero-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.18); border-radius: var(--radius); padding: 26px 28px; backdrop-filter: blur(2px); }
-.hero-card h3 { font-size: 19px; margin-bottom: 14px; color: #fff; }
-.hero-card ul { list-style: none; }
-.hero-card li { padding: 9px 0 9px 30px; position: relative; color: rgba(255,255,255,0.9); font-size: 15.5px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-.hero-card li:last-child { border-bottom: 0; }
-.hero-card li::before { content: "✓"; position: absolute; left: 0; color: var(--gold); font-weight: 800; }
+.hero-photo { margin: 0; border-radius: var(--radius); overflow: hidden; box-shadow: 0 18px 44px rgba(0,0,0,0.32); border: 1px solid rgba(255,255,255,0.14); }
+.hero-photo img { width: 100%; height: auto; }
+
+/* ---------- What's included ---------- */
+
+.included { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 6px; }
+.included li { border-top: 3px solid var(--teal); padding-top: 16px; color: var(--ink-soft); font-size: 15.5px; }
+.included strong { display: block; font-family: var(--font-head); font-weight: 600; font-size: 18.5px; color: var(--ink); margin-bottom: 5px; }
+
+/* ---------- How it works ---------- */
+
+.how-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; align-items: center; }
+.how-intro .section-lead { margin-bottom: 14px; }
+.how-photo { margin: 0; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.how-photo img { width: 100%; height: auto; }
 
 /* ---------- Scope banner ---------- */
 
@@ -221,6 +230,8 @@ textarea { min-height: 92px; resize: vertical; }
 
 @media (max-width: 980px) {
   .hero-grid { grid-template-columns: 1fr; padding: 56px 24px; }
+  .how-intro { grid-template-columns: 1fr; gap: 28px; }
+  .included { grid-template-columns: 1fr 1fr; }
   .cards, .tiers, .contact-grid { grid-template-columns: 1fr 1fr; }
   .steps { grid-template-columns: 1fr 1fr; }
   .form-grid { grid-template-columns: 1fr; }
@@ -230,6 +241,6 @@ textarea { min-height: 92px; resize: vertical; }
 @media (max-width: 640px) {
   .header-top { flex-wrap: wrap; justify-content: center; text-align: center; }
   .header-actions { width: 100%; justify-content: center; }
-  .cards, .tiers, .contact-grid, .steps, .trust, .form-row { grid-template-columns: 1fr; }
+  .cards, .tiers, .contact-grid, .steps, .trust, .form-row, .included { grid-template-columns: 1fr; }
   .section { padding: 56px 0; }
 }
