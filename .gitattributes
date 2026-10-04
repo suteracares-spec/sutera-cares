@@ -1,2 +1,3 @@
 # Deploy scripts run on Linux; a CRLF would break them.
 deploy/* text eol=lf
+caregiver-app/scripts/*.sh text eol=lf
