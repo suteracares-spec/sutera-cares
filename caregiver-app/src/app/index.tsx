@@ -23,8 +23,8 @@ export default function ShiftsScreen(): JSX.Element {
   }, [refresh]);
 
   useEffect(() => {
-    if (token && !profile?.password_change_required) refresh();
-  }, [token, profile?.password_change_required, refresh]);
+    if (token && !profile?.password_change_required && !profile?.user.office) refresh();
+  }, [token, profile?.password_change_required, profile?.user.office, refresh]);
 
   if (!ready) {
     return (
@@ -35,6 +35,8 @@ export default function ShiftsScreen(): JSX.Element {
   }
   if (!token) return <Redirect href="/login" />;
   if (profile?.password_change_required) return <Redirect href="/password" />;
+  // Office accounts have no shifts of their own: they get the office overview.
+  if (profile?.user.office) return <Redirect href="/office" />;
 
   const section = (title: string, shifts: Shift[], showDate: boolean, empty?: string) =>
     (shifts.length > 0 || empty) && (

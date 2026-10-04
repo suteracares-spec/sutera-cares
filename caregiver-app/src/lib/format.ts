@@ -38,6 +38,27 @@ export function clock(iso: string | null | undefined): string {
   return `${String(d.getUTCHours()).padStart(2, "0")}:${String(d.getUTCMinutes()).padStart(2, "0")}`;
 }
 
+/** Malaysia's calendar date, offset by some days: "2026-10-05". */
+export function malaysiaDate(offsetDays = 0): string {
+  const d = inMalaysia(new Date(Date.now() + offsetDays * 86_400_000));
+  return d.toISOString().slice(0, 10);
+}
+
+/** Add days to a "YYYY-MM-DD" date. */
+export function addDays(day: string, days: number): string {
+  const d = calendarDay(day);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d.toISOString().slice(0, 10);
+}
+
+/** "2 h ago", "Mon 5 Oct": how long ago something was raised. */
+export function ago(iso: string): string {
+  const minutes = Math.round((Date.now() - new Date(iso).getTime()) / 60_000);
+  if (minutes < 60) return `${Math.max(minutes, 1)} min ago`;
+  if (minutes < 24 * 60) return `${Math.round(minutes / 60)} h ago`;
+  return shortDay(inMalaysia(new Date(iso)).toISOString().slice(0, 10));
+}
+
 export function firstName(name: string): string {
   return name.split(" ")[0] ?? name;
 }

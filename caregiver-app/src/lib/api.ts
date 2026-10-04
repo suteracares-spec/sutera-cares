@@ -49,8 +49,83 @@ export type ShiftLists = {
 };
 
 export type Profile = {
-  user: { name: string; email: string; code: string | null; status: string };
+  user: {
+    name: string;
+    email: string;
+    code: string | null;
+    status: string;
+    role?: string;
+    /** An office account (administrator or coordinator): sees the office overview. */
+    office?: boolean;
+  };
   password_change_required: boolean;
+};
+
+// ---- Office overview (administrators and coordinators) ----
+
+export type OfficeShift = {
+  id: number;
+  date: string;
+  start: string;
+  end: string;
+  status: Shift["status"];
+  /** Needs a coordinator now: not checked in after the start, or nobody came. */
+  attention: "late" | "no_show" | null;
+  client: string | null;
+  area: string | null;
+  caregiver: string | null;
+  covering: boolean;
+  service: string | null;
+  check_in_at: string | null;
+  concern: boolean;
+};
+
+export type OfficeDay = {
+  date: string;
+  counts: { total: number; attention: number; on_now: number; done: number };
+  open_concerns: number;
+  shifts: OfficeShift[];
+};
+
+export type OfficeShiftDetail = OfficeShift & {
+  cancel_reason: string | null;
+  client_details: {
+    name: string;
+    code: string;
+    area: string | null;
+    address: string | null;
+    allergies: string | null;
+  };
+  visit: {
+    check_in_at: string | null;
+    check_out_at: string | null;
+    location: boolean;
+    minutes_worked: number | null;
+    tasks_completed: string[];
+    notes: string | null;
+    concern_flagged: boolean;
+    concern_detail: string | null;
+  } | null;
+};
+
+export type OfficeConcern = {
+  id: number;
+  status: "open" | "investigating" | "resolved" | "closed";
+  category: string;
+  plan_change: boolean;
+  client: string | null;
+  raised_by: string | null;
+  raised_by_role: string | null;
+  owner: string | null;
+  raised_at: string;
+};
+
+export type OfficeConcernDetail = OfficeConcern & {
+  detail: string;
+  resolution: string | null;
+  resolved_at: string | null;
+  shift_id: number | null;
+  shift: string | null;
 };
 
 /** The server answered with a refusal (4xx). Not worth retrying as-is. */

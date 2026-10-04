@@ -88,7 +88,9 @@ export function SessionVisitsProvider({ children }: { children: ReactNode }) {
 }
 
 export function VisitsProvider({ children }: { children: ReactNode }) {
-  const { token, expired } = useAuth();
+  const { token: authToken, profile, expired } = useAuth();
+  // Office accounts have no shifts and no visits to queue.
+  const token = profile?.user.office ? null : authToken;
   const [lists, setLists] = useState<ShiftLists | null>(null);
   const [details, setDetails] = useState<Record<number, ShiftDetail>>({});
   const [queue, setQueue] = useState<QueuedAction[]>([]);

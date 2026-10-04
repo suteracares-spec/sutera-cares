@@ -47,8 +47,18 @@ class AuthController extends Controller
             throw ValidationException::withMessages(['email' => 'Those details do not match our records.']);
         }
 
-        if ($user->role !== User::ROLE_CAREGIVER || ! $user->caregiver) {
-            throw ValidationException::withMessages(['email' => 'This app is for caregivers. Please use the website.']);
+        // Caregivers get their shifts; office staff get the office overview.
+        // Families and clients use the website.
+        $isCaregiver = $user->role === User::ROLE_CAREGIVER && $user->caregiver;
+        if (! $isCaregiver && ! $user->isStaff()) {
+            throw ValidationException::withMessages(['email' => 'This app is for caregivers and the office. Please use the website.']);
+        }
+
+        // The app does not do two-factor. While it is required for staff,
+        // staff sign in on the website only, rather than the app quietly
+        // skipping the second factor.
+        if ($user->needsTwoFactor()) {
+            throw ValidationException::withMessages(['email' => 'Office accounts need two-factor sign-in, which the app does not support yet. Please use the website.']);
         }
 
         if ($user->status === 'suspended') {
@@ -112,6 +122,8 @@ class AuthController extends Controller
                 'email'  => $user->email,
                 'code'   => $user->caregiver?->code,
                 'status' => $user->status,
+                'role'   => $user->role,
+                'office' => $user->isStaff(),
             ],
             'password_change_required' => $user->status === 'invited',
         ];

@@ -21,7 +21,7 @@ class AuthenticateApiToken
         $token = ApiToken::findValid($request->bearerToken());
         $user = $token?->user;
 
-        if (! $user || $user->status === 'suspended') {
+        if (! $user || $user->status === 'suspended' || $user->needsTwoFactor()) {
             return response()->json(['message' => 'Please sign in again.'], 401);
         }
 

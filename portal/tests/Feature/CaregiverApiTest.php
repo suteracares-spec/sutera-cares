@@ -86,7 +86,7 @@ class CaregiverApiTest extends TestCase
         $family = User::create(['name' => 'Fam', 'email' => 'fam@example.test', 'password' => 'correct horse battery',
             'role' => User::ROLE_GUARDIAN, 'status' => 'active']);
         $this->postJson('/api/v1/login', ['email' => $family->email, 'password' => 'correct horse battery'])
-            ->assertStatus(422)->assertJsonPath('errors.email.0', 'This app is for caregivers. Please use the website.');
+            ->assertStatus(422)->assertJsonPath('errors.email.0', 'This app is for caregivers and the office. Please use the website.');
 
         $this->getJson('/api/v1/shifts')->assertUnauthorized();
         $this->withHeader('Authorization', 'Bearer nonsense')->getJson('/api/v1/shifts')->assertUnauthorized();
