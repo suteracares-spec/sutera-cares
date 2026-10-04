@@ -39,6 +39,61 @@
         </dl>
       </div>
 
+      @php
+        $activePlan = $patient->carePlans->firstWhere('status', 'active');
+        $draftPlan = $patient->carePlans->firstWhere('status', 'draft');
+      @endphp
+      <div class="panel">
+        <h2>Care plan</h2>
+        @if ($patient->carePlans->isEmpty())
+          <div class="empty">
+            <p style="margin:0 0 12px">No care plan yet. It sets out what the caregiver does on each visit.</p>
+            <form method="POST" action="{{ route('admin.care-plans.store', $patient) }}">
+              @csrf
+              <button class="btn btn-primary" type="submit">Start care plan</button>
+            </form>
+          </div>
+        @else
+          <dl class="detail">
+            <dt>Current</dt>
+            <dd>
+              @if ($activePlan)
+                <a href="{{ route('admin.care-plans.show', $activePlan) }}">Version {{ $activePlan->version }}</a>
+                &middot; {{ $activePlan->tasks_count }} {{ \Illuminate\Support\Str::plural('task', $activePlan->tasks_count) }}
+                &middot; from {{ $activePlan->effective_from->format('j M Y') }}
+              @else
+                <span class="muted">None agreed yet</span>
+              @endif
+            </dd>
+            @if ($activePlan)
+              <dt>Agreed by</dt><dd>{{ $activePlan->agreed_by }}, {{ $activePlan->agreed_at?->format('j M Y') }}</dd>
+            @endif
+            @if ($draftPlan)
+              <dt>In draft</dt>
+              <dd>
+                <a href="{{ route('admin.care-plans.edit', $draftPlan) }}">Version {{ $draftPlan->version }}</a>
+                &middot; {{ $draftPlan->tasks_count }} {{ \Illuminate\Support\Str::plural('task', $draftPlan->tasks_count) }}
+                <span class="pill new">Not yet agreed</span>
+              </dd>
+            @endif
+            @if ($patient->carePlans->count() > 1)
+              <dt>History</dt>
+              <dd>
+                @foreach ($patient->carePlans->where('status', 'superseded') as $old)
+                  <a href="{{ route('admin.care-plans.show', $old) }}">v{{ $old->version }}</a>@unless ($loop->last), @endunless
+                @endforeach
+              </dd>
+            @endif
+          </dl>
+          @if ($activePlan && ! $draftPlan)
+            <form class="inset" method="POST" action="{{ route('admin.care-plans.store', $patient) }}">
+              @csrf
+              <button class="btn btn-quiet" type="submit">Revise care plan</button>
+            </form>
+          @endif
+        @endif
+      </div>
+
       <div class="panel">
         <h2>Caregivers assigned</h2>
         @if ($patient->assignments->isEmpty())
@@ -75,22 +130,27 @@
       </div>
 
       <div class="panel">
-        <h2>Family access</h2>
+        <h2 class="withaction">Family access
+          <a class="btn btn-quiet btn-small" href="{{ route('admin.guardians.create', $patient) }}">Add</a></h2>
         @if ($patient->guardians->isEmpty())
           <div class="empty">No family members linked.</div>
         @else
           <div class="scroll">
             <table>
-              <thead><tr><th>Name</th><th>Relationship</th><th>Can see</th></tr></thead>
+              <thead><tr><th>Name</th><th>Can see</th><th></th></tr></thead>
               <tbody>
                 @foreach ($patient->guardians as $g)
                   <tr>
-                    <td>{{ $g->user?->name }} @if ($g->is_primary)<span class="pill active">Primary</span>@endif</td>
-                    <td>{{ $g->relationship ?: '-' }}</td>
+                    <td>
+                      {{ $g->user?->name }} @if ($g->is_primary)<span class="pill active">Main contact</span>@endif
+                      <br><span class="muted">{{ $g->relationship ?: 'Relationship not recorded' }}@if ($g->user?->status !== 'active') &middot; {{ $g->user?->status === 'invited' ? 'not signed in yet' : 'sign-in suspended' }}@endif</span>
+                    </td>
                     <td>
                       @if ($g->can_view_notes)<span class="pill">Notes</span>@endif
                       @if ($g->can_view_invoices)<span class="pill">Invoices</span>@endif
+                      @unless ($g->can_view_notes || $g->can_view_invoices)<span class="muted">Schedule only</span>@endunless
                     </td>
+                    <td><a href="{{ route('admin.guardians.edit', $g) }}">Edit</a></td>
                   </tr>
                 @endforeach
               </tbody>

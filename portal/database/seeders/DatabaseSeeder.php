@@ -72,6 +72,54 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        // A family member and an agreed plan for the first client, so the
+        // client page shows what a client in care looks like.
+        $aminah = Patient::where('name', 'like', 'Puan Aminah%')->first();
+
+        $daughter = User::create([
+            'name'     => 'Nor Hayati binti Ahmad',
+            'email'    => 'hayati@example.test',
+            'password' => Hash::make('password'),
+            'role'     => User::ROLE_GUARDIAN,
+            'status'   => 'active',
+        ]);
+
+        $aminah->guardians()->create([
+            'user_id'           => $daughter->id,
+            'relationship'      => 'Daughter',
+            'is_primary'        => true,
+            'is_bill_payer'     => true,
+            'can_view_notes'    => true,
+            'can_view_invoices' => true,
+        ]);
+
+        $plan = $aminah->carePlans()->create([
+            'version'        => 1,
+            'effective_from' => now()->subDays(30),
+            'agreed_by'      => 'Nor Hayati (daughter)',
+            'agreed_at'      => now()->subDays(32),
+            'notes'          => "Prefers a female caregiver. Hard of hearing on the left side.\nLikes her tea before her bath, not after.",
+            'status'         => 'active',
+        ]);
+
+        $tasks = [
+            ['personal_care', 'Bed bath and change of clothes',              'every_visit', 'morning'],
+            ['personal_care', 'Reposition every two hours to prevent sores', 'every_visit', 'any'],
+            ['personal_care', 'Remind and record morning medication',        'daily',       'morning'],
+            ['household',     'Prepare soft-diet lunch and assist feeding',  'every_visit', 'midday'],
+            ['companionship', 'Read the newspaper aloud or play her radio',  'as_needed',   'any'],
+        ];
+
+        foreach ($tasks as $i => [$category, $description, $frequency, $time]) {
+            $plan->tasks()->create([
+                'category'    => $category,
+                'description' => $description,
+                'frequency'   => $frequency,
+                'time_of_day' => $time,
+                'sort_order'  => $i,
+            ]);
+        }
+
         $caregivers = [
             ['Siti Nurhaliza binti Omar', 'siti@example.test',   'Cheras',        now()->addDays(20)],
             ['Nurul Ain binti Ismail',    'nurul@example.test',  'Petaling Jaya', now()->addMonths(9)],

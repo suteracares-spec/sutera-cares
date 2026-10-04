@@ -49,7 +49,12 @@ class PatientController extends Controller
         // PDPA: every read of a client record is logged, not just writes.
         $this->audit('viewed', $patient, $request);
 
-        $patient->load(['guardians.user', 'assignments.caregiver.user']);
+        $patient->load([
+            'guardians' => fn ($q) => $q->orderByDesc('is_primary')->orderBy('id'),
+            'guardians.user',
+            'assignments.caregiver.user',
+            'carePlans' => fn ($q) => $q->withCount('tasks')->orderByDesc('version'),
+        ]);
 
         return view('admin.patients.show', compact('patient'));
     }
