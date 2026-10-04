@@ -32,6 +32,8 @@
       <a href="{{ route('admin.concerns.index') }}" @class(['on' => request()->routeIs('admin.concerns.*')])>Concerns</a>
       <a href="{{ route('admin.enquiries.index') }}" @class(['on' => request()->routeIs('admin.enquiries.*')])>Enquiries</a>
       @if (auth()->user()->isAdmin())
+        <a href="{{ route('admin.staff') }}" @class(['on' => request()->routeIs('admin.staff*')])>Staff</a>
+        <a href="{{ route('admin.audit') }}" @class(['on' => request()->routeIs('admin.audit')])>Audit</a>
         <a href="{{ route('admin.system') }}" @class(['on' => request()->routeIs('admin.system*')])>System</a>
       @endif
     @elseif (auth()->user()->role === 'caregiver')

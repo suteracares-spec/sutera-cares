@@ -17,7 +17,11 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         // Signed in with a temporary password? Choose your own first.
-        $middleware->web(append: [\App\Http\Middleware\EnsurePasswordChosen::class]);
+        // Then, for office staff, the second factor.
+        $middleware->web(append: [
+            \App\Http\Middleware\EnsurePasswordChosen::class,
+            \App\Http\Middleware\EnsureTwoFactor::class,
+        ]);
 
         // Sessions carry access to health records; treat them accordingly.
         $middleware->redirectGuestsTo(fn () => route('login'));

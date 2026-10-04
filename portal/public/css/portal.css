@@ -249,6 +249,27 @@ tfoot tr.total td { font-weight: 800; border-top: 2px solid var(--ink); }
 .panel .form { border: 0; box-shadow: none; padding: 0; }
 @media (max-width: 600px) { .agenda li { grid-template-columns: 1fr; gap: 0; } }
 
+/* Administrators have eleven menu items: keep the bar on one line. */
+.mark span, .who .name { white-space: nowrap; }
+@media (max-width: 1400px) {
+  .topbar { gap: 18px; }
+  .topnav { gap: 14px; margin-left: 0; }
+  .topnav a { font-size: 14px; }
+  .who .role { display: none; }
+}
+
+/* ---------- Two-factor and staff ---------- */
+
+.steps { margin: 0 0 16px; padding-left: 20px; }
+.steps li { margin-bottom: 18px; }
+.secret-key { font-family: ui-monospace, Menlo, monospace; font-size: 20px; font-weight: 700; letter-spacing: 1px; background: var(--ground); border-radius: 8px; padding: 10px 14px; margin: 10px 0 6px; user-select: all; word-break: break-all; }
+.codebox { font-family: ui-monospace, Menlo, monospace; font-size: 24px; letter-spacing: 4px; text-align: center; max-width: 260px; }
+.codes { columns: 2; font-family: ui-monospace, Menlo, monospace; font-size: 17px; margin: 14px 0 20px; padding-left: 20px; }
+.codes li { margin-bottom: 6px; }
+.rowactions { white-space: nowrap; }
+.rowactions form { display: inline; margin-left: 10px; }
+.linkbtn.plain { color: var(--teal); }
+
 /* ---------- Caregiver phone view ---------- */
 /* Big targets, few taps, readable in a dim room with one hand. */
 

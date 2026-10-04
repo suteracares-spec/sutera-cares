@@ -19,7 +19,7 @@ class User extends Authenticatable
 
     protected $fillable = ['name', 'email', 'phone', 'password', 'role', 'status', 'locale'];
 
-    protected $hidden = ['password', 'remember_token', 'two_factor_secret'];
+    protected $hidden = ['password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes'];
 
     protected function casts(): array
     {
@@ -28,6 +28,8 @@ class User extends Authenticatable
             'last_login_at'     => 'datetime',
             'password'          => 'hashed',
             'two_factor_secret' => 'encrypted',
+            'two_factor_confirmed_at'   => 'datetime',
+            'two_factor_recovery_codes' => 'encrypted:array',
         ];
     }
 
@@ -57,6 +59,17 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function hasTwoFactor(): bool
+    {
+        return $this->two_factor_confirmed_at !== null && $this->two_factor_secret !== null;
+    }
+
+    /** Staff must use a second factor, unless it has been switched off in .env. */
+    public function needsTwoFactor(): bool
+    {
+        return $this->isStaff() && config('portal.require_two_factor');
     }
 
     public function isActive(): bool

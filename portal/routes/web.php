@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AssignmentController;
+use App\Http\Controllers\Admin\AuditController;
 use App\Http\Controllers\Admin\CaregiverController;
 use App\Http\Controllers\Admin\ConcernController;
 use App\Http\Controllers\Admin\CarePlanController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\PatientController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Admin\ShiftController;
 use App\Http\Controllers\Admin\SignInController;
+use App\Http\Controllers\Admin\StaffController;
 use App\Http\Controllers\Admin\SystemController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\LoginController;
@@ -19,6 +21,7 @@ use App\Http\Controllers\Caregiver\VisitController;
 use App\Http\Controllers\Family\FamilyController;
 use App\Http\Controllers\Family\MyCareController;
 use App\Http\Controllers\IntakeController;
+use App\Http\Controllers\TwoFactorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +47,14 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [LoginController::class, 'destroy'])
     ->middleware('auth')->name('logout');
+
+// ---- Second factor for office staff -------------------------------------
+Route::middleware('auth')->prefix('two-factor')->name('two-factor.')->group(function () {
+    Route::get('/setup', [TwoFactorController::class, 'setup'])->name('setup');
+    Route::post('/setup', [TwoFactorController::class, 'confirm'])->middleware('throttle:6,1')->name('confirm');
+    Route::get('/', [TwoFactorController::class, 'challenge'])->name('challenge');
+    Route::post('/', [TwoFactorController::class, 'verify'])->middleware('throttle:6,1')->name('verify');
+});
 
 // ---- Your own account, whatever your role ---------------------------
 Route::middleware('auth')->prefix('account')->name('account.')->group(function () {
@@ -135,6 +146,15 @@ Route::middleware(['auth', 'role:admin'])
     ->prefix('admin/system')->name('admin.')->group(function () {
         Route::get('/', [SystemController::class, 'index'])->name('system');
         Route::post('/migrate', [SystemController::class, 'migrate'])->name('system.migrate');
+    });
+
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')->name('admin.')->group(function () {
+        Route::get('staff', [StaffController::class, 'index'])->name('staff');
+        Route::post('staff', [StaffController::class, 'store'])->name('staff.store');
+        Route::post('staff/{user}/status', [StaffController::class, 'status'])->name('staff.status');
+        Route::post('staff/{user}/reset-two-factor', [StaffController::class, 'resetTwoFactor'])->name('staff.reset-2fa');
+        Route::get('audit', AuditController::class)->name('audit');
     });
 
 // ---- Caregiver, on a phone, in someone's home -----------------------
