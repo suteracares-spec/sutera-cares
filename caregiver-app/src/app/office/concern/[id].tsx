@@ -4,6 +4,7 @@ import type { JSX } from "react";
 import { ScrollView, View } from "react-native";
 
 import { SafeAreaView } from "@/components/SafeAreaView";
+import { BackButton } from "@/components/ui/BackButton";
 import type { OfficeConcernDetail } from "@/lib/api";
 import { ago, clock } from "@/lib/format";
 import { useOffice } from "@/lib/office";
@@ -15,9 +16,9 @@ export default function ConcernScreen(): JSX.Element {
   return (
     <SafeAreaView className="flex-1 bg-background" edges={["top", "bottom"]}>
       <ScrollView contentContainerClassName="px-5 pb-12 gap-4">
-        <Button variant="ghost" size="sm" className="self-start mt-2" onPress={() => router.back()}>
-          ← Concerns
-        </Button>
+        <View className="pt-2">
+          <BackButton label="Concerns" />
+        </View>
 
         {error && (
           <Alert status="danger">

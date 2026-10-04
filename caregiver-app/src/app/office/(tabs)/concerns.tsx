@@ -20,9 +20,6 @@ export default function ConcernsScreen(): JSX.Element {
         contentContainerClassName="px-5 pb-10 gap-3"
         refreshControl={<RefreshControl refreshing={loading && !!data} onRefresh={reload} />}
       >
-        <Button variant="ghost" size="sm" className="self-start mt-2" onPress={() => router.back()}>
-          ← Office
-        </Button>
         <Typography.Heading type="h2">Concerns</Typography.Heading>
 
         <View className="flex-row gap-2">

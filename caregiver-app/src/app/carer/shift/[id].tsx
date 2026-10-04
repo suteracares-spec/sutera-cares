@@ -20,7 +20,8 @@ import { useEffect, useState, type JSX } from "react";
 import { KeyboardAvoidingView, Linking, Platform, ScrollView, View } from "react-native";
 import { SafeAreaView } from "@/components/SafeAreaView";
 
-import { StatusChip } from "@/components/ShiftCard";
+import { BackButton } from "@/components/ui/BackButton";
+import { StatusChip } from "@/components/ui/Status";
 import { clock, shortDay } from "@/lib/format";
 import { useVisits } from "@/lib/visits";
 
@@ -122,14 +123,9 @@ export default function ShiftScreen(): JSX.Element {
           contentContainerClassName="px-5 pb-12 gap-4"
           keyboardShouldPersistTaps="handled"
         >
-          <Button
-            variant="ghost"
-            size="sm"
-            className="self-start mt-2"
-            onPress={() => router.back()}
-          >
-            ← My shifts
-          </Button>
+          <View className="pt-2">
+            <BackButton label="My shifts" />
+          </View>
 
           <View className="gap-1">
             <Typography.Heading type="h2">{shift.client.name}</Typography.Heading>

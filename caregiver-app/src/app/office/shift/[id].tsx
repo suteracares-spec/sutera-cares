@@ -1,9 +1,10 @@
-import { router, useLocalSearchParams } from "expo-router";
-import { Alert, Button, Card, Chip, Separator, Spinner, Typography } from "heroui-native";
+import { useLocalSearchParams } from "expo-router";
+import { Alert, Card, Chip, Separator, Spinner, Typography } from "heroui-native";
 import type { JSX } from "react";
 import { ScrollView, View } from "react-native";
 
 import { SafeAreaView } from "@/components/SafeAreaView";
+import { BackButton } from "@/components/ui/BackButton";
 import type { OfficeShiftDetail } from "@/lib/api";
 import { clock, shortDay } from "@/lib/format";
 import { useOffice } from "@/lib/office";
@@ -16,9 +17,9 @@ export default function OfficeShiftScreen(): JSX.Element {
   return (
     <SafeAreaView className="flex-1 bg-background" edges={["top", "bottom"]}>
       <ScrollView contentContainerClassName="px-5 pb-12 gap-4">
-        <Button variant="ghost" size="sm" className="self-start mt-2" onPress={() => router.back()}>
-          ← Office
-        </Button>
+        <View className="pt-2">
+          <BackButton label="Back" />
+        </View>
 
         {error && (
           <Alert status="danger">
