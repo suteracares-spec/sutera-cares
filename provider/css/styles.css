@@ -166,16 +166,6 @@ section[id] { scroll-margin-top: 130px; }
 .trust div { background: var(--card); border-left: 4px solid var(--gold); border-radius: 10px; box-shadow: var(--shadow); padding: 20px 24px; color: var(--ink-soft); font-size: 15.5px; }
 .trust strong { color: var(--ink); display: block; margin-bottom: 4px; font-size: 16.5px; }
 
-/* ---------- Pricing ---------- */
-
-.tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 30px; }
-.tier { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 30px 26px; text-align: center; border: 2px solid transparent; }
-.tier.featured { border-color: var(--teal); }
-.tier h3 { font-size: 20px; margin-bottom: 6px; }
-.tier .tier-price { font-family: var(--font-head); font-size: 30px; color: var(--teal-deep); font-weight: 700; margin: 10px 0 4px; }
-.tier .tier-unit { font-size: 13.5px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; }
-.tier p { color: var(--ink-soft); font-size: 15px; }
-
 /* ---------- Forms ---------- */
 
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px; }
@@ -226,23 +216,195 @@ textarea { min-height: 92px; resize: vertical; }
 .footer-legal { max-width: 800px; margin: 0 auto 14px; }
 .footer-copy { color: rgba(255,255,255,0.5); }
 
+/* ---------- Conditions ---------- */
+
+.conditions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.condition { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px 24px 22px; border-left: 4px solid var(--teal); }
+.condition h3 { font-size: 19px; margin-bottom: 8px; }
+.condition p { color: var(--ink-soft); font-size: 15px; }
+
+/* ---------- Caregiver profiles ---------- */
+
+.team { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.profile { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 26px; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.profile-photo { width: 112px; height: 112px; border-radius: 50%; overflow: hidden; margin-bottom: 16px; background: var(--teal-soft); color: var(--teal); display: flex; align-items: center; justify-content: center; border: 3px solid #fff; box-shadow: 0 0 0 2px var(--teal-soft); }
+.profile-photo img { width: 100%; height: 100%; object-fit: cover; }
+.profile-photo svg { width: 58%; height: 58%; opacity: 0.55; }
+.profile-role { font-size: 12.5px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--teal); margin-bottom: 4px; }
+.profile-name { font-size: 22px; margin-bottom: 12px; }
+.profile-facts { list-style: none; width: 100%; border-top: 1px solid var(--line); margin-bottom: 14px; }
+.profile-facts li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; text-align: right; }
+.profile-facts span { color: var(--ink-soft); font-weight: 700; text-align: left; }
+.profile-tags { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 14px; }
+.profile-tags li { background: var(--teal-soft); color: var(--teal-deep); font-size: 12.5px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
+.profile-bio { color: var(--ink-soft); font-size: 15px; }
+.profile.is-placeholder .profile-name { color: var(--ink-soft); font-size: 18px; font-style: italic; font-weight: 400; }
+.profile.is-placeholder { border: 2px dashed var(--line); box-shadow: none; background: rgba(255,255,255,0.6); }
+
+/* ---------- Quote & careers side panels ---------- */
+
+.form-grid-aside { grid-template-columns: 1.35fr 1fr; align-items: start; }
+.side-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 26px; border-top: 4px solid var(--gold); }
+.side-card > h3 { font-size: 20px; margin-bottom: 14px; }
+.next-steps { list-style: none; counter-reset: next; }
+.next-steps li { counter-increment: next; position: relative; padding: 0 0 16px 44px; color: var(--ink-soft); font-size: 15px; }
+.next-steps li::before { content: counter(next); position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--teal); color: #fff; font-family: var(--font-head); font-weight: 700; display: flex; align-items: center; justify-content: center; font-size: 15px; }
+.next-steps strong { display: block; color: var(--ink); }
+.side-call { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 4px; font-size: 15px; color: var(--ink-soft); }
+.side-call a { font-weight: 800; }
+
+.faq-list details { border-bottom: 1px solid var(--line); }
+.faq-list summary { cursor: pointer; list-style: none; font-weight: 700; font-size: 15.5px; padding: 12px 28px 12px 0; position: relative; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: "+"; position: absolute; right: 2px; top: 50%; transform: translateY(-50%); font-size: 22px; color: var(--teal); }
+.faq-list details[open] summary::after { content: "–"; }
+.faq-list details p { padding: 0 0 14px; color: var(--ink-soft); font-size: 15px; }
+
+/* ---------- Careers ---------- */
+
+#careers .eyebrow { color: var(--teal); margin-bottom: 10px; }
+.sub-head { font-size: 23px; margin: 44px 0 18px; }
+.perks { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.perk { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); padding: 24px; }
+.perk svg { width: 40px; height: 40px; margin-bottom: 12px; }
+.perk h4 { font-family: var(--font-head); font-weight: 600; font-size: 18.5px; margin-bottom: 6px; }
+.perk p { color: var(--ink-soft); font-size: 15px; }
+.careers-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.ticks { list-style: none; }
+.ticks li { position: relative; padding: 7px 0 7px 30px; color: var(--ink-soft); font-size: 15.5px; border-bottom: 1px solid var(--line); }
+.ticks li::before { content: ""; position: absolute; left: 4px; top: 13px; width: 12px; height: 7px; border-left: 3px solid var(--teal); border-bottom: 3px solid var(--teal); transform: rotate(-45deg); }
+.steps-tight { margin-top: 0; }
+#careers .form-grid { margin-top: 44px; }
+
+/* ---------- Language switcher ---------- */
+
+.lang-switch { display: none; gap: 4px; }
+/* Only shown once the script that drives it has loaded. */
+html.js .lang-switch { display: flex; }
+.lang-switch button {
+  font-family: var(--font-body); font-weight: 800; font-size: 12.5px; letter-spacing: 0.6px; line-height: 1.6;
+  color: var(--ink-soft); background: transparent; border: 1.5px solid var(--line); border-radius: 999px;
+  padding: 3px 11px; cursor: pointer; transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+}
+.lang-switch button:hover { color: var(--teal); border-color: var(--teal); }
+.lang-switch button[aria-pressed="true"] { background: var(--teal); border-color: var(--teal); color: #fff; }
+.lang-switch button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+html[lang^="zh"] body { line-height: 1.8; }
+html[lang^="zh"] h1, html[lang^="zh"] h2, html[lang^="zh"] h3 { line-height: 1.4; }
+html[lang^="zh"] .eyebrow, html[lang^="zh"] .profile-role, html[lang^="zh"] legend { letter-spacing: 1px; }
+
+/* ---------- Mobile menu toggle ---------- */
+
+.nav-toggle {
+  display: none; align-items: center; gap: 6px;
+  font-family: var(--font-body); font-weight: 800; font-size: 15px; color: var(--ink);
+  background: #fff; border: 2px solid var(--line); border-radius: 6px; padding: 9px 14px; cursor: pointer;
+}
+.nav-toggle svg { width: 20px; height: 20px; }
+.nav-toggle[aria-expanded="true"] { border-color: var(--teal); color: var(--teal); }
+
+/* ---------- Guides ---------- */
+
+.guides { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; }
+.guide-card {
+  display: flex; flex-direction: column; background: var(--card); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 28px 26px; color: var(--ink); text-decoration: none !important;
+  border-bottom: 4px solid var(--gold); transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.guide-card:hover { transform: translateY(-3px); box-shadow: 0 16px 36px rgba(30,43,54,0.12); }
+.guide-kicker { font-size: 12.5px; font-weight: 800; letter-spacing: 1.6px; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; }
+.guide-card h3 { font-size: 21px; margin-bottom: 10px; }
+.guide-card p { color: var(--ink-soft); font-size: 15.5px; flex: 1; }
+.guide-more { margin-top: 16px; font-weight: 800; color: var(--teal); }
+
+/* ---------- Footer links & WhatsApp button ---------- */
+
+.footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 26px; margin-bottom: 14px; }
+.footer-links a { color: rgba(255,255,255,0.9); font-weight: 700; }
+
+.wa-float {
+  position: fixed; right: 20px; bottom: 20px; z-index: 60;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #1F9E55; color: #fff; font-weight: 800; font-size: 15px;
+  padding: 12px 18px 12px 14px; border-radius: 999px; box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+  text-decoration: none !important;
+}
+.wa-float[hidden] { display: none; }
+.wa-float svg { width: 26px; height: 26px; }
+.wa-float:hover { background: #188547; }
+
+/* ---------- Article pages (privacy, guides) ---------- */
+
+.article-page { padding: 60px 0 80px; }
+.article .eyebrow { color: var(--teal); margin-bottom: 10px; }
+.article h1 { font-size: clamp(32px, 5vw, 46px); margin-bottom: 10px; }
+.article-meta { color: var(--ink-soft); font-size: 14.5px; margin-bottom: 26px; }
+.article-lead { font-size: 19px; color: var(--ink); margin-bottom: 10px; }
+.article h2 { font-size: clamp(23px, 3vw, 28px); margin: 40px 0 12px; }
+.article h3 { font-size: 19px; margin: 24px 0 8px; }
+.article p { margin-bottom: 14px; }
+.article ul, .article ol { margin: 0 0 18px 22px; }
+.article li { margin-bottom: 7px; }
+.article li::marker { color: var(--teal); }
+.article-cta { background: var(--teal-soft); border-left: 4px solid var(--teal); border-radius: 0 var(--radius) var(--radius) 0; padding: 26px 28px; margin: 44px 0 26px; }
+.article-cta h2 { margin-top: 0; }
+.article-related { color: var(--ink-soft); font-size: 15.5px; }
+.subpage-actions .btn-login { padding: 9px 18px; }
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 980px) {
   .hero-grid { grid-template-columns: 1fr; padding: 56px 24px; }
   .how-intro { grid-template-columns: 1fr; gap: 28px; }
   .included { grid-template-columns: 1fr 1fr; }
-  .cards, .tiers, .contact-grid { grid-template-columns: 1fr 1fr; }
+  .cards, .contact-grid, .conditions, .team, .perks { grid-template-columns: 1fr 1fr; }
+  .form-grid-aside, .careers-cols { grid-template-columns: 1fr; }
   .steps { grid-template-columns: 1fr 1fr; }
   .form-grid { grid-template-columns: 1fr; }
   .sister .container { flex-direction: column; text-align: center; }
+  .guides { grid-template-columns: 1fr 1fr; }
+
+  /* The header keeps the essentials; the care line is in Contact and
+     the nav folds behind a Menu button (only when JS can open it). */
+  .hotline, .brand-tag { display: none; }
+  .header-actions { gap: 12px; }
+  html.js .nav-toggle { display: inline-flex; }
+  html.js .main-nav { display: none; }
+  html.js .main-nav.is-open { display: block; }
+  .main-nav.is-open .nav-links { flex-direction: column; align-items: stretch; gap: 0; padding: 6px 24px 14px; }
+  .main-nav.is-open .nav-links a { padding: 11px 0; border-bottom: 1px solid var(--line); font-size: 16.5px; }
+  .main-nav.is-open .nav-links a:last-child { border-bottom: 0; }
+}
+
+/* Two header rows: brand + Menu, then language, log in and quote. */
+@media (max-width: 760px) {
+  .header-top { flex-wrap: wrap; gap: 10px 12px; padding-top: 10px; }
+  .header-actions { display: contents; }
+  .brand { order: 1; flex: 1 1 auto; }
+  .brand-mark { width: 44px; height: 44px; }
+  .nav-toggle { order: 2; }
+  .header-top::after { content: ""; order: 3; flex-basis: 100%; height: 0; }
+  .lang-switch, .btn-login, .header-actions .btn-primary { order: 4; }
+  .header-top { justify-content: space-between; }
+  .btn-login, .header-actions .btn-primary { padding: 7px 14px; font-size: 14.5px; }
 }
 
 @media (max-width: 640px) {
-  .header-top { flex-wrap: wrap; justify-content: center; text-align: center; }
-  .header-actions { width: 100%; justify-content: center; }
-  .cards, .tiers, .contact-grid, .steps, .trust, .form-row, .included { grid-template-columns: 1fr; }
+  .cards, .contact-grid, .steps, .trust, .form-row, .included, .conditions, .team, .perks, .guides { grid-template-columns: 1fr; }
   .section { padding: 56px 0; }
+  .wa-float span { display: none; }
+  .wa-float { padding: 13px; }
+}
+
+/* The hero's own quote button sits just below, so the header copy can go. */
+@media (max-width: 480px) {
+  .header-actions .btn-primary { display: none; }
+}
+
+@media (max-width: 380px) {
+  .lang-switch button { padding: 3px 8px; }
+  .btn-login svg { display: none; }
 }
 
 /* ---------- Portal login ---------- */

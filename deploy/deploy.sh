@@ -42,8 +42,8 @@ say "charity site -> $CHARITY"
 
 # ---- Provider site -------------------------------------------------------
 say "provider site -> $PROVIDER"
-"${RSYNC[@]}" "$SRC"/provider/{index.html,.htaccess} "$PROVIDER"/
-"${RSYNC[@]}" "$SRC"/provider/css "$SRC"/provider/img "$PROVIDER"/
+"${RSYNC[@]}" "$SRC"/provider/{index.html,privacy.html,404.html,robots.txt,sitemap.xml,.htaccess} "$PROVIDER"/
+"${RSYNC[@]}" "$SRC"/provider/css "$SRC"/provider/js "$SRC"/provider/img "$SRC"/provider/guides "$PROVIDER"/
 
 # ---- Portal --------------------------------------------------------------
 cd "$PORTAL_APP"

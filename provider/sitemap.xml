@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://providers.suteracares.org/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://providers.suteracares.org/"/>
+    <xhtml:link rel="alternate" hreflang="ms" href="https://providers.suteracares.org/?lang=ms"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://providers.suteracares.org/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://providers.suteracares.org/"/>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://providers.suteracares.org/?lang=ms</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://providers.suteracares.org/"/>
+    <xhtml:link rel="alternate" hreflang="ms" href="https://providers.suteracares.org/?lang=ms"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://providers.suteracares.org/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://providers.suteracares.org/"/>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://providers.suteracares.org/?lang=zh</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://providers.suteracares.org/"/>
+    <xhtml:link rel="alternate" hreflang="ms" href="https://providers.suteracares.org/?lang=ms"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://providers.suteracares.org/?lang=zh"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://providers.suteracares.org/"/>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://providers.suteracares.org/privacy.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://providers.suteracares.org/guides/caregiver-maid-or-nursing-home.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://providers.suteracares.org/guides/coming-home-from-hospital.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://providers.suteracares.org/guides/preventing-falls-at-home.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+</urlset>

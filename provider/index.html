@@ -9,18 +9,44 @@
 <meta property="og:description" content="Vetted caregivers for elderly and home-bound patients in Malaysia. Daily personal care, appointment escort, massage and wellness.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://providers.suteracares.org/">
+<meta property="og:image" content="https://providers.suteracares.org/img/care-at-home.jpg">
+<meta property="og:locale" content="en_MY">
+<meta name="theme-color" content="#12303B">
 <link rel="canonical" href="https://providers.suteracares.org/">
 <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/styles.css">
+<script>document.documentElement.className += ' js';</script>
+<script src="js/site.js" defer></script>
+<script src="js/i18n.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Sutera Care Provider",
+  "url": "https://providers.suteracares.org/",
+  "logo": "https://providers.suteracares.org/img/favicon.svg",
+  "image": "https://providers.suteracares.org/img/care-at-home.jpg",
+  "email": "care@suteracares.org",
+  "description": "Trained, vetted non-medical caregivers for elderly and home care in the Klang Valley: daily personal care, mobility support, appointment escort, and massage and wellness visits.",
+  "address": { "@type": "PostalAddress", "addressLocality": "Kuala Lumpur", "addressCountry": "MY" },
+  "areaServed": [
+    { "@type": "City", "name": "Kuala Lumpur" },
+    { "@type": "AdministrativeArea", "name": "Selangor" },
+    { "@type": "City", "name": "Putrajaya" }
+  ],
+  "knowsLanguage": ["ms", "en", "zh", "ta"],
+  "openingHours": "Mo-Su 08:00-22:00"
+}
+</script>
 </head>
 <body>
 
 <header class="site-header">
   <div class="header-top container">
-    <a class="brand" href="#top" aria-label="Sutera Care Provider — home">
+    <a class="brand" href="#top" aria-label="Sutera Care Provider — home" data-i18n-label="header.label1">
       <svg class="brand-mark" viewBox="0 0 120 120" role="img" aria-hidden="true">
         <path d="M60,104 C 26,78 12,52 22,34 C 30,20 48,22 60,42 C 72,22 90,20 98,34 C 108,52 94,78 60,104 Z" fill="none" stroke="#1C6B62" stroke-width="7" stroke-linejoin="round"/>
         <path d="M38,62 h12 l6,-13 l8,26 l6,-13 h12" fill="none" stroke="#D9A441" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -28,31 +54,41 @@
       <span class="brand-text">
         <span class="brand-name">Sutera</span>
         <span class="brand-sub">Care Provider</span>
-        <span class="brand-tag">Trained caregivers for home and elderly care</span>
+        <span class="brand-tag" data-i18n="header.span2">Trained caregivers for home and elderly care</span>
       </span>
     </a>
     <div class="header-actions">
-      <a class="hotline" href="#contact">
-        <span class="hotline-label">Care line · 8am–10pm daily</span>
-        <span class="hotline-number">+60 1X-XXX XXXX</span>
+      <div class="lang-switch" role="group" aria-label="Choose a language" data-i18n-label="header.label2">
+        <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="ms" lang="ms" aria-pressed="false">BM</button>
+        <button type="button" data-lang="zh" lang="zh-Hans" aria-pressed="false">中文</button>
+      </div>
+      <a class="hotline js-careline" href="#contact">
+        <span class="hotline-label" data-i18n="header.span3">Care line · 8am–10pm daily</span>
+        <span class="hotline-number js-careline-text">+60 1X-XXX XXXX</span>
       </a>
       <a class="btn btn-login" href="/portal/">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Log in
+        <span data-i18n="header.span4">Log in</span>
       </a>
-      <a class="btn btn-primary" href="#quote">Get a Quote</a>
+      <a class="btn btn-primary" href="#quote" data-i18n="header.a1">Get a Quote</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+        <span data-i18n="header.span5">Menu</span>
+      </button>
     </div>
   </div>
-  <nav class="main-nav" aria-label="Main">
+  <nav class="main-nav" id="main-nav" aria-label="Main" data-i18n-label="header.label3">
     <div class="container nav-links">
-      <a href="#services">Services</a>
-      <a href="#how">How it works</a>
-      <a href="#why">Why us</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#quote">Get a quote</a>
-      <a href="#careers">Careers</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contact">Contact</a>
+      <a href="#services" data-i18n="header.a2">Services</a>
+      <a href="#how" data-i18n="header.a3">How it works</a>
+      <a href="#conditions" data-i18n="header.a4">Conditions</a>
+      <a href="#why" data-i18n="header.a5">Why us</a>
+      <a href="#team" data-i18n="header.a6">Our caregivers</a>
+      <a href="#careers" data-i18n="header.a7">Careers</a>
+      <a href="#guides" data-i18n="header.a8">Guides</a>
+      <a href="#faq" data-i18n="header.a9">FAQ</a>
+      <a href="#contact" data-i18n="header.a10">Contact</a>
     </div>
   </nav>
 </header>
@@ -63,14 +99,14 @@
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <p class="eyebrow">Home care · Elderly care · Wellness</p>
-        <h1>A trained caregiver, in your home, on a schedule you control.</h1>
-        <p class="hero-lead">Sutera Care Provider places vetted caregivers with families across the Klang Valley — for elderly parents, for someone recovering at home, and for anyone who needs a steady hand through the day. You get the same caregiver, a written care plan, and a record of every visit.</p>
+        <p class="eyebrow" data-i18n="hero.p1">Home care · Elderly care · Wellness</p>
+        <h1 data-i18n="hero.h11">A trained caregiver, in your home, on a schedule you control.</h1>
+        <p class="hero-lead" data-i18n="hero.p2">Sutera Care Provider places vetted caregivers with families across the Klang Valley — for elderly parents, for someone recovering at home, and for anyone who needs a steady hand through the day. You get the same caregiver, a written care plan, and a record of every visit.</p>
         <div class="hero-ctas">
-          <a class="btn btn-primary btn-lg" href="#quote">Get a quote</a>
-          <a class="btn btn-ghost btn-lg" href="#services">See what caregivers do</a>
+          <a class="btn btn-primary btn-lg" href="#quote" data-i18n="hero.a1">Get a quote</a>
+          <a class="btn btn-ghost btn-lg" href="#services" data-i18n="hero.a2">See what caregivers do</a>
         </div>
-        <p class="hero-note">Looking for caregiver work? <a href="#careers">Apply to join our team&nbsp;→</a></p>
+        <p class="hero-note" data-i18n="hero.p3">Looking for caregiver work? <a href="#careers">See caregiver jobs&nbsp;→</a></p>
       </div>
       <figure class="hero-photo">
         <img src="img/care-at-home.jpg" width="1024" height="559"
@@ -82,22 +118,22 @@
   <!-- ============ WHAT'S INCLUDED ============ -->
   <section class="section" id="included">
     <div class="container">
-      <h2>What a placement includes</h2>
-      <p class="section-lead">The same six things every time, whether you book three hours a week or live-in care.</p>
+      <h2 data-i18n="included.h21">What a placement includes</h2>
+      <p class="section-lead" data-i18n="included.p1">The same six things every time, whether you book three hours a week or live-in care.</p>
       <ul class="included">
-        <li><strong>A matched caregiver</strong>Chosen for the language spoken at home and the kind of help needed.</li>
-        <li><strong>A written care plan</strong>Agreed with the family before the first visit, so nothing is assumed.</li>
-        <li><strong>Check-in and check-out</strong>Recorded on every visit, so attendance is never a matter of memory.</li>
-        <li><strong>Visit notes the same day</strong>A short account of how the day went, readable by the family you name.</li>
-        <li><strong>A named coordinator</strong>One person who knows the case and answers the phone.</li>
-        <li><strong>Cover when needed</strong>A relief caregiver who already has the care plan, if yours is unwell.</li>
+        <li data-i18n="included.li1"><strong>A matched caregiver</strong>Chosen for the language spoken at home and the kind of help needed.</li>
+        <li data-i18n="included.li2"><strong>A written care plan</strong>Agreed with the family before the first visit, so nothing is assumed.</li>
+        <li data-i18n="included.li3"><strong>Check-in and check-out</strong>Recorded on every visit, so attendance is never a matter of memory.</li>
+        <li data-i18n="included.li4"><strong>Visit notes the same day</strong>A short account of how the day went, readable by the family you name.</li>
+        <li data-i18n="included.li5"><strong>A named coordinator</strong>One person who knows the case and answers the phone.</li>
+        <li data-i18n="included.li6"><strong>Cover when needed</strong>A relief caregiver who already has the care plan, if yours is unwell.</li>
       </ul>
     </div>
   </section>
 
   <!-- ============ SCOPE BANNER ============ -->
   <div class="banner">
-    <div class="container">
+    <div class="container" data-i18n="banner.div1">
       <strong>We provide caregivers — not nurses or doctors.</strong>&ensp;Our team assists with daily living, hygiene, mobility and companionship. Clinical treatment stays with your own doctor or licensed home-nursing provider.
     </div>
   </div>
@@ -105,65 +141,99 @@
   <!-- ============ SERVICES ============ -->
   <section class="section" id="services">
     <div class="container">
-      <h2>What our caregivers do</h2>
-      <p class="section-lead">Care is arranged by the hour, by the day, or live-in. Every task below is agreed in the care plan before a caregiver starts, so nobody is guessing what is in scope.</p>
+      <h2 data-i18n="services.h21">What our caregivers do</h2>
+      <p class="section-lead" data-i18n="services.p1">Care is arranged by the hour, by the day, or live-in. Every task below is agreed in the care plan before a caregiver starts, so nobody is guessing what is in scope.</p>
       <div class="cards">
 
         <article class="card">
           <svg class="card-icon" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="15" r="7" fill="none" stroke="#1C6B62" stroke-width="3"/><path d="M9 40 C 9 29 16 24 24 24 C 32 24 39 29 39 40" fill="none" stroke="#1C6B62" stroke-width="3" stroke-linecap="round"/><path d="M31 36 h10 M36 31 v10" stroke="#D9A441" stroke-width="3" stroke-linecap="round"/></svg>
-          <h3>Daily personal care</h3>
-          <p>The everyday help that keeps someone comfortable, clean and safe at home.</p>
+          <h3 data-i18n="services.h31">Daily personal care</h3>
+          <p data-i18n="services.p2">The everyday help that keeps someone comfortable, clean and safe at home.</p>
           <ul>
-            <li>Bathing, showering and sponge baths</li>
-            <li>Adult diaper and pad changes</li>
-            <li>Dressing, grooming and oral care</li>
-            <li>Toileting and continence support</li>
-            <li>Repositioning and pressure-sore prevention</li>
-            <li>Feeding assistance and meal preparation</li>
+            <li data-i18n="services.li1">Bathing, showering and sponge baths</li>
+            <li data-i18n="services.li2">Adult diaper and pad changes</li>
+            <li data-i18n="services.li3">Dressing, grooming and oral care</li>
+            <li data-i18n="services.li4">Toileting and continence support</li>
+            <li data-i18n="services.li5">Repositioning and pressure-sore prevention</li>
+            <li data-i18n="services.li6">Feeding assistance and meal preparation</li>
           </ul>
         </article>
 
         <article class="card">
           <svg class="card-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M10 38 h28" stroke="#1C6B62" stroke-width="3" stroke-linecap="round"/><path d="M18 38 V20 a6 6 0 0 1 12 0 V38" fill="none" stroke="#1C6B62" stroke-width="3"/><circle cx="24" cy="11" r="5" fill="none" stroke="#D9A441" stroke-width="3"/></svg>
-          <h3>Mobility &amp; companionship</h3>
-          <p>Support that keeps someone moving, oriented and connected to the day.</p>
+          <h3 data-i18n="services.h32">Mobility &amp; companionship</h3>
+          <p data-i18n="services.p3">Support that keeps someone moving, oriented and connected to the day.</p>
           <ul>
-            <li>Transfers, walking and wheelchair support</li>
-            <li>Escort to hospital and clinic appointments</li>
-            <li>Gentle prescribed exercises and stretching</li>
-            <li>Medication reminders at set times</li>
-            <li>Conversation, reading and company</li>
-            <li>Light housekeeping around the person</li>
+            <li data-i18n="services.li7">Transfers, walking and wheelchair support</li>
+            <li data-i18n="services.li8">Escort to hospital and clinic appointments</li>
+            <li data-i18n="services.li9">Gentle prescribed exercises and stretching</li>
+            <li data-i18n="services.li10">Medication reminders at set times</li>
+            <li data-i18n="services.li11">Conversation, reading and company</li>
+            <li data-i18n="services.li12">Light housekeeping around the person</li>
           </ul>
         </article>
 
         <article class="card">
           <svg class="card-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 40 C 14 32 9 25 12 19 C 15 14 21 15 24 20 C 27 15 33 14 36 19 C 39 25 34 32 24 40 Z" fill="none" stroke="#1C6B62" stroke-width="3" stroke-linejoin="round"/><path d="M8 12 c 4 0 6 3 6 6 M40 12 c -4 0 -6 3 -6 6" stroke="#D9A441" stroke-width="3" stroke-linecap="round" fill="none"/></svg>
-          <h3>Massage &amp; wellness</h3>
-          <p>Booked as single sessions or added to an ongoing care schedule.</p>
+          <h3 data-i18n="services.h33">Massage &amp; wellness</h3>
+          <p data-i18n="services.p4">Booked as single sessions or added to an ongoing care schedule.</p>
           <ul>
-            <li>Relaxation and comfort massage</li>
-            <li>Post-natal massage and confinement support</li>
-            <li>Gentle limb massage for bed-bound clients</li>
-            <li>Assisted stretching for stiffness</li>
-            <li>Warm compress and comfort routines</li>
-            <li>Single visits or a standing weekly slot</li>
+            <li data-i18n="services.li13">Relaxation and comfort massage</li>
+            <li data-i18n="services.li14">Post-natal massage and confinement support</li>
+            <li data-i18n="services.li15">Gentle limb massage for bed-bound clients</li>
+            <li data-i18n="services.li16">Assisted stretching for stiffness</li>
+            <li data-i18n="services.li17">Warm compress and comfort routines</li>
+            <li data-i18n="services.li18">Single visits or a standing weekly slot</li>
           </ul>
         </article>
 
       </div>
-      <p class="section-lead center" style="margin-top:34px;">Need something not listed? Put it in the quote form — if it sits outside what a caregiver may do, we will say so plainly and point you to the right provider.</p>
+      <p class="section-lead center" style="margin-top:34px;" data-i18n="services.p5">Need something not listed? Put it in the quote form — if it sits outside what a caregiver may do, we will say so plainly and point you to the right provider.</p>
+    </div>
+  </section>
+
+  <!-- ============ CONDITIONS ============ -->
+  <section class="section section-tint" id="conditions">
+    <div class="container">
+      <h2 data-i18n="conditions.h21">Care around common conditions</h2>
+      <p class="section-lead" data-i18n="conditions.p1">Most families come to us because of a diagnosis, a fall or a hospital discharge. Our caregivers don't treat the condition — your doctor does — but they know what daily life with it looks like, and the care plan is written around it.</p>
+      <div class="conditions">
+        <div class="condition">
+          <h3 data-i18n="conditions.h31">Dementia &amp; memory loss</h3>
+          <p data-i18n="conditions.p2">A familiar face and a steady routine. Gentle prompting for meals, washing and dressing, supervision against wandering, and patience with repeated questions.</p>
+        </div>
+        <div class="condition">
+          <h3 data-i18n="conditions.h32">After a stroke</h3>
+          <p data-i18n="conditions.p3">Safe transfers, help with one-sided weakness, the home exercises your therapist set, and escort to rehab appointments.</p>
+        </div>
+        <div class="condition">
+          <h3 data-i18n="conditions.h33">Home from hospital</h3>
+          <p data-i18n="conditions.p4">The first weeks after surgery or an admission: help getting up and about, personal care, meals, and someone to notice when something isn't right.</p>
+        </div>
+        <div class="condition">
+          <h3 data-i18n="conditions.h34">Parkinson's &amp; frailty</h3>
+          <p data-i18n="conditions.p5">Support with walking and balance, fall prevention around the home, and unhurried help with eating, dressing and bathing.</p>
+        </div>
+        <div class="condition">
+          <h3 data-i18n="conditions.h35">Bed-bound care</h3>
+          <p data-i18n="conditions.p6">Regular repositioning, bed baths, diaper changes, skin checks for pressure areas, and limb massage for comfort.</p>
+        </div>
+        <div class="condition">
+          <h3 data-i18n="conditions.h36">Palliative &amp; end of life</h3>
+          <p data-i18n="conditions.p7">Comfort, dignity and company alongside the palliative team, and relief for family members who need to rest.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <!-- ============ HOW IT WORKS ============ -->
-  <section class="section section-tint" id="how">
+  <section class="section" id="how">
     <div class="container">
       <div class="how-intro">
         <div>
-          <h2>How it works</h2>
-          <p class="section-lead">From first call to first visit is usually three to five working days — faster when it is urgent.</p>
-          <p class="section-lead">The home assessment is the part families tell us matters most. We meet the person, see the home, and write the care plan with you rather than handing you a standard package.</p>
+          <h2 data-i18n="how.h21">How it works</h2>
+          <p class="section-lead" data-i18n="how.p1">From first call to first visit is usually three to five working days — faster when it is urgent.</p>
+          <p class="section-lead" data-i18n="how.p2">The home assessment is the part families tell us matters most. We meet the person, see the home, and write the care plan with you rather than handing you a standard package.</p>
         </div>
         <figure class="how-photo">
           <img src="img/home-assessment.jpg" width="1024" height="559" loading="lazy"
@@ -172,214 +242,438 @@
       </div>
       <ol class="steps">
         <li>
-          <h3>Tell us the situation</h3>
-          <p>A short call or the quote form. Who needs care, what they need help with, and when.</p>
+          <h3 data-i18n="how.h31">Tell us the situation</h3>
+          <p data-i18n="how.p3">A short call or the quote form. Who needs care, what they need help with, and when.</p>
         </li>
         <li>
-          <h3>Home assessment</h3>
-          <p>We visit, meet the person and the family, and write the care plan together — tasks, hours, house rules.</p>
+          <h3 data-i18n="how.h32">Home assessment</h3>
+          <p data-i18n="how.p4">We visit, meet the person and the family, and write the care plan together — tasks, hours, house rules.</p>
         </li>
         <li>
-          <h3>Matched caregiver</h3>
-          <p>We propose a caregiver matched on language, experience and schedule. You meet them before confirming.</p>
+          <h3 data-i18n="how.h33">Matched caregiver</h3>
+          <p data-i18n="how.p5">We propose a caregiver matched on language, experience and schedule. You meet them before confirming.</p>
         </li>
         <li>
-          <h3>Care begins</h3>
-          <p>Visits start on the agreed schedule. You see check-ins and visit notes, and your coordinator stays reachable.</p>
+          <h3 data-i18n="how.h34">Care begins</h3>
+          <p data-i18n="how.p6">Visits start on the agreed schedule. You see check-ins and visit notes, and your coordinator stays reachable.</p>
         </li>
       </ol>
     </div>
   </section>
 
   <!-- ============ WHY US ============ -->
-  <section class="section" id="why">
+  <section class="section section-tint" id="why">
     <div class="container">
-      <h2>Why families choose us</h2>
+      <h2 data-i18n="why.h21">Why families choose us</h2>
       <div class="trust">
-        <div><strong>Every caregiver is vetted before placement.</strong> Identity and right-to-work checked, references taken up, and a police record check on file.</div>
-        <div><strong>The same caregiver, not a rota of strangers.</strong> Continuity matters most for dementia and end-of-life care. You get a named caregiver and a named backup.</div>
-        <div><strong>A written care plan, agreed with you.</strong> Every task in scope is listed. Nothing is assumed, and changes are agreed rather than absorbed.</div>
-        <div><strong>You can see what happened.</strong> Check-in and check-out times and visit notes are recorded, and the family can read them the same day.</div>
-        <div><strong>Languages spoken at home.</strong> Bahasa Malaysia, English, Mandarin, Cantonese and Tamil across our team — we match on the language the person is most comfortable in.</div>
-        <div><strong>A clear line about what we don't do.</strong> We don't give injections, dress wounds, manage IV lines or change catheters. Saying so is what makes the rest trustworthy.</div>
+        <div data-i18n="why.div1"><strong>Every caregiver is vetted before placement.</strong> Identity and right-to-work checked, references taken up, and a police record check on file.</div>
+        <div data-i18n="why.div2"><strong>The same caregiver, not a rota of strangers.</strong> Continuity matters most for dementia and end-of-life care. You get a named caregiver and a named backup.</div>
+        <div data-i18n="why.div3"><strong>A written care plan, agreed with you.</strong> Every task in scope is listed. Nothing is assumed, and changes are agreed rather than absorbed.</div>
+        <div data-i18n="why.div4"><strong>You can see what happened.</strong> Check-in and check-out times and visit notes are recorded, and the family can read them the same day.</div>
+        <div data-i18n="why.div5"><strong>Languages spoken at home.</strong> Bahasa Malaysia, English, Mandarin, Cantonese and Tamil across our team — we match on the language the person is most comfortable in.</div>
+        <div data-i18n="why.div6"><strong>A clear line about what we don't do.</strong> We don't give injections, dress wounds, manage IV lines or change catheters. Saying so is what makes the rest trustworthy.</div>
       </div>
     </div>
   </section>
 
-  <!-- ============ PRICING ============ -->
-  <section class="section section-tint" id="pricing">
+  <!-- ============ OUR CAREGIVERS ============ -->
+  <section class="section" id="team">
     <div class="container">
-      <h2>How pricing works</h2>
-      <p class="section-lead">Final rates depend on hours, the level of assistance needed and location. These are the shapes a package usually takes — the quote you receive will be itemised.</p>
-      <div class="tiers">
-        <div class="tier">
-          <h3>Hourly visits</h3>
-          <div class="tier-price">From RM 35</div>
-          <div class="tier-unit">per hour</div>
-          <p>Minimum 3 hours a visit. Best for bathing, meals or an appointment escort a few times a week.</p>
-        </div>
-        <div class="tier featured">
-          <h3>Daily care</h3>
-          <div class="tier-price">From RM 180</div>
-          <div class="tier-unit">per 8-hour day</div>
-          <p>A caregiver through the working day. The usual choice for elderly parents while the family is at work.</p>
-        </div>
-        <div class="tier">
-          <h3>Live-in care</h3>
-          <div class="tier-price">From RM 3,500</div>
-          <div class="tier-unit">per month</div>
-          <p>A caregiver living in the home, with agreed rest days and a relief caregiver covering them.</p>
-        </div>
+      <h2 data-i18n="team.h21">Meet our caregivers</h2>
+      <p class="section-lead" data-i18n="team.p1">Families want to know who is coming through the door. Every caregiver below has been interviewed in person and has passed reference and police record checks — and you meet yours before care is confirmed.</p>
+
+      <!--
+        To publish a caregiver, replace one placeholder card with a filled-in
+        card like this (photo goes in img/team/, square, at least 320x320).
+        Only publish a profile with the caregiver's written consent, and never
+        include their surname, IC number or home address.
+
+        <article class="profile">
+          <div class="profile-photo"><img src="img/team/aisyah.jpg" width="320" height="320" loading="lazy" alt="Aisyah, smiling, in a teal Sutera uniform"></div>
+          <p class="profile-role">Elderly care · Dementia care</p>
+          <h3 class="profile-name">Aisyah</h3>
+          <ul class="profile-facts">
+            <li><span>Experience</span>6 years</li>
+            <li><span>Languages</span>Bahasa Malaysia, English</li>
+            <li><span>Works</span>Full time · Klang Valley</li>
+          </ul>
+          <ul class="profile-tags">
+            <li>Basic caregiving course</li>
+            <li>First aid &amp; CPR</li>
+            <li>Bed-bound care</li>
+          </ul>
+          <p class="profile-bio">"Short quote from the caregiver in their own words: why they do this work."</p>
+        </article>
+      -->
+      <div class="team">
+        <article class="profile is-placeholder">
+          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
+          <p class="profile-role" data-i18n="team.p2">Elderly care</p>
+          <h3 class="profile-name" data-i18n="team.h31">Profile coming soon</h3>
+          <p class="profile-bio" data-i18n="team.p3">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
+        </article>
+        <article class="profile is-placeholder">
+          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
+          <p class="profile-role" data-i18n="team.p4">Live-in care</p>
+          <h3 class="profile-name" data-i18n="team.h32">Profile coming soon</h3>
+          <p class="profile-bio" data-i18n="team.p5">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
+        </article>
+        <article class="profile is-placeholder">
+          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
+          <p class="profile-role" data-i18n="team.p6">Dementia care</p>
+          <h3 class="profile-name" data-i18n="team.h33">Profile coming soon</h3>
+          <p class="profile-bio" data-i18n="team.p7">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
+        </article>
+        <article class="profile is-placeholder">
+          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
+          <p class="profile-role" data-i18n="team.p8">Home from hospital</p>
+          <h3 class="profile-name" data-i18n="team.h34">Profile coming soon</h3>
+          <p class="profile-bio" data-i18n="team.p9">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
+        </article>
+        <article class="profile is-placeholder">
+          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
+          <p class="profile-role" data-i18n="team.p10">Massage &amp; wellness</p>
+          <h3 class="profile-name" data-i18n="team.h35">Profile coming soon</h3>
+          <p class="profile-bio" data-i18n="team.p11">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
+        </article>
+        <article class="profile is-placeholder">
+          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
+          <p class="profile-role" data-i18n="team.p12">Care coordinator</p>
+          <h3 class="profile-name" data-i18n="team.h36">Profile coming soon</h3>
+          <p class="profile-bio" data-i18n="team.p13">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
+        </article>
       </div>
-      <p class="form-note center" style="margin-top:24px;max-width:760px;">Indicative rates, not a quotation. Massage and wellness sessions are priced separately. Public holidays, overnight hours and locations outside the Klang Valley may carry a surcharge, which will be shown as a line on your quote rather than appearing later.</p>
     </div>
   </section>
 
-  <!-- ============ FORMS ============ -->
-  <section class="section" id="quote">
+  <!-- ============ QUOTE ============ -->
+  <section class="section section-tint" id="quote">
     <div class="container">
-      <h2>Request a quote</h2>
-      <p class="sent" id="sent-enquiry" hidden>
+      <h2 data-i18n="quote.h21">Request a quote</h2>
+      <p class="sent" id="sent-enquiry" hidden data-i18n="quote.p1">
         <strong>Thank you.</strong> We have your enquiry and will reply within one working day.
       </p>
-      <p class="sent" id="sent-application" hidden>
-        <strong>Thank you for applying.</strong> We contact shortlisted applicants within a week.
-      </p>
-      <p class="section-lead">The person arranging care is often not the person receiving it, so we ask for both. Nothing here commits you to anything.</p>
-      <div class="form-grid">
+      <p class="section-lead" data-i18n="quote.p2">The person arranging care is often not the person receiving it, so we ask for both. Nothing here commits you to anything. Your quote is itemised for your situation — hours, level of help and location — so nothing is added later.</p>
+      <div class="form-grid form-grid-aside">
 
         <div class="form-card">
-          <h3>Care enquiry</h3>
-          <p>We reply within one working day.</p>
+          <h3 data-i18n="quote.h31">Care enquiry</h3>
+          <p data-i18n="quote.p3">We reply within one working day.</p>
           <form method="post" action="https://providers.suteracares.org/portal/intake/enquiry">
             <p class="hp" aria-hidden="true">
               <label for="e-website">Leave this field empty</label>
               <input id="e-website" name="website" type="text" tabindex="-1" autocomplete="off">
             </p>
             <fieldset>
-              <legend>Your details</legend>
-              <label for="c-name">Your name *</label>
+              <legend data-i18n="quote.legend1">Your details</legend>
+              <label for="c-name" data-i18n="quote.label1">Your name *</label>
               <input id="c-name" name="client_name" required>
               <div class="form-row">
                 <div>
-                  <label for="c-phone">Phone / WhatsApp *</label>
+                  <label for="c-phone" data-i18n="quote.label2">Phone / WhatsApp *</label>
                   <input id="c-phone" name="client_phone" type="tel" required>
                 </div>
                 <div>
-                  <label for="c-email">Email *</label>
+                  <label for="c-email" data-i18n="quote.label3">Email *</label>
                   <input id="c-email" name="client_email" type="email" required>
                 </div>
               </div>
-              <label for="c-rel">Your relationship to the person needing care</label>
+              <label for="c-rel" data-i18n="quote.label4">Your relationship to the person needing care</label>
               <select id="c-rel" name="client_relationship">
-                <option value="">— Select —</option>
-                <option>Son or daughter</option>
-                <option>Spouse or partner</option>
-                <option>Other family member</option>
-                <option>Friend or neighbour</option>
-                <option>I am the person needing care</option>
-                <option>Hospital or clinic referral</option>
+                <option value="" data-i18n="quote.option1">— Select —</option>
+                <option data-i18n="quote.option2" value="Son or daughter">Son or daughter</option>
+                <option data-i18n="quote.option3" value="Spouse or partner">Spouse or partner</option>
+                <option data-i18n="quote.option4" value="Other family member">Other family member</option>
+                <option data-i18n="quote.option5" value="Friend or neighbour">Friend or neighbour</option>
+                <option data-i18n="quote.option6" value="I am the person needing care">I am the person needing care</option>
+                <option data-i18n="quote.option7" value="Hospital or clinic referral">Hospital or clinic referral</option>
               </select>
             </fieldset>
 
             <fieldset>
-              <legend>Who needs care</legend>
-              <label for="p-name">Their name *</label>
+              <legend data-i18n="quote.legend2">Who needs care</legend>
+              <label for="p-name" data-i18n="quote.label5">Their name *</label>
               <input id="p-name" name="patient_name" required>
               <div class="form-row">
                 <div>
-                  <label for="p-age">Age</label>
+                  <label for="p-age" data-i18n="quote.label6">Age</label>
                   <input id="p-age" name="patient_age" type="number" min="0" max="120">
                 </div>
                 <div>
-                  <label for="p-area">Area / town *</label>
-                  <input id="p-area" name="patient_area" required>
+                  <label for="p-area" data-i18n="quote.label7">Area / town *</label>
+                  <input id="p-area" name="patient_area" list="kv-areas" autocomplete="address-level2" required>
+                  <datalist id="kv-areas">
+                  <option value="Ampang">
+                  <option value="Bangsar">
+                  <option value="Bangi">
+                  <option value="Cheras">
+                  <option value="Cyberjaya">
+                  <option value="Damansara">
+                  <option value="Kajang">
+                  <option value="Kepong">
+                  <option value="Klang">
+                  <option value="Kota Damansara">
+                  <option value="Kuala Lumpur city centre">
+                  <option value="Mont Kiara">
+                  <option value="Petaling Jaya">
+                  <option value="Puchong">
+                  <option value="Putrajaya">
+                  <option value="Rawang">
+                  <option value="Selayang">
+                  <option value="Semenyih">
+                  <option value="Sentul">
+                  <option value="Seri Kembangan">
+                  <option value="Setapak">
+                  <option value="Shah Alam">
+                  <option value="Subang Jaya">
+                  <option value="Sungai Buloh">
+                  <option value="Taman Tun Dr Ismail">
+                  <option value="Wangsa Maju">
+                  </datalist>
                 </div>
               </div>
-              <label for="p-mobility">Mobility</label>
+              <label for="p-mobility" data-i18n="quote.label8">Mobility</label>
               <select id="p-mobility" name="patient_mobility">
-                <option value="">— Select —</option>
-                <option>Walks independently</option>
-                <option>Walks with a stick or frame</option>
-                <option>Wheelchair user</option>
-                <option>Mostly bed-bound</option>
+                <option value="" data-i18n="quote.option8">— Select —</option>
+                <option data-i18n="quote.option9" value="Walks independently">Walks independently</option>
+                <option data-i18n="quote.option10" value="Walks with a stick or frame">Walks with a stick or frame</option>
+                <option data-i18n="quote.option11" value="Wheelchair user">Wheelchair user</option>
+                <option data-i18n="quote.option12" value="Mostly bed-bound">Mostly bed-bound</option>
               </select>
-              <label for="p-needs">What help is needed?</label>
-              <textarea id="p-needs" name="patient_needs" placeholder="For example: bathing and diaper changes each morning, escort to a hospital appointment every fortnight, company in the afternoon."></textarea>
-              <label for="p-schedule">Days and hours you have in mind</label>
-              <input id="p-schedule" name="patient_schedule" placeholder="e.g. Mon–Fri, 9am–5pm">
+              <label for="p-needs" data-i18n="quote.label9">What help is needed?</label>
+              <textarea id="p-needs" name="patient_needs" placeholder="For example: bathing and diaper changes each morning, escort to a hospital appointment every fortnight, company in the afternoon." data-i18n-ph="quote.ph1"></textarea>
+              <label for="p-schedule" data-i18n="quote.label10">Days and hours you have in mind</label>
+              <input id="p-schedule" name="patient_schedule" placeholder="e.g. Mon–Fri, 9am–5pm" data-i18n-ph="quote.ph2">
             </fieldset>
 
-            <button class="btn btn-primary btn-lg" type="submit">Send enquiry</button>
-            <p class="form-note">We use these details only to prepare your quote and arrange an assessment. We do not sell or share them. See our privacy notice.</p>
+            <button class="btn btn-primary btn-lg" type="submit" data-i18n="quote.button1">Send enquiry</button>
+            <p class="form-note" data-i18n="quote.p4">We use these details only to prepare your quote and arrange an assessment. We do not sell or share them. See our <a href="privacy.html">privacy notice</a>.</p>
           </form>
         </div>
 
-        <div class="form-card" id="careers">
-          <h3>Work with us</h3>
-          <p>We are hiring caregivers across the Klang Valley.</p>
+        <aside class="side-card">
+          <h3 data-i18n="quote.h32">What happens next</h3>
+          <ol class="next-steps">
+            <li data-i18n="quote.li1"><strong>Within one working day</strong>A coordinator calls or WhatsApps you to understand the situation.</li>
+            <li data-i18n="quote.li2"><strong>Home assessment</strong>We visit, meet the person, and write the care plan with you.</li>
+            <li data-i18n="quote.li3"><strong>Itemised quote</strong>Hours, level of assistance and any surcharges, shown line by line.</li>
+            <li data-i18n="quote.li4"><strong>Meet your caregiver</strong>You meet the proposed caregiver before you confirm anything.</li>
+          </ol>
+          <p class="side-call" data-i18n="quote.p5">Rather talk it through?<br><a href="#contact">Call or WhatsApp the care line&nbsp;→</a></p>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CAREERS ============ -->
+  <section class="section" id="careers">
+    <div class="container">
+      <p class="eyebrow" data-i18n="careers.p1">Careers</p>
+      <h2 data-i18n="careers.h21">Caregiver jobs that fit around your life</h2>
+      <p class="section-lead" data-i18n="careers.p2">We are hiring caregivers across the Klang Valley — full time, part time, live-in and weekends. What matters most is the right temperament: patience, reliability and respect for the people you look after. We'll help with the rest.</p>
+      <p class="sent" id="sent-application" hidden data-i18n="careers.p3">
+        <strong>Thank you for applying.</strong> We contact shortlisted applicants within a week.
+      </p>
+
+      <h3 class="sub-head" data-i18n="careers.h31">Why caregivers work with us</h3>
+      <div class="perks">
+        <div class="perk">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="8" y="10" width="32" height="30" rx="4" fill="none" stroke="#1C6B62" stroke-width="3"/><path d="M8 19 h32 M17 6 v8 M31 6 v8" stroke="#1C6B62" stroke-width="3" stroke-linecap="round"/><path d="M18 29 l4 4 l8 -8" fill="none" stroke="#D9A441" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h4 data-i18n="careers.h41">Choose how you work</h4>
+          <p data-i18n="careers.p4">Full time, part time, live-in or weekends only. Tell us your hours and we match placements to them.</p>
+        </div>
+        <div class="perk">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 42 C 24 42 10 30 10 20 a14 14 0 0 1 28 0 C 38 30 24 42 24 42 Z" fill="none" stroke="#1C6B62" stroke-width="3" stroke-linejoin="round"/><circle cx="24" cy="20" r="5" fill="none" stroke="#D9A441" stroke-width="3"/></svg>
+          <h4 data-i18n="careers.h42">Work near home</h4>
+          <p data-i18n="careers.p5">Placements are matched to the area you say you can work in, and to the languages you speak.</p>
+        </div>
+        <div class="perk">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 18 L24 10 L40 18 L24 26 Z" fill="none" stroke="#1C6B62" stroke-width="3" stroke-linejoin="round"/><path d="M15 22 v9 c 0 4 18 4 18 0 v-9" fill="none" stroke="#1C6B62" stroke-width="3"/><path d="M40 18 v10" stroke="#D9A441" stroke-width="3" stroke-linecap="round"/></svg>
+          <h4 data-i18n="careers.h43">Training and progression</h4>
+          <p data-i18n="careers.p6">An orientation on our care standards before your first placement, and the chance to build towards specialised cases such as dementia and live-in care.</p>
+        </div>
+        <div class="perk">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="14" y="6" width="20" height="36" rx="4" fill="none" stroke="#1C6B62" stroke-width="3"/><path d="M21 37 h6" stroke="#1C6B62" stroke-width="3" stroke-linecap="round"/><path d="M19 21 l4 4 l7 -8" fill="none" stroke="#D9A441" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h4 data-i18n="careers.h44">Everything in one app</h4>
+          <p data-i18n="careers.p7">See your schedule and the care plan, check in and out, and write visit notes from the Sutera caregiver app.</p>
+        </div>
+        <div class="perk">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M10 34 v-4 a8 8 0 0 1 8 -8 h12 a8 8 0 0 1 8 8 v4" fill="none" stroke="#1C6B62" stroke-width="3" stroke-linecap="round"/><circle cx="24" cy="12" r="6" fill="none" stroke="#1C6B62" stroke-width="3"/><path d="M8 40 h32" stroke="#D9A441" stroke-width="3" stroke-linecap="round"/></svg>
+          <h4 data-i18n="careers.h45">A coordinator behind you</h4>
+          <p data-i18n="careers.p8">One named person who knows your cases, sorts out problems with families, and arranges cover when you're unwell.</p>
+        </div>
+        <div class="perk">
+          <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6 L38 12 v10 c 0 10 -6 17 -14 20 c -8 -3 -14 -10 -14 -20 v-10 Z" fill="none" stroke="#1C6B62" stroke-width="3" stroke-linejoin="round"/><path d="M18 24 l4 4 l8 -8" fill="none" stroke="#D9A441" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h4 data-i18n="careers.h46">A clear scope of work</h4>
+          <p data-i18n="careers.p9">You're never asked to do a nurse's job. Every task is in the care plan, agreed with the family before you start.</p>
+        </div>
+      </div>
+
+      <div class="careers-cols">
+        <div>
+          <h3 class="sub-head" data-i18n="careers.h32">What you'll do</h3>
+          <ul class="ticks">
+            <li data-i18n="careers.li1">Bathing, showering, bed baths and diaper changes</li>
+            <li data-i18n="careers.li2">Dressing, grooming and oral care</li>
+            <li data-i18n="careers.li3">Safe transfers, walking and wheelchair support</li>
+            <li data-i18n="careers.li4">Meal preparation and help with eating</li>
+            <li data-i18n="careers.li5">Medication reminders at set times</li>
+            <li data-i18n="careers.li6">Escort to hospital and clinic appointments</li>
+            <li data-i18n="careers.li7">Gentle exercises, conversation and company</li>
+            <li data-i18n="careers.li8">Light housekeeping around the person</li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="sub-head" data-i18n="careers.h33">Who we're looking for</h3>
+          <ul class="ticks">
+            <li data-i18n="careers.li9">Patient, kind and dependable — the most important part</li>
+            <li data-i18n="careers.li10">Legally able to work in Malaysia</li>
+            <li data-i18n="careers.li11">Comfortable with personal care tasks</li>
+            <li data-i18n="careers.li12">Speaks at least one of Bahasa Malaysia, English, Mandarin, Cantonese or Tamil</li>
+            <li data-i18n="careers.li13">Experience or a caregiving certificate is welcome, but not essential</li>
+            <li data-i18n="careers.li14">Willing to undergo reference and police record checks</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="sub-head" data-i18n="careers.h34">How hiring works</h3>
+      <ol class="steps steps-tight">
+        <li>
+          <h3 data-i18n="careers.h35">Apply</h3>
+          <p data-i18n="careers.p10">Send the form below. It takes about three minutes.</p>
+        </li>
+        <li>
+          <h3 data-i18n="careers.h36">Interview</h3>
+          <p data-i18n="careers.p11">Shortlisted applicants are contacted within a week and interviewed in person.</p>
+        </li>
+        <li>
+          <h3 data-i18n="careers.h37">Checks &amp; orientation</h3>
+          <p data-i18n="careers.p12">We take up references, complete a police record check, and walk you through our care standards and the app.</p>
+        </li>
+        <li>
+          <h3 data-i18n="careers.h38">First placement</h3>
+          <p data-i18n="careers.p13">We match you with a family on area, language and schedule, and introduce you before care begins.</p>
+        </li>
+      </ol>
+
+      <div class="form-grid form-grid-aside">
+        <div class="form-card">
+          <h3 data-i18n="careers.h39">Apply to work with us</h3>
+          <p data-i18n="careers.p14">Open roles: elderly care, home care and live-in caregivers, massage &amp; wellness therapists, and care coordinators.</p>
           <form method="post" action="https://providers.suteracares.org/portal/intake/application">
             <p class="hp" aria-hidden="true">
               <label for="a-website">Leave this field empty</label>
               <input id="a-website" name="website" type="text" tabindex="-1" autocomplete="off">
             </p>
             <fieldset>
-              <legend>Applicant details</legend>
-              <label for="a-name">Full name *</label>
+              <legend data-i18n="careers.legend1">Applicant details</legend>
+              <label for="a-name" data-i18n="careers.label1">Full name *</label>
               <input id="a-name" name="applicant_name" required>
               <div class="form-row">
                 <div>
-                  <label for="a-phone">Phone / WhatsApp *</label>
+                  <label for="a-phone" data-i18n="careers.label2">Phone / WhatsApp *</label>
                   <input id="a-phone" name="applicant_phone" type="tel" required>
                 </div>
                 <div>
-                  <label for="a-email">Email</label>
+                  <label for="a-email" data-i18n="careers.label3">Email</label>
                   <input id="a-email" name="applicant_email" type="email">
                 </div>
               </div>
-              <label for="a-area">Area you can work in *</label>
-              <input id="a-area" name="applicant_area" required>
+              <label for="a-area" data-i18n="careers.label4">Area you can work in *</label>
+              <input id="a-area" name="applicant_area" list="kv-areas" required>
             </fieldset>
 
             <fieldset>
-              <legend>Role and experience</legend>
-              <label for="a-role">Position applying for *</label>
+              <legend data-i18n="careers.legend2">Role and experience</legend>
+              <label for="a-role" data-i18n="careers.label5">Position applying for *</label>
               <select id="a-role" name="applicant_role" required>
-                <option value="">— Select —</option>
-                <option>Caregiver — elderly care</option>
-                <option>Caregiver — home care</option>
-                <option>Live-in caregiver</option>
-                <option>Massage &amp; wellness therapist</option>
-                <option>Care coordinator (office)</option>
-                <option>Other</option>
+                <option value="" data-i18n="careers.option1">— Select —</option>
+                <option data-i18n="careers.option2" value="Caregiver — elderly care">Caregiver — elderly care</option>
+                <option data-i18n="careers.option3" value="Caregiver — home care">Caregiver — home care</option>
+                <option data-i18n="careers.option4" value="Live-in caregiver">Live-in caregiver</option>
+                <option data-i18n="careers.option5" value="Massage &amp; wellness therapist">Massage &amp; wellness therapist</option>
+                <option data-i18n="careers.option6" value="Care coordinator (office)">Care coordinator (office)</option>
+                <option data-i18n="careers.option7" value="Other">Other</option>
               </select>
               <div class="form-row">
                 <div>
-                  <label for="a-years">Years of experience</label>
+                  <label for="a-years" data-i18n="careers.label6">Years of experience</label>
                   <input id="a-years" name="applicant_years" type="number" min="0" max="60">
                 </div>
                 <div>
-                  <label for="a-avail">Availability</label>
+                  <label for="a-avail" data-i18n="careers.label7">Availability</label>
                   <select id="a-avail" name="applicant_availability">
-                    <option value="">— Select —</option>
-                    <option>Full time</option>
-                    <option>Part time</option>
-                    <option>Live-in</option>
-                    <option>Weekends only</option>
+                    <option value="" data-i18n="careers.option8">— Select —</option>
+                    <option data-i18n="careers.option9" value="Full time">Full time</option>
+                    <option data-i18n="careers.option10" value="Part time">Part time</option>
+                    <option data-i18n="careers.option11" value="Live-in">Live-in</option>
+                    <option data-i18n="careers.option12" value="Weekends only">Weekends only</option>
                   </select>
                 </div>
               </div>
-              <label for="a-lang">Languages spoken</label>
-              <input id="a-lang" name="applicant_languages" placeholder="e.g. Bahasa Malaysia, English, Mandarin">
-              <label for="a-notes">Training or certificates</label>
-              <textarea id="a-notes" name="applicant_notes" placeholder="Caregiver course, first aid, previous employers, or anything else we should know."></textarea>
+              <label for="a-lang" data-i18n="careers.label8">Languages spoken</label>
+              <input id="a-lang" name="applicant_languages" placeholder="e.g. Bahasa Malaysia, English, Mandarin" data-i18n-ph="careers.ph1">
+              <label for="a-notes" data-i18n="careers.label9">Training or certificates</label>
+              <textarea id="a-notes" name="applicant_notes" placeholder="Caregiver course, first aid, previous employers, or anything else we should know." data-i18n-ph="careers.ph2"></textarea>
             </fieldset>
 
-            <button class="btn btn-outline btn-lg" type="submit">Send application</button>
-            <p class="form-note">Shortlisted applicants are interviewed in person. Placement is subject to reference and police record checks.</p>
+            <button class="btn btn-outline btn-lg" type="submit" data-i18n="careers.button1">Send application</button>
+            <p class="form-note" data-i18n="careers.p15">Shortlisted applicants are interviewed in person. Placement is subject to reference and police record checks.</p>
           </form>
         </div>
 
+        <aside class="side-card faq-list">
+          <h3 data-i18n="careers.h310">Questions applicants ask</h3>
+          <details>
+            <summary data-i18n="careers.summary1">I have no caregiving experience. Can I still apply?</summary>
+            <p data-i18n="careers.p16">Yes. Tell us about anything relevant — looking after a family member counts. New caregivers start with simpler cases.</p>
+          </details>
+          <details>
+            <summary data-i18n="careers.summary2">Can I choose my hours?</summary>
+            <p data-i18n="careers.p17">Yes. Tell us whether you want full time, part time, live-in or weekends, and placements are matched to that.</p>
+          </details>
+          <details>
+            <summary data-i18n="careers.summary3">Where is the work?</summary>
+            <p data-i18n="careers.p18">In clients' own homes across the Klang Valley. We match you to the area you say you can work in, so travel stays reasonable.</p>
+          </details>
+          <details>
+            <summary data-i18n="careers.summary4">How do I get my schedule?</summary>
+            <p data-i18n="careers.p19">Through the Sutera caregiver app: your shifts, the care plan for each client, check-in and check-out, and visit notes.</p>
+          </details>
+          <details>
+            <summary data-i18n="careers.summary5">Do you hire nurses?</summary>
+            <p data-i18n="careers.p20">Not for nursing work. We place caregivers for daily living support, not clinical care. Nurses are welcome to apply as caregivers if that is the work they want.</p>
+          </details>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GUIDES ============ -->
+  <section class="section" id="guides">
+    <div class="container">
+      <h2 data-i18n="guides.h21">Guides for families</h2>
+      <p class="section-lead" data-i18n="guides.p1">Plain advice for the decisions families face when someone at home starts needing help. Free to read, no sign-up.</p>
+      <div class="guides">
+        <a class="guide-card" href="guides/caregiver-maid-or-nursing-home.html">
+          <span class="guide-kicker" data-i18n="guides.span1">Choosing care</span>
+          <h3 data-i18n="guides.h31">Caregiver, maid or nursing home?</h3>
+          <p data-i18n="guides.p2">What each option really involves, what it suits, and the questions to ask before you decide.</p>
+          <span class="guide-more" data-i18n="guides.span2">Read the guide&nbsp;→</span>
+        </a>
+        <a class="guide-card" href="guides/coming-home-from-hospital.html">
+          <span class="guide-kicker" data-i18n="guides.span3">Hospital discharge</span>
+          <h3 data-i18n="guides.h32">Coming home from hospital: a checklist</h3>
+          <p data-i18n="guides.p3">What to sort out before discharge day, and how to get through the first two weeks at home.</p>
+          <span class="guide-more" data-i18n="guides.span4">Read the guide&nbsp;→</span>
+        </a>
+        <a class="guide-card" href="guides/preventing-falls-at-home.html">
+          <span class="guide-kicker" data-i18n="guides.span5">Safety at home</span>
+          <h3 data-i18n="guides.h33">Preventing falls at home</h3>
+          <p data-i18n="guides.p4">A room-by-room checklist for the changes that matter most, most of them cheap or free.</p>
+          <span class="guide-more" data-i18n="guides.span6">Read the guide&nbsp;→</span>
+        </a>
       </div>
     </div>
   </section>
@@ -387,38 +681,38 @@
   <!-- ============ FAQ ============ -->
   <section class="section section-tint" id="faq">
     <div class="container container-narrow">
-      <h2>Questions families ask</h2>
+      <h2 data-i18n="faq.h21">Questions families ask</h2>
       <details>
-        <summary>Are your caregivers nurses?</summary>
-        <p>No, and we are careful about this. Our caregivers assist with daily living — bathing, changing, feeding, mobility, company and appointment escort. They do not give injections, dress wounds, manage IV lines, insert or change catheters, or make any clinical decision. If your situation needs that, you need a licensed home-nursing provider, and we will tell you so rather than take the booking.</p>
+        <summary data-i18n="faq.summary1">Are your caregivers nurses?</summary>
+        <p data-i18n="faq.p1">No, and we are careful about this. Our caregivers assist with daily living — bathing, changing, feeding, mobility, company and appointment escort. They do not give injections, dress wounds, manage IV lines, insert or change catheters, or make any clinical decision. If your situation needs that, you need a licensed home-nursing provider, and we will tell you so rather than take the booking.</p>
       </details>
       <details>
-        <summary>Can a caregiver give medication?</summary>
-        <p>They can remind and prompt at set times, hand over a pre-sorted dose, and record that it was taken. They do not adjust doses or administer anything by injection. Medication should be sorted into a weekly pill organiser by the family or a pharmacist.</p>
+        <summary data-i18n="faq.summary2">Can a caregiver give medication?</summary>
+        <p data-i18n="faq.p2">They can remind and prompt at set times, hand over a pre-sorted dose, and record that it was taken. They do not adjust doses or administer anything by injection. Medication should be sorted into a weekly pill organiser by the family or a pharmacist.</p>
       </details>
       <details>
-        <summary>What if we do not get on with the caregiver?</summary>
-        <p>Tell your coordinator and we will change the placement. A poor match is a normal thing that happens in home care, and it is better raised in week one than endured.</p>
+        <summary data-i18n="faq.summary3">What if we do not get on with the caregiver?</summary>
+        <p data-i18n="faq.p3">Tell your coordinator and we will change the placement. A poor match is a normal thing that happens in home care, and it is better raised in week one than endured.</p>
       </details>
       <details>
-        <summary>What happens if our caregiver is ill?</summary>
-        <p>Your coordinator arranges a relief caregiver who already has the care plan. For live-in placements, a named relief caregiver is agreed before care starts.</p>
+        <summary data-i18n="faq.summary4">What happens if our caregiver is ill?</summary>
+        <p data-i18n="faq.p4">Your coordinator arranges a relief caregiver who already has the care plan. For live-in placements, a named relief caregiver is agreed before care starts.</p>
       </details>
       <details>
-        <summary>Do you provide care outside the Klang Valley?</summary>
-        <p>We are starting in the Klang Valley. Elsewhere we take the enquiry and tell you honestly whether we can staff it, rather than promising and failing.</p>
+        <summary data-i18n="faq.summary5">Do you provide care outside the Klang Valley?</summary>
+        <p data-i18n="faq.p5">We are starting in the Klang Valley. Elsewhere we take the enquiry and tell you honestly whether we can staff it, rather than promising and failing.</p>
       </details>
       <details>
-        <summary>How is the family kept informed?</summary>
-        <p>Caregivers check in and out of every visit and write short visit notes. Family members with access can read them the same day, along with the schedule for the week ahead.</p>
+        <summary data-i18n="faq.summary6">How is the family kept informed?</summary>
+        <p data-i18n="faq.p6">Caregivers check in and out of every visit and write short visit notes. Family members with access can read them the same day, along with the schedule for the week ahead.</p>
       </details>
       <details>
-        <summary>Who can see my family member's information?</summary>
-        <p>Only the assigned caregiver, your coordinator, and the family members you name. Access is logged. We treat health information as sensitive personal data under Malaysia's Personal Data Protection Act 2010.</p>
+        <summary data-i18n="faq.summary7">Who can see my family member's information?</summary>
+        <p data-i18n="faq.p7">Only the assigned caregiver, your coordinator, and the family members you name. Access is logged. We treat health information as sensitive personal data under Malaysia's Personal Data Protection Act 2010.</p>
       </details>
       <details>
-        <summary>Is Sutera Care Provider the same as Sutera Cares?</summary>
-        <p>They are related but separate. Sutera Cares is a non-profit medical fund for refugees in Malaysia. Sutera Care Provider is a commercial home-care company. Paying clients here do not fund the charity automatically, and charity donations never subsidise this business — the two keep separate books.</p>
+        <summary data-i18n="faq.summary8">Is Sutera Care Provider the same as Sutera Cares?</summary>
+        <p data-i18n="faq.p8">They are related but separate. Sutera Cares is a non-profit medical fund for refugees in Malaysia. Sutera Care Provider is a commercial home-care company. Paying clients here do not fund the charity automatically, and charity donations never subsidise this business — the two keep separate books.</p>
       </details>
     </div>
   </section>
@@ -426,22 +720,22 @@
   <!-- ============ CONTACT ============ -->
   <section class="section" id="contact">
     <div class="container">
-      <h2>Contact us</h2>
+      <h2 data-i18n="contact.h21">Contact us</h2>
       <div class="contact-grid">
         <div class="contact-card">
-          <h3>Care line</h3>
-          <p class="contact-big">+60 1X-XXX XXXX</p>
-          <p>8am–10pm daily · BM, English, Mandarin, Tamil</p>
+          <h3 data-i18n="contact.h31">Care line</h3>
+          <p class="contact-big"><a class="js-careline" href="#contact"><span class="js-careline-text">+60 1X-XXX XXXX</span></a></p>
+          <p data-i18n="contact.p1">8am–10pm daily · BM, English, Mandarin, Tamil</p>
         </div>
         <div class="contact-card">
-          <h3>Email</h3>
+          <h3 data-i18n="contact.h32">Email</h3>
           <p class="contact-big"><a href="mailto:care@suteracares.org">care@suteracares.org</a></p>
-          <p>Enquiries, quotes and applications.</p>
+          <p data-i18n="contact.p2">Enquiries, quotes and applications.</p>
         </div>
         <div class="contact-card">
-          <h3>Where we work</h3>
+          <h3 data-i18n="contact.h33">Where we work</h3>
           <p class="contact-big">Klang Valley, Malaysia</p>
-          <p>Other states by arrangement.</p>
+          <p data-i18n="contact.p3">Other states by arrangement.</p>
         </div>
       </div>
     </div>
@@ -454,7 +748,7 @@
         <path d="M70,118 C 48,132 24,134 8,126" fill="none" stroke="#B23A5B" stroke-width="5" stroke-linecap="round" opacity="0.9"/>
         <path d="M70,118 C 30,88 14,58 26,38 C 34,24 54,26 70,48 C 86,26 106,24 114,38 C 126,58 110,88 70,118 Z" fill="none" stroke="#B23A5B" stroke-width="7" stroke-linejoin="round"/>
       </svg>
-      <p><strong>Our non-profit sister organisation.</strong> Sutera Cares is a community-led medical fund for refugees in Malaysia — safe births, newborn care and medical emergencies. Separate organisation, separate accounts. <a href="https://www.suteracares.org/">Visit Sutera Cares&nbsp;→</a></p>
+      <p data-i18n="sister.p1"><strong>Our non-profit sister organisation.</strong> Sutera Cares is a community-led medical fund for refugees in Malaysia — safe births, newborn care and medical emergencies. Separate organisation, separate accounts. <a href="https://www.suteracares.org/">Visit Sutera Cares&nbsp;→</a></p>
     </div>
   </div>
 
@@ -462,27 +756,16 @@
 
 <footer class="site-footer">
   <div class="container">
-    <p class="footer-mission">Sutera Care Provider — trained caregivers for home and elderly care in Malaysia.</p>
-    <p class="footer-legal">Sutera Care Provider supplies non-medical caregivers. We do not provide doctors, nurses, or any clinical or medical treatment, and nothing on this site is medical advice. Personal and health information is handled as sensitive personal data under the Personal Data Protection Act 2010.</p>
-    <p class="footer-portal"><a href="/portal/">Staff, caregiver and family portal &rarr;</a></p>
-    <p class="footer-copy">© 2026 Sutera Care Provider · Kuala Lumpur, Malaysia</p>
+    <p class="footer-mission" data-i18n="footer.p1">Sutera Care Provider — trained caregivers for home and elderly care in Malaysia.</p>
+    <p class="footer-legal" data-i18n="footer.p2">Sutera Care Provider supplies non-medical caregivers. We do not provide doctors, nurses, or any clinical or medical treatment, and nothing on this site is medical advice. Personal and health information is handled as sensitive personal data under the Personal Data Protection Act 2010.</p>
+    <p class="footer-links" data-i18n="footer.p3"><a href="/portal/">Staff, caregiver and family portal</a><a href="#careers">Careers</a><a href="#guides">Guides</a><a href="privacy.html">Privacy notice</a></p>
+    <p class="footer-copy">© <span class="js-year">2026</span> Sutera Care Provider · Kuala Lumpur, Malaysia</p>
   </div>
 </footer>
 
-<script>
-  // The forms post to the portal, which sends the visitor back here with
-  // ?sent=... Show the matching confirmation and tidy the URL so a refresh
-  // does not repeat it.
-  (function () {
-    var sent = new URLSearchParams(location.search).get('sent');
-    if (!sent) return;
-    var el = document.getElementById('sent-' + sent);
-    if (el) {
-      el.hidden = false;
-      el.scrollIntoView({ block: 'center' });
-    }
-    history.replaceState(null, '', location.pathname + location.hash);
-  })();
-</script>
+<a class="wa-float js-whatsapp" href="#contact" hidden aria-label="Chat with us on WhatsApp" data-i18n-label="wa.label1">
+  <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3.1 29l6.5-1.9c1.9 1 4.1 1.6 6.4 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4-.6-5.7-1.6l-.4-.2-3.9 1.1 1.1-3.7-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.8C5.1 9.9 10 5.2 16 5.2s10.9 4.7 10.9 10.6S22 26.4 16 26.4zm6-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.7s1.2 3.2 1.4 3.4c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.6.2 2.2.1.7-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg>
+  <span data-i18n="wa.span1">WhatsApp us</span>
+</a>
 </body>
 </html>
