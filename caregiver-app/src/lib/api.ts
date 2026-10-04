@@ -151,7 +151,11 @@ export class OfflineError extends Error {}
 
 export async function request<T>(
   path: string,
-  options: { method?: "GET" | "POST" | "PUT"; body?: unknown; token?: string | null } = {}
+  options: {
+    method?: "GET" | "POST" | "PUT" | "DELETE";
+    body?: unknown;
+    token?: string | null;
+  } = {}
 ): Promise<T> {
   let response: Response;
   try {
@@ -227,4 +231,111 @@ export function enquiryLabel(status: EnquiryStatus): string {
     declined: "Declined",
     lost: "Lost",
   }[status];
+}
+
+// ---- Clients (phase 3) ----
+
+export type ClientStatus = "enquiry" | "assessment" | "active" | "paused" | "closed";
+
+export type ClientSummary = {
+  id: number;
+  code: string;
+  name: string;
+  area: string | null;
+  status: ClientStatus;
+  consent: boolean;
+};
+
+export type FamilyLink = {
+  id: number;
+  user_id: number;
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+  login_status: string | null;
+  relationship: string | null;
+  is_primary: boolean;
+  is_bill_payer: boolean;
+  can_view_notes: boolean;
+  can_view_invoices: boolean;
+  can_request_changes: boolean;
+};
+
+export type ClientDetail = {
+  id: number;
+  code: string;
+  name: string;
+  status: ClientStatus;
+  ic_number: string | null;
+  dob: string | null;
+  age: number | null;
+  gender: "female" | "male" | "other" | null;
+  address: string | null;
+  area: string | null;
+  postcode: string | null;
+  mobility_level: string | null;
+  languages: string | null;
+  allergies: string | null;
+  notes: string | null;
+  consent_given_at: string | null;
+  consent_by: string | null;
+  login: { id: number; email: string; status: string } | null;
+  care_plans: {
+    id: number;
+    version: number;
+    status: "draft" | "active" | "superseded";
+    effective_from: string | null;
+    agreed_by: string | null;
+    tasks: number;
+  }[];
+  family: FamilyLink[];
+  assignments: {
+    id: number;
+    caregiver: string | null;
+    service: string | null;
+    status: string;
+    start_date: string | null;
+    end_date: string | null;
+  }[];
+};
+
+export type PlanTask = {
+  id?: number;
+  category: string;
+  description: string;
+  frequency: string;
+  time_of_day: string;
+};
+
+export type CarePlanDetail = {
+  id: number;
+  patient_id: number;
+  client: string | null;
+  consent: boolean;
+  version: number;
+  status: "draft" | "active" | "superseded";
+  effective_from: string | null;
+  effective_to: string | null;
+  agreed_by: string | null;
+  agreed_at: string | null;
+  author: string | null;
+  notes: string | null;
+  tasks: PlanTask[];
+};
+
+export type ClientOptions = {
+  statuses: ClientStatus[];
+  mobility: string[];
+  categories: Record<string, string>;
+  frequencies: Record<string, string>;
+  times: Record<string, string>;
+};
+
+export type Credentials = { name: string; email: string; password: string; suspended: boolean };
+
+/** "walks_with_aid" -> "Walks with aid" */
+export function humanise(value: string | null | undefined): string {
+  if (!value) return "";
+  const s = value.replace(/_/g, " ");
+  return s.charAt(0).toUpperCase() + s.slice(1);
 }

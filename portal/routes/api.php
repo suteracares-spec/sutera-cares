@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\OfficeActionsController;
 use App\Http\Controllers\Api\OfficeController;
 use App\Http\Controllers\Api\ShiftController;
@@ -50,6 +51,23 @@ Route::prefix('v1')->name('api.')->group(function () {
             Route::get('enquiries/{enquiry}', [OfficeActionsController::class, 'enquiry'])->name('enquiry');
             Route::post('enquiries/{enquiry}/status', [OfficeActionsController::class, 'enquiryStatus'])->name('enquiry.status');
             Route::post('enquiries/{enquiry}/convert', [OfficeActionsController::class, 'convertEnquiry'])->name('enquiry.convert');
+
+            Route::get('client-options', [ClientController::class, 'options'])->name('client-options');
+            Route::get('clients', [ClientController::class, 'index'])->name('clients');
+            Route::post('clients', [ClientController::class, 'store'])->name('clients.store');
+            Route::get('clients/{patient}', [ClientController::class, 'show'])->name('clients.show');
+            Route::put('clients/{patient}', [ClientController::class, 'update'])->name('clients.update');
+            Route::delete('clients/{patient}', [ClientController::class, 'destroy'])->name('clients.destroy');
+            Route::post('clients/{patient}/care-plans', [ClientController::class, 'startPlan'])->name('care-plans.start');
+            Route::get('care-plans/{carePlan}', [ClientController::class, 'showPlan'])->name('care-plans.show');
+            Route::put('care-plans/{carePlan}', [ClientController::class, 'savePlan'])->name('care-plans.save');
+            Route::post('care-plans/{carePlan}/activate', [ClientController::class, 'activatePlan'])->name('care-plans.activate');
+            Route::delete('care-plans/{carePlan}', [ClientController::class, 'discardPlan'])->name('care-plans.discard');
+            Route::post('clients/{patient}/family', [ClientController::class, 'addFamily'])->name('family.add');
+            Route::put('family/{guardian}', [ClientController::class, 'updateFamily'])->name('family.update');
+            Route::delete('family/{guardian}', [ClientController::class, 'removeFamily'])->name('family.remove');
+            Route::post('clients/{patient}/sign-in', [ClientController::class, 'clientLogin'])->middleware('throttle:20,1')->name('clients.sign-in');
+            Route::post('users/{user}/temporary-password', [ClientController::class, 'temporaryPassword'])->middleware('throttle:20,1')->name('users.temp-password');
         });
     });
 });

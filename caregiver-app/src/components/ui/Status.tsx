@@ -28,6 +28,11 @@ const STATUSES: Record<string, { label: string; color: Color }> = {
   paid: { label: "Paid", color: "success" },
   overdue: { label: "Overdue", color: "danger" },
   void: { label: "Void", color: "default" },
+  // clients and care plans
+  enquiry: { label: "Enquiry", color: "warning" },
+  assessment: { label: "Assessment", color: "warning" },
+  paused: { label: "Paused", color: "default" },
+  superseded: { label: "Superseded", color: "default" },
   // people
   active: { label: "Active", color: "success" },
   invited: { label: "Not signed in yet", color: "warning" },

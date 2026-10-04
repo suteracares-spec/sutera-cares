@@ -2,10 +2,13 @@ import { Check, ChevronLeft, ChevronRight } from "lucide-react-native";
 import {
   Button,
   Card,
+  ControlField,
+  Description,
   FieldError,
   Input,
   Label,
   Spinner,
+  Switch,
   TextArea,
   TextField,
   Typography,
@@ -15,7 +18,7 @@ import {
 import { useState, type ReactNode } from "react";
 import { Pressable, View } from "react-native";
 
-import { addDays, shortDay } from "@/lib/format";
+import { addDays, malaysiaDate, shortDay } from "@/lib/format";
 import type { ActionOutcome } from "@/lib/office";
 
 /** A titled card holding one action's form, with a close link. */
@@ -228,4 +231,113 @@ export function useFieldErrors() {
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const first = (field: string) => errors[field]?.[0];
   return { errors, setErrors, first };
+}
+
+/** A labelled text box; `multiline` for notes. */
+export function Field({
+  label,
+  value,
+  onChange,
+  error,
+  hint,
+  required,
+  multiline,
+  placeholder,
+  keyboardType,
+  autoCapitalize,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  error?: string;
+  hint?: string;
+  required?: boolean;
+  multiline?: boolean;
+  placeholder?: string;
+  keyboardType?: "default" | "email-address" | "phone-pad" | "number-pad";
+  autoCapitalize?: "none" | "words" | "sentences";
+}) {
+  return (
+    <TextField isRequired={required} isInvalid={!!error}>
+      <Label>{label}</Label>
+      {multiline ? (
+        <TextArea value={value} onChangeText={onChange} placeholder={placeholder} />
+      ) : (
+        <Input
+          variant="secondary"
+          value={value}
+          onChangeText={onChange}
+          placeholder={placeholder}
+          keyboardType={keyboardType}
+          autoCapitalize={autoCapitalize}
+        />
+      )}
+      {hint && !error ? <Description>{hint}</Description> : null}
+      <FieldError>{error}</FieldError>
+    </TextField>
+  );
+}
+
+/** A date as YYYY-MM-DD, with a one-tap "Today". Empty means not recorded. */
+export function DateField({
+  label,
+  value,
+  onChange,
+  error,
+  hint,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  error?: string;
+  hint?: string;
+}) {
+  const valid = value === "" || /^\d{4}-\d{2}-\d{2}$/.test(value);
+  return (
+    <TextField isInvalid={!!error || !valid}>
+      <Label>{label}</Label>
+      <View className="flex-row gap-2 items-center">
+        <View className="flex-1">
+          <Input
+            variant="secondary"
+            value={value}
+            onChangeText={onChange}
+            placeholder="YYYY-MM-DD"
+            keyboardType="numbers-and-punctuation"
+            maxLength={10}
+          />
+        </View>
+        <Button size="sm" variant="secondary" onPress={() => onChange(malaysiaDate())}>
+          Today
+        </Button>
+      </View>
+      {hint && !error ? <Description>{hint}</Description> : null}
+      <FieldError>{error ?? (!valid ? "Use YYYY-MM-DD, e.g. 2026-10-05" : "")}</FieldError>
+    </TextField>
+  );
+}
+
+/** An on/off setting with an explanation underneath. */
+export function Toggle({
+  label,
+  hint,
+  value,
+  onChange,
+}: {
+  label: string;
+  hint?: string;
+  value: boolean;
+  onChange: (v: boolean) => void;
+}) {
+  return (
+    <ControlField isSelected={value} onSelectedChange={onChange} className="py-1">
+      <View className="flex-1 pr-3">
+        <Label>{label}</Label>
+        {hint ? <Description>{hint}</Description> : null}
+      </View>
+      <ControlField.Indicator>
+        <Switch />
+      </ControlField.Indicator>
+    </ControlField>
+  );
 }

@@ -20,6 +20,7 @@ export default function Enquiries(): JSX.Element {
 
   return (
     <Screen
+      back="More"
       title="Enquiries"
       subtitle={data?.new_count ? `${data.new_count} new` : "From the website"}
       refreshing={loading && !!data}

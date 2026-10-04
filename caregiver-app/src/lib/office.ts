@@ -23,7 +23,7 @@ export function useOfficeAction() {
     async <T>(
       path: string,
       body: Record<string, unknown> = {},
-      method: "POST" | "PUT" = "POST"
+      method: "POST" | "PUT" | "DELETE" = "POST"
     ): Promise<ActionOutcome<T>> => {
       setBusy(true);
       try {
