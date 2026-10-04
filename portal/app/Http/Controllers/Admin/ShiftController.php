@@ -8,6 +8,7 @@ use App\Models\AuditLog;
 use App\Models\Caregiver;
 use App\Models\Shift;
 use App\Services\Scheduler;
+use App\Services\ShiftActions;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -22,7 +23,7 @@ use Illuminate\View\View;
  */
 class ShiftController extends Controller
 {
-    public function __construct(private Scheduler $scheduler) {}
+    public function __construct(private Scheduler $scheduler, private ShiftActions $actions) {}
 
     /** Book a weekly pattern, e.g. Mon–Fri 08:00–13:00 for the next four weeks. */
     public function generate(Request $request, Assignment $assignment): RedirectResponse
@@ -85,114 +86,37 @@ class ShiftController extends Controller
 
         return view('admin.shifts.show', [
             'shift'  => $shift,
-            'relief' => Caregiver::with('user')->where('status', 'active')->get()->filter->isPlaceable()
-                ->reject(fn ($c) => $c->id === $shift->assignment?->caregiver_id)->sortBy('user.name')->values(),
+            'relief' => $this->actions->reliefOptions($shift),
         ]);
     }
 
     /** Move a booked shift to another day or time. */
     public function update(Request $request, Shift $shift): RedirectResponse
     {
-        $this->refuseUnlessScheduled($shift);
-
-        $data = $this->validatedTimes($request);
-        $this->refuseClash($shift->caregiverId(), $data, $shift->id);
-
-        $shift->update($data);
-        AuditLog::record($request, 'moved', 'shift', $shift->id, "{$data['shift_date']} {$data['start_time']}–{$data['end_time']}");
-
-        return back()->with('status', 'Shift moved to ' . $shift->shift_date->format('D j M') . ', ' . $shift->timeRange() . '.');
+        return back()->with('status', $this->actions->move($request, $shift));
     }
 
     public function cancel(Request $request, Shift $shift): RedirectResponse
     {
-        $this->refuseUnlessScheduled($shift);
-
-        $data = $request->validate(['cancel_reason' => ['required', 'string', 'max:300']], [
-            'cancel_reason.required' => 'Say why: a cancelled shift with no reason is a dispute waiting to happen.',
-        ]);
-
-        $shift->update(['status' => 'cancelled', 'cancel_reason' => $data['cancel_reason']]);
-        AuditLog::record($request, 'cancelled', 'shift', $shift->id, $data['cancel_reason']);
-
-        return back()->with('status', 'Shift on ' . $shift->shift_date->format('D j M') . ' cancelled.');
+        return back()->with('status', $this->actions->cancel($request, $shift));
     }
 
     /** Send a relief caregiver for this one shift, or take the cover off again. */
     public function cover(Request $request, Shift $shift): RedirectResponse
     {
-        $this->refuseUnlessScheduled($shift);
-
-        $data = $request->validate([
-            'covered_by_id' => ['nullable', Rule::exists('caregivers', 'id')->whereNull('deleted_at')],
-        ]);
-
-        $relief = isset($data['covered_by_id']) ? Caregiver::with('user')->find($data['covered_by_id']) : null;
-
-        if ($relief) {
-            if (! $relief->isPlaceable()) {
-                throw ValidationException::withMessages(['covered_by_id' => "{$relief->user?->name} is not placeable."]);
-            }
-            $this->refuseClash($relief->id, [
-                'shift_date' => $shift->shift_date->toDateString(),
-                'start_time' => $shift->start_time,
-                'end_time'   => $shift->end_time,
-            ], $shift->id, 'covered_by_id');
-        }
-
-        $shift->update(['covered_by_id' => $relief?->id]);
-        AuditLog::record($request, $relief ? 'covered' : 'cover_removed', 'shift', $shift->id, $relief?->code);
-
-        return back()->with('status', $relief
-            ? "{$relief->user?->name} will cover this shift."
-            : 'Cover removed. The assigned caregiver is back on this shift.');
+        return back()->with('status', $this->actions->cover($request, $shift));
     }
 
-    /**
-     * The office's correction of a visit record: the phone was flat, the
-     * caregiver forgot to check out, the times were wrong. Every
-     * correction needs a reason and is audited, because these records are
-     * evidence and a silent edit would make them worthless.
-     */
+    /** Correct a visit record (flat phone, forgotten check-out): reason required, audited. */
     public function correct(Request $request, Shift $shift): RedirectResponse
     {
-        abort_if($shift->status === 'cancelled', 422, 'A cancelled shift has no visit to record.');
-
-        $data = $request->validate([
-            'check_in_at'  => ['required', 'date'],
-            'check_out_at' => ['required', 'date', 'after:check_in_at'],
-            'reason'       => ['required', 'string', 'max:300'],
-        ], ['reason.required' => 'Say why the record is being corrected.']);
-
-        $in = Carbon::parse($data['check_in_at']);
-        $out = Carbon::parse($data['check_out_at']);
-        $log = $shift->visitLog;
-        $before = $log ? ($log->check_in_at?->format('H:i') . '–' . ($log->check_out_at?->format('H:i') ?? 'open')) : 'no record';
-
-        DB::transaction(function () use ($shift, $log, $in, $out) {
-            $fields = ['check_in_at' => $in, 'check_out_at' => $out, 'minutes_worked' => (int) $in->diffInMinutes($out)];
-
-            $log ? $log->update($fields) : $shift->visitLog()->create($fields + ['caregiver_id' => $shift->caregiverId()]);
-            $shift->update(['status' => 'completed']);
-        });
-
-        AuditLog::record($request, 'visit_corrected', 'shift', $shift->id,
-            "{$before} → {$in->format('H:i')}–{$out->format('H:i')}: {$data['reason']}");
-
-        return back()->with('status', 'Visit record corrected. The change and your reason are in the audit log.');
+        return back()->with('status', $this->actions->correct($request, $shift));
     }
 
     /** Nobody came. Recorded, not deleted, because that is what families ask about. */
     public function missed(Request $request, Shift $shift): RedirectResponse
     {
-        $this->refuseUnlessScheduled($shift);
-
-        $data = $request->validate(['reason' => ['required', 'string', 'max:300']]);
-
-        $shift->update(['status' => 'missed', 'cancel_reason' => $data['reason']]);
-        AuditLog::record($request, 'marked_missed', 'shift', $shift->id, $data['reason']);
-
-        return back()->with('status', 'Shift marked as missed.');
+        return back()->with('status', $this->actions->missed($request, $shift));
     }
 
     private function validatedTimes(Request $request): array
@@ -222,15 +146,6 @@ class ShiftController extends Controller
     {
         if ($assignment->status === 'ended') {
             throw ValidationException::withMessages(['shift_date' => 'This assignment has ended. Start a new one to book more shifts.']);
-        }
-    }
-
-    private function refuseUnlessScheduled(Shift $shift): void
-    {
-        if ($shift->status !== 'scheduled') {
-            throw ValidationException::withMessages([
-                'shift_date' => "This shift is {$shift->status}, so it can no longer be changed here.",
-            ]);
         }
     }
 }

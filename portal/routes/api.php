@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\OfficeActionsController;
 use App\Http\Controllers\Api\OfficeController;
 use App\Http\Controllers\Api\ShiftController;
 use Illuminate\Support\Facades\Route;
@@ -27,12 +28,28 @@ Route::prefix('v1')->name('api.')->group(function () {
         Route::post('shifts/{shift}/check-in', [ShiftController::class, 'checkIn'])->name('shifts.check-in');
         Route::post('shifts/{shift}/check-out', [ShiftController::class, 'checkOut'])->name('shifts.check-out');
 
-        // Office overview: administrators and coordinators, read-only.
+        // Office: administrators and coordinators.
         Route::middleware('role:admin,coordinator')->prefix('office')->name('office.')->group(function () {
             Route::get('day', [OfficeController::class, 'day'])->name('day');
             Route::get('shifts/{shift}', [OfficeController::class, 'shift'])->name('shift');
             Route::get('concerns', [OfficeController::class, 'concerns'])->name('concerns');
             Route::get('concerns/{concern}', [OfficeController::class, 'concern'])->name('concern');
+
+            Route::get('week', [OfficeActionsController::class, 'week'])->name('week');
+            Route::get('shifts/{shift}/relief', [OfficeActionsController::class, 'relief'])->name('shift.relief');
+            Route::post('shifts/{shift}/move', [OfficeActionsController::class, 'move'])->name('shift.move');
+            Route::post('shifts/{shift}/cancel', [OfficeActionsController::class, 'cancel'])->name('shift.cancel');
+            Route::post('shifts/{shift}/cover', [OfficeActionsController::class, 'cover'])->name('shift.cover');
+            Route::post('shifts/{shift}/missed', [OfficeActionsController::class, 'missed'])->name('shift.missed');
+            Route::post('shifts/{shift}/correct', [OfficeActionsController::class, 'correct'])->name('shift.correct');
+
+            Route::get('staff', [OfficeActionsController::class, 'staff'])->name('staff');
+            Route::put('concerns/{concern}', [OfficeActionsController::class, 'updateConcern'])->name('concern.update');
+
+            Route::get('enquiries', [OfficeActionsController::class, 'enquiries'])->name('enquiries');
+            Route::get('enquiries/{enquiry}', [OfficeActionsController::class, 'enquiry'])->name('enquiry');
+            Route::post('enquiries/{enquiry}/status', [OfficeActionsController::class, 'enquiryStatus'])->name('enquiry.status');
+            Route::post('enquiries/{enquiry}/convert', [OfficeActionsController::class, 'convertEnquiry'])->name('enquiry.convert');
         });
     });
 });

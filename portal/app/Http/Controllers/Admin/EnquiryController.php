@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\AuditLog;
 use App\Models\Enquiry;
 use App\Models\JobApplication;
-use App\Models\Patient;
+use App\Services\OfficeActions;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -23,49 +22,20 @@ class EnquiryController extends Controller
         ]);
     }
 
-    public function updateStatus(Request $request, Enquiry $enquiry): RedirectResponse
+    public function updateStatus(Request $request, Enquiry $enquiry, OfficeActions $actions): RedirectResponse
     {
-        $data = $request->validate([
-            'status' => ['required', 'in:new,contacted,assessment_booked,converted,declined,lost'],
-        ]);
-
-        $enquiry->update($data);
-
-        return back()->with('status', "Enquiry from {$enquiry->client_name} marked {$data['status']}.");
+        return back()->with('status', $actions->enquiryStatus($request, $enquiry));
     }
 
-    /**
-     * Turn an enquiry into a client record. The enquiry keeps its own row
-     * and points at the patient, so the funnel stays auditable rather than
-     * the lead quietly disappearing on conversion.
-     */
-    public function convert(Request $request, Enquiry $enquiry): RedirectResponse
+    /** Turn an enquiry into a client record, keeping the enquiry pointing at it. */
+    public function convert(Request $request, Enquiry $enquiry, OfficeActions $actions): RedirectResponse
     {
-        if ($enquiry->patient_id) {
-            return redirect()->route('admin.patients.show', $enquiry->patient_id)
-                ->with('status', 'This enquiry was already converted.');
-        }
+        $already = (bool) $enquiry->patient_id;
+        $patient = $actions->convertEnquiry($request, $enquiry);
 
-        $patient = Patient::create([
-            'code'   => Patient::nextCode(),
-            'name'   => $enquiry->patient_name ?: $enquiry->client_name,
-            'area'   => $enquiry->patient_area,
-            'notes'  => $enquiry->needs,
-            'status' => 'assessment',
-        ]);
-
-        $enquiry->update(['status' => 'converted', 'patient_id' => $patient->id]);
-
-        AuditLog::create([
-            'user_id'      => $request->user()->id,
-            'action'       => 'created',
-            'subject_type' => 'patient',
-            'subject_id'   => $patient->id,
-            'detail'       => $patient->code . ' (converted from enquiry #' . $enquiry->id . ')',
-            'ip_address'   => $request->ip(),
-        ]);
-
-        return redirect()->route('admin.patients.edit', $patient)
-            ->with('status', "Client {$patient->code} created from the enquiry. Record consent before care begins.");
+        return $already
+            ? redirect()->route('admin.patients.show', $patient)->with('status', 'This enquiry was already converted.')
+            : redirect()->route('admin.patients.edit', $patient)
+                ->with('status', "Client {$patient->code} created from the enquiry. Record consent before care begins.");
     }
 }

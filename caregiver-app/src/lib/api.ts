@@ -117,6 +117,7 @@ export type OfficeConcern = {
   raised_by: string | null;
   raised_by_role: string | null;
   owner: string | null;
+  owner_id: number | null;
   raised_at: string;
 };
 
@@ -150,7 +151,7 @@ export class OfflineError extends Error {}
 
 export async function request<T>(
   path: string,
-  options: { method?: "GET" | "POST"; body?: unknown; token?: string | null } = {}
+  options: { method?: "GET" | "POST" | "PUT"; body?: unknown; token?: string | null } = {}
 ): Promise<T> {
   let response: Response;
   try {
@@ -177,4 +178,53 @@ export async function request<T>(
     throw new OfflineError("The office system is not responding. Try again shortly.");
   }
   throw new ApiError(response.status, data.message ?? "Something went wrong.", data.errors ?? {});
+}
+
+export type OfficeWeek = {
+  week: string;
+  days: string[];
+  shifts: OfficeShift[];
+  caregivers: { id: number; name: string | null }[];
+  clients: { id: number; name: string }[];
+};
+
+export type ReliefOption = { id: number; name: string | null; code: string; area: string | null };
+
+export type StaffMember = { id: number; name: string };
+
+export type EnquiryStatus =
+  "new" | "contacted" | "assessment_booked" | "converted" | "declined" | "lost";
+
+export type Enquiry = {
+  id: number;
+  status: EnquiryStatus;
+  client_name: string;
+  patient_name: string | null;
+  area: string | null;
+  received_at: string;
+  converted: boolean;
+};
+
+export type EnquiryDetail = Enquiry & {
+  client_phone: string;
+  client_email: string | null;
+  client_relationship: string | null;
+  patient_age: number | null;
+  patient_mobility: string | null;
+  needs: string | null;
+  schedule_wanted: string | null;
+  patient_id: number | null;
+  statuses: EnquiryStatus[];
+};
+
+/** How an enquiry's status reads on screen. */
+export function enquiryLabel(status: EnquiryStatus): string {
+  return {
+    new: "New",
+    contacted: "Contacted",
+    assessment_booked: "Assessment booked",
+    converted: "Now a client",
+    declined: "Declined",
+    lost: "Lost",
+  }[status];
 }

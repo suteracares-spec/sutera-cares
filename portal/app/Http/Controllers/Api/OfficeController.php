@@ -13,8 +13,7 @@ use Illuminate\Support\Carbon;
 /**
  * The office overview in the app, for administrators and coordinators:
  * one day across every caregiver, and the concerns waiting for someone.
- * Read-only: changes are made on the website, where they are audited
- * with reasons and checked against the scheduling rules.
+ * The views; changes go through OfficeActionsController.
  */
 class OfficeController extends Controller
 {
@@ -30,7 +29,7 @@ class OfficeController extends Controller
             ->whereDate('shift_date', $date->toDateString())
             ->orderBy('start_time')
             ->get()
-            ->map(fn (Shift $s) => $this->summary($s));
+            ->map(fn (Shift $s) => $this->shiftSummary($s));
 
         return response()->json([
             'date'   => $date->toDateString(),
@@ -53,7 +52,7 @@ class OfficeController extends Controller
         $log = $shift->visitLog;
         $patient = $shift->assignment->patient;
 
-        return response()->json($this->summary($shift) + [
+        return response()->json($this->shiftSummary($shift) + [
             'cancel_reason' => in_array($shift->status, ['cancelled', 'missed'], true) ? $shift->cancel_reason : null,
             'client_details' => [
                 'name'      => $patient->name,
@@ -102,7 +101,7 @@ class OfficeController extends Controller
         ]);
     }
 
-    private function summary(Shift $s): array
+    public function shiftSummary(Shift $s): array
     {
         $carer = $s->caregiver();
         $log = $s->visitLog;
@@ -146,6 +145,7 @@ class OfficeController extends Controller
             'raised_by' => $c->raisedBy?->name,
             'raised_by_role' => $c->raisedBy?->role === 'guardian' ? 'family' : $c->raisedBy?->role,
             'owner'     => $c->assignedTo?->name,
+            'owner_id'  => $c->assigned_to_id,
             'raised_at' => $c->created_at->toIso8601String(),
         ];
     }

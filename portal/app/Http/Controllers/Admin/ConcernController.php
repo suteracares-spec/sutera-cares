@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
 use App\Models\Concern;
 use App\Models\User;
+use App\Services\OfficeActions;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 /**
@@ -44,22 +44,8 @@ class ConcernController extends Controller
         ]);
     }
 
-    public function update(Request $request, Concern $concern): RedirectResponse
+    public function update(Request $request, Concern $concern, OfficeActions $actions): RedirectResponse
     {
-        $data = $request->validate([
-            'status'         => ['required', 'in:open,investigating,resolved,closed'],
-            'assigned_to_id' => ['nullable', Rule::exists('users', 'id')->whereIn('role', [User::ROLE_ADMIN, User::ROLE_COORDINATOR])],
-            'resolution'     => ['required_if:status,resolved,closed', 'nullable', 'string', 'max:2000'],
-        ], ['resolution.required_if' => 'Record what was done before resolving it.']);
-
-        $closing = in_array($data['status'], ['resolved', 'closed'], true);
-
-        $concern->update($data + [
-            'resolved_at' => $closing ? ($concern->resolved_at ?? now()) : null,
-        ]);
-
-        AuditLog::record($request, 'concern_updated', 'concern', $concern->id, $data['status']);
-
-        return back()->with('status', 'Concern updated.');
+        return back()->with('status', $actions->updateConcern($request, $concern));
     }
 }

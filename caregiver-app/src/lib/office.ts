@@ -5,6 +5,49 @@ import { useAuth } from "./auth";
 
 type Result<T> = { key: string; data: T | null; error: string | null };
 
+export type ActionOutcome<T> =
+  | { ok: true; data: T & { message?: string } }
+  | { ok: false; message: string; fields: Record<string, string[]> };
+
+/**
+ * Sends one office change (cancel a shift, resolve a concern…). Changes
+ * need signal: they are checked against the live schedule, so unlike a
+ * caregiver's check-in they are not queued. Returns the server's answer,
+ * or its refusal with the field it was about, for the form to show.
+ */
+export function useOfficeAction() {
+  const { token, expired } = useAuth();
+  const [busy, setBusy] = useState(false);
+
+  const run = useCallback(
+    async <T>(
+      path: string,
+      body: Record<string, unknown> = {},
+      method: "POST" | "PUT" = "POST"
+    ): Promise<ActionOutcome<T>> => {
+      setBusy(true);
+      try {
+        const data = await request<T & { message?: string }>(path, { method, body, token });
+        return { ok: true, data };
+      } catch (e) {
+        if (e instanceof ApiError && e.status === 401) {
+          await expired();
+          return { ok: false, message: "Please sign in again.", fields: {} };
+        }
+        if (e instanceof ApiError) return { ok: false, message: e.firstMessage, fields: e.fields };
+        if (e instanceof OfflineError)
+          return { ok: false, message: "No connection. Changes need signal.", fields: {} };
+        return { ok: false, message: "Something went wrong.", fields: {} };
+      } finally {
+        setBusy(false);
+      }
+    },
+    [token, expired]
+  );
+
+  return { run, busy };
+}
+
 /**
  * Loads one office API resource. The office view is read live, not
  * cached: it is for seeing the current picture, and a coordinator on a

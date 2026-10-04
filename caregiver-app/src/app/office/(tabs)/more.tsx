@@ -1,7 +1,5 @@
 import {
-  CalendarClock,
   HeartHandshake,
-  Inbox,
   Receipt,
   ScrollText,
   UserCog,
@@ -18,10 +16,8 @@ import { useAuth } from "@/lib/auth";
 
 /** Portal areas still on the website: each moves into the app in its phase. */
 const ON_WEBSITE: { icon: LucideIcon; title: string; path: string; adminOnly?: boolean }[] = [
-  { icon: CalendarClock, title: "Schedule", path: "/admin/schedule" },
   { icon: Users, title: "Clients", path: "/admin/patients" },
   { icon: HeartHandshake, title: "Caregivers", path: "/admin/caregivers" },
-  { icon: Inbox, title: "Enquiries", path: "/admin/enquiries" },
   { icon: Receipt, title: "Invoices", path: "/admin/invoices" },
   { icon: UserCog, title: "Staff", path: "/admin/staff", adminOnly: true },
   { icon: ScrollText, title: "Audit log", path: "/admin/audit", adminOnly: true },
