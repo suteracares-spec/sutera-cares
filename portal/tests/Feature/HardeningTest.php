@@ -123,6 +123,22 @@ class HardeningTest extends TestCase
         $this->get(route('admin.audit', ['subject' => 'user:' . $coord->id]))->assertOk();
     }
 
+    public function test_just_after_an_upload_the_admin_can_still_reach_the_system_page_to_apply_updates(): void
+    {
+        // New code, old database: the two-factor columns are not there yet.
+        \DB::table('migrations')->where('migration', 'like', '%two_factor_confirmation%')->delete();
+        \Illuminate\Support\Facades\Schema::table('users', function ($table) {
+            $table->dropColumn(['two_factor_confirmed_at', 'two_factor_recovery_codes']);
+        });
+
+        $admin = $this->user(User::ROLE_ADMIN, 'admin@example.test');
+        $this->signIn($admin);
+
+        $this->get(route('admin.system'))->assertOk()->assertSee('two_factor_confirmation');
+        $this->post(route('admin.system.migrate'))->assertSessionHas('status');
+        $this->assertTrue(\Illuminate\Support\Facades\Schema::hasColumn('users', 'two_factor_confirmed_at'));
+    }
+
     public function test_the_two_factor_requirement_can_be_switched_off_to_recover_access(): void
     {
         config(['portal.require_two_factor' => false]);
