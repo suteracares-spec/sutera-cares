@@ -68,7 +68,9 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    // Malaysia. Shifts are booked in local time ("08:00"), so "now" must be
+    // local too, or check-in windows and "today" are eight hours out.
+    'timezone' => env('APP_TIMEZONE', 'Asia/Kuala_Lumpur'),
 
     /*
     |--------------------------------------------------------------------------

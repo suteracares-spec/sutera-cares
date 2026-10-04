@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ApiToken;
 use App\Models\AuditLog;
 use App\Models\Patient;
 use App\Models\User;
@@ -41,10 +42,11 @@ class SignInController extends Controller
                 'status'   => $user->status === 'suspended' ? 'suspended' : 'invited',
             ])->save();
 
-            // Anyone still signed in as them is signed out.
+            // Anyone still signed in as them is signed out, phones included.
             if (config('session.driver') === 'database') {
                 DB::table(config('session.table', 'sessions'))->where('user_id', $user->id)->delete();
             }
+            ApiToken::revokeAll($user);
         });
 
         AuditLog::record($request, 'temp_password_issued', 'user', $user->id, $user->role);

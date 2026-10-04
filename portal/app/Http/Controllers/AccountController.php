@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApiToken;
 use App\Models\AuditLog;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -68,6 +69,7 @@ class AccountController extends Controller
         // password was changed because someone else had it, leaving their
         // session alive would defeat the point.
         Auth::logoutOtherDevices($request->string('password')->toString());
+        ApiToken::revokeAll($user);
 
         $this->audit($request, 'password_changed');
 
