@@ -86,13 +86,14 @@ class OfficeApiTest extends TestCase
         $this->withHeader('Authorization', "Bearer {$office}")->getJson('/api/v1/shifts')->assertForbidden();
     }
 
-    public function test_families_still_use_the_website(): void
+    public function test_families_cannot_reach_the_office(): void
     {
         User::create(['name' => 'Fam', 'email' => 'fam@example.test', 'password' => 'correct horse battery',
             'role' => User::ROLE_GUARDIAN, 'status' => 'active']);
 
-        $this->postJson('/api/v1/login', ['email' => 'fam@example.test', 'password' => 'correct horse battery'])
-            ->assertStatus(422)->assertJsonPath('errors.email.0', 'This app is for caregivers and the office. Please use the website.');
+        $token = $this->postJson('/api/v1/login', ['email' => 'fam@example.test', 'password' => 'correct horse battery'])
+            ->assertOk()->json('token');
+        $this->withHeader('Authorization', "Bearer {$token}")->getJson('/api/v1/office/day')->assertForbidden();
     }
 
     public function test_when_two_factor_is_required_office_accounts_are_kept_to_the_website(): void

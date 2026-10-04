@@ -12,6 +12,8 @@ const ROLE: Record<string, string> = {
   admin: "Administrator",
   coordinator: "Coordinator",
   caregiver: "Caregiver",
+  guardian: "Family",
+  patient: "Client",
 };
 
 /** Who is signed in, and the ways out. */

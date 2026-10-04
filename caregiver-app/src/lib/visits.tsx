@@ -14,6 +14,7 @@ import { AppState } from "react-native";
 
 import {
   ApiError,
+  isFamily,
   OfflineError,
   request,
   type Shift,
@@ -89,8 +90,8 @@ export function SessionVisitsProvider({ children }: { children: ReactNode }) {
 
 export function VisitsProvider({ children }: { children: ReactNode }) {
   const { token: authToken, profile, expired } = useAuth();
-  // Office accounts have no shifts and no visits to queue.
-  const token = profile?.user.office ? null : authToken;
+  // Only caregivers have shifts and visits to queue.
+  const token = profile?.user.office || isFamily(profile?.user.role) ? null : authToken;
   const [lists, setLists] = useState<ShiftLists | null>(null);
   const [details, setDetails] = useState<Record<number, ShiftDetail>>({});
   const [queue, setQueue] = useState<QueuedAction[]>([]);

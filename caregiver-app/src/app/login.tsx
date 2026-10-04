@@ -62,7 +62,7 @@ export default function LoginScreen(): JSX.Element {
         >
           <View className="items-center mb-8 gap-1">
             <Typography.Heading type="h2">Sutera Care Provider</Typography.Heading>
-            <Typography color="muted">For caregivers and the office</Typography>
+            <Typography color="muted">For caregivers, families and the office</Typography>
           </View>
 
           <Card>

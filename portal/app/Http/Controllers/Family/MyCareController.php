@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Family;
 
 use App\Http\Controllers\Controller;
-use App\Models\AuditLog;
-use App\Models\Concern;
-use App\Models\Shift;
+use App\Services\FamilyView;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 /**
@@ -18,18 +15,15 @@ use Illuminate\View\View;
  */
 class MyCareController extends Controller
 {
+    public function __construct(private FamilyView $family) {}
+
     public function show(Request $request): View
     {
         $patient = $request->user()->patientRecord ?? abort(403, 'No client record is linked to this account.');
 
         return view('family.my-care', [
             'patient' => $patient,
-            'coming'  => Shift::query()
-                ->whereHas('assignment', fn ($q) => $q->where('patient_id', $patient->id))
-                ->with(['assignment.caregiver.user', 'assignment.service', 'coveredBy.user'])
-                ->whereDate('shift_date', '>=', today())->whereDate('shift_date', '<=', today()->addDays(7))
-                ->whereIn('status', ['scheduled', 'in_progress'])
-                ->orderBy('shift_date')->orderBy('start_time')->get(),
+            'coming'  => $this->family->coming($patient),
         ]);
     }
 
@@ -37,18 +31,7 @@ class MyCareController extends Controller
     {
         $patient = $request->user()->patientRecord ?? abort(403);
 
-        $data = $request->validate([
-            'category' => ['required', Rule::in(array_keys(Concern::CATEGORIES))],
-            'detail'   => ['required', 'string', 'max:2000'],
-        ]);
-
-        $concern = Concern::create($data + [
-            'raised_by_id' => $request->user()->id,
-            'patient_id'   => $patient->id,
-            'status'       => 'open',
-        ]);
-
-        AuditLog::record($request, 'concern_raised', 'concern', $concern->id, "{$patient->code} by client");
+        $this->family->raiseConcern($request, $patient, false, 'client');
 
         return back()->with('status', 'Thank you. The office has your message and will be in touch.');
     }

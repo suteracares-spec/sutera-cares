@@ -2,7 +2,7 @@
   "expo": {
     "name": "Sutera Care",
     "slug": "sutera-care-caregiver",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "suteracare",
@@ -18,7 +18,7 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "org.suteracares.caregiver",
-      "versionCode": 6,
+      "versionCode": 7,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION"
@@ -47,7 +47,8 @@
           "isAndroidBackgroundLocationEnabled": false
         }
       ],
-      "./plugins/withReleaseSigning"
+      "./plugins/withReleaseSigning",
+      "expo-sharing"
     ],
     "experiments": {
       "typedRoutes": false,

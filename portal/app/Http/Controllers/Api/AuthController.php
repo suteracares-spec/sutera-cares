@@ -47,11 +47,12 @@ class AuthController extends Controller
             throw ValidationException::withMessages(['email' => 'Those details do not match our records.']);
         }
 
-        // Caregivers get their shifts; office staff get the office overview.
-        // Families and clients use the website.
+        // Caregivers get their shifts, office staff the office, families the
+        // people they look after, and clients their own visits.
         $isCaregiver = $user->role === User::ROLE_CAREGIVER && $user->caregiver;
-        if (! $isCaregiver && ! $user->isStaff()) {
-            throw ValidationException::withMessages(['email' => 'This app is for caregivers and the office. Please use the website.']);
+        $isFamily = in_array($user->role, [User::ROLE_GUARDIAN, User::ROLE_PATIENT], true);
+        if (! $isCaregiver && ! $isFamily && ! $user->isStaff()) {
+            throw ValidationException::withMessages(['email' => 'This account cannot use the app. Please use the website.']);
         }
 
         // The app does not do two-factor. While it is required for staff,

@@ -19,5 +19,7 @@ export default function Start(): JSX.Element {
   if (!token) return <Redirect href="/login" />;
   if (profile?.password_change_required) return <Redirect href="/password" />;
   if (profile?.user.office) return <Redirect href="/office" />;
+  if (profile?.user.role === "guardian") return <Redirect href="/family" />;
+  if (profile?.user.role === "patient") return <Redirect href="/my-care" />;
   return <Redirect href="/carer" />;
 }

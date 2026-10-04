@@ -17,14 +17,7 @@ class AuditController extends Controller
 {
     public function __invoke(Request $request): View
     {
-        $entries = AuditLog::query()->with('user')
-            ->when($request->integer('user'), fn ($q, $id) => $q->where('user_id', $id))
-            ->when($request->string('action')->toString(), fn ($q, $a) => $q->where('action', $a))
-            ->when($request->string('subject')->toString(), function ($q, $subject) {
-                // "patient:12" narrows to one record's history.
-                [$type, $id] = array_pad(explode(':', $subject, 2), 2, null);
-                $q->where('subject_type', $type)->when($id, fn ($q) => $q->where('subject_id', (int) $id));
-            })
+        $entries = AuditLog::query()->with('user')->filter($request)
             ->orderByDesc('id')
             ->paginate(50)->withQueryString();
 

@@ -2,10 +2,13 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\FamilyController;
+use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\OfficeActionsController;
 use App\Http\Controllers\Api\OfficeController;
 use App\Http\Controllers\Api\PlacementController;
 use App\Http\Controllers\Api\ShiftController;
+use App\Http\Controllers\Api\StaffController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +32,27 @@ Route::prefix('v1')->name('api.')->group(function () {
         Route::get('shifts/{shift}', [ShiftController::class, 'show'])->name('shifts.show');
         Route::post('shifts/{shift}/check-in', [ShiftController::class, 'checkIn'])->name('shifts.check-in');
         Route::post('shifts/{shift}/check-out', [ShiftController::class, 'checkOut'])->name('shifts.check-out');
+
+        // Families, and clients who sign in themselves.
+        Route::middleware('role:guardian')->prefix('family')->name('family.')->group(function () {
+            Route::get('clients', [FamilyController::class, 'clients'])->name('clients');
+            Route::get('clients/{patient}', [FamilyController::class, 'client'])->name('clients.show');
+            Route::post('clients/{patient}/concerns', [FamilyController::class, 'concern'])->middleware('throttle:10,1')->name('clients.concern');
+            Route::get('invoices/{invoice}/html', [FamilyController::class, 'invoiceHtml'])->name('invoices.html');
+        });
+        Route::middleware('role:patient')->prefix('my-care')->name('my-care.')->group(function () {
+            Route::get('/', [FamilyController::class, 'myCare'])->name('show');
+            Route::post('concerns', [FamilyController::class, 'myConcern'])->middleware('throttle:10,1')->name('concern');
+        });
+
+        // Office accounts and the audit log: administrators only.
+        Route::middleware('role:admin')->prefix('office')->name('office.')->group(function () {
+            Route::get('accounts', [StaffController::class, 'index'])->name('accounts');
+            Route::post('accounts', [StaffController::class, 'store'])->middleware('throttle:20,1')->name('accounts.store');
+            Route::post('accounts/{user}/status', [StaffController::class, 'status'])->name('accounts.status');
+            Route::post('accounts/{user}/reset-two-factor', [StaffController::class, 'resetTwoFactor'])->name('accounts.reset-2fa');
+            Route::get('audit', [StaffController::class, 'audit'])->name('audit');
+        });
 
         // Office: administrators and coordinators.
         Route::middleware('role:admin,coordinator')->prefix('office')->name('office.')->group(function () {
@@ -83,6 +107,18 @@ Route::prefix('v1')->name('api.')->group(function () {
             Route::post('assignments/{assignment}/end', [PlacementController::class, 'endAssignment'])->name('assignments.end');
             Route::post('assignments/{assignment}/shifts/generate', [PlacementController::class, 'generate'])->name('assignments.generate');
             Route::post('assignments/{assignment}/shifts', [PlacementController::class, 'addShift'])->name('assignments.add-shift');
+
+            Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices');
+            Route::get('invoices/prepare', [InvoiceController::class, 'prepare'])->name('invoices.prepare');
+            Route::post('invoices/generate', [InvoiceController::class, 'generate'])->name('invoices.generate');
+            Route::get('invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+            Route::get('invoices/{invoice}/html', [InvoiceController::class, 'html'])->name('invoices.html');
+            Route::post('invoices/{invoice}/lines', [InvoiceController::class, 'addLine'])->name('invoices.lines.store');
+            Route::delete('invoices/{invoice}/lines/{line}', [InvoiceController::class, 'removeLine'])->name('invoices.lines.destroy');
+            Route::post('invoices/{invoice}/issue', [InvoiceController::class, 'issue'])->name('invoices.issue');
+            Route::post('invoices/{invoice}/payments', [InvoiceController::class, 'pay'])->name('invoices.pay');
+            Route::post('invoices/{invoice}/void', [InvoiceController::class, 'void'])->name('invoices.void');
+            Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
         });
     });
 });

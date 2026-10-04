@@ -254,7 +254,7 @@ export function Field({
   required?: boolean;
   multiline?: boolean;
   placeholder?: string;
-  keyboardType?: "default" | "email-address" | "phone-pad" | "number-pad";
+  keyboardType?: "default" | "email-address" | "phone-pad" | "number-pad" | "numbers-and-punctuation";
   autoCapitalize?: "none" | "words" | "sentences";
 }) {
   return (

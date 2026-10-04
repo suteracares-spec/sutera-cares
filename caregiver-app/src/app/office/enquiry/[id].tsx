@@ -1,10 +1,9 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { MessageCircle, Phone, UserPlus } from "lucide-react-native";
 import { Button, Card, Spinner, Typography, useThemeColor } from "heroui-native";
 import { useState, type JSX } from "react";
 import { Linking, View } from "react-native";
 
-import { PORTAL_URL } from "@/components/AccountCard";
 import { ChoiceList, SubmitButton, useOutcome } from "@/components/ui/Form";
 import { Section } from "@/components/ui/List";
 import { Screen } from "@/components/ui/Screen";
@@ -100,9 +99,9 @@ export default function EnquiryScreen(): JSX.Element {
                   size="sm"
                   variant="outline"
                   className="self-start"
-                  onPress={() => Linking.openURL(`${PORTAL_URL}/admin/patients/${e.patient_id}`)}
+                  onPress={() => router.push({ pathname: "/office/client/[id]", params: { id: String(e.patient_id) } })}
                 >
-                  Open the client on the website
+                  Open the client
                 </Button>
               </Card.Body>
             </Card>

@@ -19,7 +19,7 @@ export function CredentialsCard({ creds, onDone }: { creds: Credentials; onDone:
         `Your Sutera Care sign-in:\n` +
         `Email: ${creds.email}\n` +
         `Temporary password: ${creds.password}\n\n` +
-        `Sign in at ${PORTAL_URL} (or in the Sutera Care app if you are a caregiver). ` +
+        `Sign in at ${PORTAL_URL} or in the Sutera Care app. ` +
         `You will be asked to choose your own password.`,
     });
 

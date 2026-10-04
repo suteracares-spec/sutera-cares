@@ -417,3 +417,134 @@ export type AssignmentDetail = {
   upcoming: OfficeShift[];
   recent: OfficeShift[];
 };
+
+// ---- Billing (phase 5) ----
+
+export type InvoiceStatus = "draft" | "sent" | "part_paid" | "paid" | "overdue" | "void";
+
+export type InvoiceSummary = {
+  id: number;
+  number: string;
+  client: string | null;
+  client_id: number;
+  bill_to: string | null;
+  period: string | null;
+  status: InvoiceStatus;
+  status_label: string;
+  total: number;
+  balance: number;
+  due_date: string | null;
+};
+
+export type InvoiceDetail = InvoiceSummary & {
+  bill_to_email: string | null;
+  period_start: string | null;
+  period_end: string | null;
+  issued_at: string | null;
+  subtotal: number;
+  adjustments: number;
+  amount_paid: number;
+  can_void: boolean;
+  can_pay: boolean;
+  lines: { id: number; description: string; quantity: number; rate: number; amount: number; from_shift: boolean }[];
+  payments: { id: number; amount: number; method: string; reference: string | null; paid_on: string | null; recorded_by: string | null }[];
+  methods: { value: string; label: string }[];
+};
+
+export type BillingPrepare = {
+  month: string;
+  label: string;
+  clients: { id: number; name: string | null; code: string; shifts: number; amount: number }[];
+};
+
+/** RM 1,234.50 */
+export function rm(n: number): string {
+  return `RM ${n.toLocaleString("en-MY", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+}
+
+// ---- Families and clients (phase 6) ----
+
+/** A family member or the client themselves: they see visits, not shifts to work. */
+export function isFamily(role: string | undefined): boolean {
+  return role === "guardian" || role === "patient";
+}
+
+export type FamilyVisit = {
+  id: number;
+  date: string;
+  start: string;
+  end: string;
+  caregiver: string | null;
+  service: string | null;
+  status: Shift["status"];
+  arrived: string | null;
+  left: string | null;
+  done: string[];
+  notes: string | null;
+  reason: string | null;
+};
+
+export type FamilyConcern = { id: number; date: string; category: string; open: boolean };
+
+export type ConcernCategory = { value: string; label: string };
+
+export type FamilyClient = {
+  id: number;
+  name: string;
+  can_view_notes: boolean;
+  can_view_invoices: boolean;
+  can_request_changes: boolean;
+  coming: FamilyVisit[];
+  visits: FamilyVisit[];
+  plan: { agreed_at: string | null; agreed_by: string | null; tasks: { description: string; frequency: string | null }[] } | null;
+  invoices: {
+    id: number;
+    number: string;
+    period: string | null;
+    total: number;
+    balance: number;
+    due_date: string | null;
+    status: InvoiceStatus;
+    status_label: string;
+  }[];
+  concerns: FamilyConcern[];
+  categories: ConcernCategory[];
+  bank: { bank: string | null; account_name: string | null; account_number: string } | null;
+};
+
+export type MyCare = {
+  name: string;
+  coming: FamilyVisit[];
+  concerns: FamilyConcern[];
+  categories: ConcernCategory[];
+};
+
+// ---- Staff and audit (phase 7) ----
+
+export type StaffAccount = {
+  id: number;
+  name: string;
+  email: string;
+  role: "admin" | "coordinator";
+  status: "invited" | "active" | "suspended";
+  last_login_at: string | null;
+  two_factor: boolean;
+  is_me: boolean;
+};
+
+export type AuditEntry = {
+  id: number;
+  at: string | null;
+  user: string | null;
+  action: string;
+  subject: string | null;
+  detail: string | null;
+  ip: string | null;
+};
+
+export type AuditPage = {
+  entries: AuditEntry[];
+  more: boolean;
+  users: { id: number; name: string }[];
+  actions: string[];
+};

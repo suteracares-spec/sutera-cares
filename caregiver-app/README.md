@@ -1,9 +1,22 @@
-# Sutera Care — caregiver app (Android)
+# Sutera Care — the app (Android)
 
-The caregiver's phone view of the Sutera Care Provider portal, as an app:
-today's shifts and the week ahead, check in (with location where the phone
-allows it), tick the care plan's tasks, write the visit note, flag a concern,
-check out.
+The Sutera Care Provider portal as an app. Each account opens in its own area:
+
+- **Caregivers** (`carer/`): today's shifts and the week ahead, check in (with
+  location where the phone allows it), tick the care plan's tasks, write the
+  visit note, flag a concern, check out. Works offline (below).
+- **Office** (`office/`, administrators and coordinators): the day, the
+  schedule and its fixes, concerns, enquiries, clients and care plans, family
+  links, caregivers and placements, billing (invoices are made into a PDF on
+  the phone and shared), and, for administrators, staff accounts and the
+  audit log. The app has no two-factor sign-in: while the portal requires it
+  (`PORTAL_REQUIRE_2FA`), office accounts are refused in the app.
+- **Families** (`family/`): who is coming, recent visits (notes only when the
+  office allows), the care plan's tasks, invoices when shared, and "Tell us".
+- **Clients** who sign in themselves (`my-care/`): their visits and "Tell us".
+
+The office and family screens read live and need signal; only the
+caregiver's check-in and check-out are queued.
 
 Built with **Expo** (SDK 57) and **HeroUI Native** (styled through Uniwind /
 Tailwind). It talks to the portal's API at
@@ -33,10 +46,12 @@ The sign-in token is kept in Android's encrypted keystore (SecureStore).
 
 | | |
 |---|---|
-| `src/app/` | screens (Expo Router): `login`, `password` (first sign-in), `index` (my shifts), `shift/[id]` (the visit) |
+| `src/app/` | screens (Expo Router): `login`, `password` (first sign-in), `index` (sends each role to its area), then `carer/`, `office/`, `family/`, `my-care/` |
 | `src/lib/api.ts` | the API client and its types |
 | `src/lib/auth.tsx` | sign-in state and the token |
 | `src/lib/visits.tsx` | cached shifts and the offline queue |
+| `src/lib/office.ts` | live reads and changes for the office, family and client screens |
+| `src/lib/invoicePdf.ts` | invoice to PDF to share sheet |
 | `src/components/` | shift card, sync banner |
 
 ## Running it
