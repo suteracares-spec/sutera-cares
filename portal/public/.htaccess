@@ -1,33 +1,37 @@
+DirectoryIndex index.php
+# Laravel front controller for providers.suteracares.org/portal
+# The application itself lives at /home/sutempck/portal_app, outside
+# the web root, so .env is not reachable over HTTP at all.
+
 <IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
+  <IfModule mod_negotiation.c>
+    Options -MultiViews -Indexes
+  </IfModule>
 
-    RewriteEngine On
+  RewriteEngine On
+  RewriteBase /portal/
 
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+  # Handle Authorization header
+  RewriteCond %{HTTP:Authorization} .
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Handle X-XSRF-Token Header
-    RewriteCond %{HTTP:x-xsrf-token} .
-    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+  # Redirect trailing slashes if not a folder
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} (.+)/$
+  RewriteRule ^ %1 [L,R=301]
 
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
-
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.php [L]
+  # Send everything that is not a real file to the front controller
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ index.php [L]
 </IfModule>
 
-# Caregivers' check-in records where they were (the evidence in a "was
-# anybody there on Tuesday" dispute), so the portal may ask for location;
-# the subdomain's own .htaccess blocks it everywhere. Camera and
-# microphone stay off. A directory's .htaccess overrides its parent's.
 <IfModule mod_headers.c>
-    Header set Permissions-Policy "geolocation=(self), microphone=(), camera=()"
+  # The portal shows patient records. Keep them out of caches entirely.
+  Header set Cache-Control "no-store, no-cache, must-revalidate, private"
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "DENY"
+  Header set Referrer-Policy "same-origin"
+  # Check-in may record location; camera and microphone stay off.
+  Header set Permissions-Policy "geolocation=(self), microphone=(), camera=()"
 </IfModule>
