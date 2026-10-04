@@ -20,7 +20,6 @@ import { useOffice } from "@/lib/office";
 
 /** Portal areas still on the website: each moves into the app in its phase. */
 const ON_WEBSITE: { icon: LucideIcon; title: string; path: string; adminOnly?: boolean }[] = [
-  { icon: HeartHandshake, title: "Caregivers", path: "/admin/caregivers" },
   { icon: Receipt, title: "Invoices", path: "/admin/invoices" },
   { icon: UserCog, title: "Staff", path: "/admin/staff", adminOnly: true },
   { icon: ScrollText, title: "Audit log", path: "/admin/audit", adminOnly: true },
@@ -48,6 +47,12 @@ export default function OfficeMore(): JSX.Element {
               ) : undefined
             }
             onPress={() => router.push("/office/enquiries")}
+          />
+          <Row
+            icon={HeartHandshake}
+            title="Caregivers"
+            subtitle="Vetting, details and placements"
+            onPress={() => router.push("/office/caregivers")}
             last
           />
         </ListCard>

@@ -259,11 +259,34 @@ export default function ClientScreen(): JSX.Element {
           </Section>
 
           <Section title="Caregivers and visits">
+            {c.status !== "closed" && (
+              <View className="flex-row gap-2">
+                <Button
+                  className="flex-1"
+                  size="sm"
+                  onPress={() =>
+                    router.push({ pathname: "/office/assign", params: { client: String(c.id), name: c.name ?? "" } })
+                  }
+                >
+                  Assign caregiver
+                </Button>
+                <Button
+                  className="flex-1"
+                  size="sm"
+                  variant="secondary"
+                  onPress={() =>
+                    router.push({ pathname: "/office/assign", params: { client: String(c.id), name: c.name ?? "", visit: "1" } })
+                  }
+                >
+                  Book a visit
+                </Button>
+              </View>
+            )}
             {c.assignments.length === 0 ? (
               <EmptyState
                 icon={UserRound}
                 title="Nobody assigned yet"
-                hint="Assigning caregivers comes to the app next; use the website for now."
+                hint="Assign a caregiver for ongoing care, or book a single visit such as a massage."
               />
             ) : (
               <ListCard>
@@ -284,6 +307,9 @@ export default function ClientScreen(): JSX.Element {
                         }
                         label={humanise(a.status === "active" ? "confirmed" : a.status)}
                       />
+                    }
+                    onPress={() =>
+                      router.push({ pathname: "/office/assignment/[id]", params: { id: String(a.id) } })
                     }
                     last={i === c.assignments.length - 1}
                   />

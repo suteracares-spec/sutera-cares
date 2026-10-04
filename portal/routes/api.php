@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\OfficeActionsController;
 use App\Http\Controllers\Api\OfficeController;
+use App\Http\Controllers\Api\PlacementController;
 use App\Http\Controllers\Api\ShiftController;
 use Illuminate\Support\Facades\Route;
 
@@ -68,6 +69,20 @@ Route::prefix('v1')->name('api.')->group(function () {
             Route::delete('family/{guardian}', [ClientController::class, 'removeFamily'])->name('family.remove');
             Route::post('clients/{patient}/sign-in', [ClientController::class, 'clientLogin'])->middleware('throttle:20,1')->name('clients.sign-in');
             Route::post('users/{user}/temporary-password', [ClientController::class, 'temporaryPassword'])->middleware('throttle:20,1')->name('users.temp-password');
+
+            Route::get('caregivers', [PlacementController::class, 'caregivers'])->name('caregivers');
+            Route::post('caregivers', [PlacementController::class, 'storeCaregiver'])->name('caregivers.store');
+            Route::get('caregivers/{caregiver}', [PlacementController::class, 'caregiver'])->name('caregivers.show');
+            Route::put('caregivers/{caregiver}', [PlacementController::class, 'updateCaregiver'])->name('caregivers.update');
+            Route::delete('caregivers/{caregiver}', [PlacementController::class, 'archiveCaregiver'])->name('caregivers.archive');
+
+            Route::get('placement-options', [PlacementController::class, 'options'])->name('placement-options');
+            Route::post('clients/{patient}/assignments', [PlacementController::class, 'storeAssignment'])->name('assignments.store');
+            Route::get('assignments/{assignment}', [PlacementController::class, 'assignment'])->name('assignments.show');
+            Route::put('assignments/{assignment}', [PlacementController::class, 'updateAssignment'])->name('assignments.update');
+            Route::post('assignments/{assignment}/end', [PlacementController::class, 'endAssignment'])->name('assignments.end');
+            Route::post('assignments/{assignment}/shifts/generate', [PlacementController::class, 'generate'])->name('assignments.generate');
+            Route::post('assignments/{assignment}/shifts', [PlacementController::class, 'addShift'])->name('assignments.add-shift');
         });
     });
 });

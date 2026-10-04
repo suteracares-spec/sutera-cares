@@ -339,3 +339,81 @@ export function humanise(value: string | null | undefined): string {
   const s = value.replace(/_/g, " ");
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
+
+// ---- Caregivers and placements (phase 4) ----
+
+export type CaregiverStatus = "applicant" | "vetting" | "active" | "inactive" | "left";
+
+export type CaregiverSummary = {
+  id: number;
+  code: string;
+  name: string | null;
+  area: string | null;
+  status: CaregiverStatus;
+  placeable: boolean;
+  check_expiring: boolean;
+};
+
+export type CaregiverDetail = CaregiverSummary & {
+  email: string | null;
+  phone: string | null;
+  user_id: number;
+  login_status: string | null;
+  last_login_at: string | null;
+  ic_number: string | null;
+  gender: "female" | "male" | "other" | null;
+  dob: string | null;
+  languages: string | null;
+  skills: string | null;
+  base_area: string | null;
+  has_own_transport: boolean;
+  max_travel_km: number | null;
+  hourly_rate: number | null;
+  police_check_expires_at: string | null;
+  right_to_work_verified: boolean;
+  assignments: {
+    id: number;
+    client: string | null;
+    service: string | null;
+    role: string;
+    status: string;
+    start_date: string | null;
+    end_date: string | null;
+  }[];
+};
+
+export type PlacementOptions = {
+  caregivers: {
+    id: number;
+    name: string | null;
+    code: string;
+    area: string | null;
+    gender: string | null;
+    languages: string | null;
+  }[];
+  services: {
+    id: number;
+    name: string;
+    category: string;
+    unit: string;
+    base_rate: number;
+    needs_care_plan: boolean;
+  }[];
+  client_has_care_plan: boolean;
+};
+
+export type AssignmentDetail = {
+  id: number;
+  client: { id: number; name: string | null; code: string | null };
+  caregiver: { id: number; name: string | null; code: string | null };
+  service: { name: string; unit: string } | null;
+  role: "primary" | "relief";
+  status: "proposed" | "active" | "ended";
+  one_off: boolean;
+  start_date: string | null;
+  end_date: string | null;
+  charge_rate: number | null;
+  notes: string | null;
+  upcoming: OfficeShift[];
+  recent: OfficeShift[];
+};
