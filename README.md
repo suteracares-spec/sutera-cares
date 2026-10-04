@@ -75,44 +75,62 @@ Re-run the script and re-upload after any edit; extracting again overwrites.
 Files that go up are listed at the top of `make-deploy-zip.py`. `README.md`,
 `.git/`, `.vercel/` and the script itself are deliberately excluded.
 
-### Push to deploy (cPanel Git)
+### Push to deploy
 
-The site is deployed by pushing to a git remote on the server. cPanel reads
-`.cpanel.yml` and copies the files into `public_html` on every push.
-
-There is deliberately **no Node.js** in this setup. The site is static HTML,
-CSS and SVG — there is nothing to run server-side, and putting a Node app in
-front of static files would only add something that can break.
-
-One-time setup:
-
-1. **cPanel → SSH Access → Manage SSH Keys.** Import your public key
-   (`~/.ssh/id_ed25519.pub`) and click **Manage → Authorize**. Generate a key
-   first with `ssh-keygen -t ed25519` if you don't have one.
-2. **cPanel → Git™ Version Control → Create.** Leave "Clone a Repository"
-   off, set the path to `/home/<cpaneluser>/repos/sutera-cares` and the name
-   to `sutera-cares`. Note the SSH clone URL it shows you.
-3. Add it as a remote locally. **Namecheap shared hosting uses SSH port
-   21098, not 22** — this is the usual reason the first push fails:
-
-   ```
-   git remote add cpanel ssh://<cpaneluser>@<server>.web-hosting.com:21098/home/<cpaneluser>/repos/sutera-cares
-   ```
-
-Then, to publish:
+Both sites and the portal deploy with one command:
 
 ```
 git push cpanel main
 ```
 
-cPanel runs the tasks in `.cpanel.yml` and the change is live. Check the
-result under **Git Version Control → Manage → Pull or Deploy**.
+The `cpanel` remote is a plain Git repository on the server
+(`~/repos/sutera-cares.git`). Its `post-receive` hook exports the pushed
+commit and runs [`deploy/deploy.sh`](deploy/deploy.sh), which copies:
 
-`origin` (GitHub) and `cpanel` (the live server) are separate remotes — push
-to both. Nothing deploys from GitHub on its own.
+| From the repo | To the server |
+|---|---|
+| site root files, `css/`, `js/`, `img/` | `~/public_html` (www.suteracares.org) |
+| `provider/` | `~/providers.suteracares.org` |
+| `portal/` (the application) | `~/portal_app`, outside the web root |
+| `portal/public/` | `~/providers.suteracares.org/portal` |
 
-Deployment copies files over; it never deletes. If a file is removed from the
-site, delete it from `public_html` by hand as well.
+It never touches the portal's `.env`, `vendor/`, `storage/` or `index.php`
+(which holds absolute paths for this server). The portal goes into
+maintenance mode for the few seconds of the copy, the database is backed up
+to `~/deploy-backups/auto/` (last 14 kept) whenever there is a database
+update, and then `migrate` runs. The deploy's output shows in your terminal
+and is kept in `~/deploy/deploy.log` on the server.
+
+The server has no Composer. If `portal/composer.lock` changes, the deploy
+stops after the two static sites and says so, rather than shipping code whose
+packages are not on the server.
+
+`origin` (GitHub) and `cpanel` (the live server) are separate remotes: push
+to both. Nothing deploys from GitHub on its own. Only `main` deploys; other
+branches pushed to `cpanel` are stored and nothing else.
+
+One-time setup, already done on 5 October 2026. To repeat it on a new
+machine or server:
+
+1. **SSH.** Shell access must be enabled for the cPanel account (ask the
+   host). Import the public key in **cPanel → SSH Access → Manage SSH Keys**
+   and **Authorize** it. Namecheap uses **port 21098**, not 22; this
+   machine's `~/.ssh/config` has a `cpanel-sutera` host entry for it.
+2. **Server repository:**
+   ```
+   ssh -l sutempck cpanel-sutera 'git init --bare -b main ~/repos/sutera-cares.git'
+   scp deploy/post-receive sutempck@cpanel-sutera:repos/sutera-cares.git/hooks/
+   ssh -l sutempck cpanel-sutera 'chmod +x ~/repos/sutera-cares.git/hooks/post-receive'
+   ```
+3. **Remote:** `git remote add cpanel sutempck@cpanel-sutera:repos/sutera-cares.git`
+4. **Test gate:** `cp deploy/pre-push .git/hooks/pre-push`. Pushes to `cpanel`
+   then run the portal's tests first, and a failing test stops the deploy.
+
+If the hook itself changes, copy `deploy/post-receive` up again (step 2);
+`deploy.sh` needs nothing, as it is read from each pushed commit.
+
+The zip in `make-deploy-zip.py` still works for the charity site if SSH is
+ever unavailable.
 
 ### Launch order
 

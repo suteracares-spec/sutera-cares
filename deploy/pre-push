@@ -1,0 +1,14 @@
+#!/bin/bash
+# Local hook (copy to .git/hooks/pre-push). Before anything is pushed to
+# the live server, run the portal's tests; a failure stops the push.
+# Pushes to GitHub are not held up. Skip in an emergency with --no-verify.
+
+remote="$1"
+[ "$remote" = "cpanel" ] || exit 0
+
+root="$(git rev-parse --show-toplevel)"
+echo "pre-push: running the portal tests before deploying…"
+if ! (cd "$root/portal" && php artisan test --compact); then
+    echo "pre-push: tests failed, nothing was deployed."
+    exit 1
+fi

@@ -1,0 +1,27 @@
+#!/bin/bash
+# Installed on the server as ~/repos/sutera-cares.git/hooks/post-receive.
+# A push to main is exported to a clean folder and deployed by
+# deploy/deploy.sh from that same commit. Other branches are stored but
+# not deployed. Output appears in the pusher's terminal and in
+# ~/deploy/deploy.log.
+
+REPO="$HOME/repos/sutera-cares.git"
+WORK="$HOME/deploy/checkout"
+LOG="$HOME/deploy/deploy.log"
+
+while read -r old new ref; do
+    if [ "$ref" != "refs/heads/main" ]; then
+        echo "deploy: ${ref#refs/heads/} stored, not deployed (only main deploys)"
+        continue
+    fi
+
+    rm -rf "$WORK" && mkdir -p "$WORK"
+    git --git-dir="$REPO" archive "$new" | tar -x -C "$WORK"
+
+    {
+        echo "=== $(date '+%Y-%m-%d %H:%M:%S') ${new:0:7}"
+        bash "$WORK/deploy/deploy.sh"
+        status=$?
+        [ $status -eq 0 ] || echo "deploy: FAILED (exit $status). The live sites may be partly updated; see above."
+    } 2>&1 | tee -a "$LOG"
+done

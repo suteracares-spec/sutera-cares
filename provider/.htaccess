@@ -1,0 +1,53 @@
+# =====================================================================
+# providers.suteracares.org — Sutera Care Provider
+# Marketing site at /, Laravel portal at /portal
+# =====================================================================
+
+AddDefaultCharset UTF-8
+DirectoryIndex index.html
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Never redirect AutoSSL's validation folder.
+  RewriteRule ^\.well-known/ - [L]
+
+  # Canonical https. The account already forces HTTPS at the server
+  # level; this keeps the hostname consistent behind it.
+  RewriteCond %{HTTPS} =on [OR]
+  RewriteCond %{HTTP:X-Forwarded-Proto} =https
+  RewriteRule ^ - [E=SECURE:1]
+
+  RewriteCond %{ENV:SECURE} !=1 [OR]
+  RewriteCond %{HTTP_HOST} !^providers\.suteracares\.org$ [NC]
+  RewriteRule ^ https://providers.suteracares.org%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+  AddOutputFilterByType DEFLATE application/javascript application/json
+  AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault                       "access plus 1 day"
+  ExpiresByType text/html              "access plus 0 seconds"
+  ExpiresByType image/jpeg             "access plus 30 days"
+  ExpiresByType image/svg+xml          "access plus 30 days"
+</IfModule>
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  Header set X-Content-Type-Options "nosniff"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+</IfModule>
+
+<FilesMatch "(^\.|\.(md|log|bak|orig|sql)$)">
+  Require all denied
+</FilesMatch>
