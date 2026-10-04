@@ -18,6 +18,7 @@
     <div class="stat"><div class="n">{{ $shiftsToday }}</div><div class="k">Shifts today</div></div>
     <div class="stat {{ $unstaffedToday ? 'alert' : '' }}"><div class="n">{{ $unstaffedToday }}</div><div class="k">Not checked in</div></div>
     <div class="stat {{ $newEnquiries ? 'warn' : '' }}"><div class="n">{{ $newEnquiries }}</div><div class="k">New enquiries</div></div>
+    <a class="stat {{ $unownedConcerns ? 'alert' : ($openConcerns ? 'warn' : '') }}" href="{{ route('admin.concerns.index') }}"><div class="n">{{ $openConcerns }}</div><div class="k">Open concerns</div></a>
     <a class="stat {{ $overdueInvoices ? 'alert' : '' }}" href="{{ route('admin.invoices.index', ['show' => 'overdue']) }}"><div class="n">{{ $overdueInvoices }}</div><div class="k">Overdue invoices</div></a>
   </div>
 

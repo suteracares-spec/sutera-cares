@@ -29,12 +29,17 @@
       <a href="{{ route('admin.schedule') }}" @class(['on' => request()->routeIs('admin.schedule', 'admin.assignments.*', 'admin.shifts.*')])>Schedule</a>
       <a href="{{ route('admin.caregivers.index') }}" @class(['on' => request()->routeIs('admin.caregivers.*')])>Caregivers</a>
       <a href="{{ route('admin.invoices.index') }}" @class(['on' => request()->routeIs('admin.invoices.*')])>Invoices</a>
+      <a href="{{ route('admin.concerns.index') }}" @class(['on' => request()->routeIs('admin.concerns.*')])>Concerns</a>
       <a href="{{ route('admin.enquiries.index') }}" @class(['on' => request()->routeIs('admin.enquiries.*')])>Enquiries</a>
       @if (auth()->user()->isAdmin())
         <a href="{{ route('admin.system') }}" @class(['on' => request()->routeIs('admin.system*')])>System</a>
       @endif
     @elseif (auth()->user()->role === 'caregiver')
       <a href="{{ route('caregiver.dashboard') }}" @class(['on' => request()->routeIs('caregiver.*')])>My shifts</a>
+    @elseif (auth()->user()->role === 'guardian')
+      <a href="{{ route('guardian.dashboard') }}" @class(['on' => request()->routeIs('guardian.*')])>Family</a>
+    @elseif (auth()->user()->role === 'patient')
+      <a href="{{ route('patient.dashboard') }}" @class(['on' => request()->routeIs('patient.*')])>My care</a>
     @endif
   </nav>
 

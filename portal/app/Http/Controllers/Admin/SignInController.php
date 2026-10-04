@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
+use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -53,6 +54,40 @@ class SignInController extends Controller
             'email'     => $user->email,
             'password'  => $password,
             'suspended' => $user->status === 'suspended',
+        ]);
+    }
+
+    /**
+     * Give a client their own sign-in to the small "my care" view. Most
+     * clients never need one; their family does the looking.
+     */
+    public function clientLogin(Request $request, Patient $patient): RedirectResponse
+    {
+        abort_if($patient->user_id !== null, 422, 'This client already has a sign-in.');
+
+        $data = $request->validate([
+            'email' => ['required', 'email', 'max:190', 'unique:users,email'],
+        ], ['email.unique' => 'That email already belongs to another account.']);
+
+        $password = self::generate();
+
+        $user = DB::transaction(function () use ($patient, $data, $password) {
+            $user = User::create([
+                'name'     => $patient->name,
+                'email'    => $data['email'],
+                'password' => Hash::make($password),
+                'role'     => User::ROLE_PATIENT,
+                'status'   => 'invited',
+            ]);
+            $patient->update(['user_id' => $user->id]);
+
+            return $user;
+        });
+
+        AuditLog::record($request, 'client_login_created', 'patient', $patient->id, $patient->code);
+
+        return back()->with('temp_password', [
+            'name' => $user->name, 'email' => $user->email, 'password' => $password, 'suspended' => false,
         ]);
     }
 

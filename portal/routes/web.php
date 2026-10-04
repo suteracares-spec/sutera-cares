@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AssignmentController;
 use App\Http\Controllers\Admin\CaregiverController;
+use App\Http\Controllers\Admin\ConcernController;
 use App\Http\Controllers\Admin\CarePlanController;
 use App\Http\Controllers\Admin\GuardianController;
 use App\Http\Controllers\Admin\InvoiceController;
@@ -15,6 +16,8 @@ use App\Http\Controllers\Admin\SystemController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Caregiver\VisitController;
+use App\Http\Controllers\Family\FamilyController;
+use App\Http\Controllers\Family\MyCareController;
 use App\Http\Controllers\IntakeController;
 use Illuminate\Support\Facades\Route;
 
@@ -113,6 +116,12 @@ Route::middleware(['auth', 'role:admin,coordinator'])
         Route::post('invoices/{invoice}/void', [InvoiceController::class, 'void'])->name('invoices.void');
         Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
 
+        Route::get('concerns', [ConcernController::class, 'index'])->name('concerns.index');
+        Route::get('concerns/{concern}', [ConcernController::class, 'show'])->name('concerns.show');
+        Route::put('concerns/{concern}', [ConcernController::class, 'update'])->name('concerns.update');
+
+        Route::post('patients/{patient}/sign-in', [SignInController::class, 'clientLogin'])
+            ->middleware('throttle:20,1')->name('patients.sign-in');
         Route::post('users/{user}/temporary-password', [SignInController::class, 'issue'])
             ->middleware('throttle:20,1')->name('users.temp-password');
 
@@ -142,11 +151,16 @@ Route::middleware(['auth', 'role:caregiver'])
 // ---- Family ---------------------------------------------------------
 Route::middleware(['auth', 'role:guardian'])
     ->prefix('family')->name('guardian.')->group(function () {
-        Route::view('/', 'placeholder', ['area' => 'Family'])->name('dashboard');
+        Route::get('/', [FamilyController::class, 'index'])->name('dashboard');
+        Route::get('/clients/{patient}', [FamilyController::class, 'show'])->name('clients.show');
+        Route::post('/clients/{patient}/concerns', [FamilyController::class, 'concern'])
+            ->middleware('throttle:10,1')->name('clients.concern');
+        Route::get('/invoices/{invoice}', [FamilyController::class, 'invoice'])->name('invoices.show');
     });
 
 // ---- The person receiving care --------------------------------------
 Route::middleware(['auth', 'role:patient'])
     ->prefix('my-care')->name('patient.')->group(function () {
-        Route::view('/', 'placeholder', ['area' => 'My care'])->name('dashboard');
+        Route::get('/', [MyCareController::class, 'show'])->name('dashboard');
+        Route::post('/concerns', [MyCareController::class, 'concern'])->middleware('throttle:10,1')->name('concern');
     });

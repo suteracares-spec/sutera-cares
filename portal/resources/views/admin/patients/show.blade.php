@@ -164,6 +164,24 @@
         @endif
       </div>
 
+      @if ($patient->user)
+        @include('admin.partials.issue-password', ['user' => $patient->user])
+      @else
+        <div class="panel">
+          <h2>Client's own sign-in</h2>
+          <form class="inset" method="POST" action="{{ route('admin.patients.sign-in', $patient) }}">
+            @csrf
+            <p class="muted">Optional. Gives the client a small view of who is coming and a way to raise a concern.
+              Most clients never need one; their family's sign-in is set up under Family access.</p>
+            <div class="field">
+              <label for="client_email">Client's email</label>
+              <input id="client_email" name="email" type="email" required value="{{ old('email') }}">
+            </div>
+            <button class="btn btn-quiet" type="submit">Create sign-in</button>
+          </form>
+        </div>
+      @endif
+
       <div class="panel">
         <h2 class="withaction">Invoices
           <a class="btn btn-quiet btn-small" href="{{ route('admin.invoices.index', ['client' => $patient->id, 'show' => 'all']) }}">All</a></h2>
