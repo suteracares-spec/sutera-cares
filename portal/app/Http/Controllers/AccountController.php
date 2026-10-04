@@ -75,6 +75,49 @@ class AccountController extends Controller
             'Password changed. Any other device signed in as you has been signed out.');
     }
 
+    /**
+     * First sign-in with a temporary password from the office. The person
+     * chooses their own before they can go anywhere else. No current
+     * password is asked for: they typed it seconds ago to get here.
+     */
+    public function welcome(Request $request): View|RedirectResponse
+    {
+        if ($request->user()->status !== 'invited') {
+            return redirect()->route($request->user()->homeRoute());
+        }
+
+        return view('account.welcome', ['user' => $request->user()]);
+    }
+
+    public function choosePassword(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        if ($user->status !== 'invited') {
+            return redirect()->route($user->homeRoute());
+        }
+
+        $request->validate([
+            'password' => ['required', 'confirmed', Password::min(12)->uncompromised(),
+                           // Keeping the temporary one would defeat the point.
+                           fn ($attr, $value, $fail) => Hash::check($value, $user->password)
+                               ? $fail('Choose a new password, not the temporary one.') : null],
+        ], [
+            'password.uncompromised' => 'That password appears in known data breaches. Choose another.',
+        ]);
+
+        $user->forceFill([
+            'password' => Hash::make($request->string('password')->toString()),
+            'status'   => 'active',
+        ])->save();
+
+        $request->session()->regenerate();
+        $this->audit($request, 'password_chosen');
+
+        return redirect()->route($user->homeRoute())
+            ->with('status', 'Welcome. Your password is set, and you are signed in.');
+    }
+
     private function audit(Request $request, string $action): void
     {
         AuditLog::create([

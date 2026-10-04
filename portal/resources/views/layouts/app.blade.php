@@ -28,6 +28,9 @@
       <a href="{{ route('admin.patients.index') }}" @class(['on' => request()->routeIs('admin.patients.*')])>Clients</a>
       <a href="{{ route('admin.caregivers.index') }}" @class(['on' => request()->routeIs('admin.caregivers.*')])>Caregivers</a>
       <a href="{{ route('admin.enquiries.index') }}" @class(['on' => request()->routeIs('admin.enquiries.*')])>Enquiries</a>
+      @if (auth()->user()->isAdmin())
+        <a href="{{ route('admin.system') }}" @class(['on' => request()->routeIs('admin.system*')])>System</a>
+      @endif
     @endif
   </nav>
 
@@ -46,6 +49,20 @@
 <main class="shell">
   @if (session('status'))
     <p class="flash">{{ session('status') }}</p>
+  @endif
+
+  @if ($temp = session('temp_password'))
+    {{-- Shown once. It is stored only as a hash, so it cannot be shown again. --}}
+    <div class="temp-pass">
+      <p>Temporary password for <strong>{{ $temp['name'] }}</strong> ({{ $temp['email'] }}):</p>
+      <p class="secret">{{ $temp['password'] }}</p>
+      <p class="muted">
+        Send it by WhatsApp or tell them in person, with the sign-in address
+        {{ route('login') }}. They choose their own password when they first sign in.
+        This is shown only once.
+        @if ($temp['suspended']) Their sign-in is still suspended, so it will not work until access is restored. @endif
+      </p>
+    </div>
   @endif
 
   @yield('content')

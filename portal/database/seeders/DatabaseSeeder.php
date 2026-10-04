@@ -33,9 +33,28 @@ class DatabaseSeeder extends Seeder
         }
 
         // --- First administrator ----------------------------------------
-        // Development credentials only. On the live server, create the
-        // admin through the console and pick a real password — never seed
-        // one, because seeders live in git.
+        // Seeders live in git, so a password written here is public. Locally
+        // that is fine. Anywhere else, the first administrator gets a random
+        // temporary password, printed once, and must choose their own at
+        // first sign-in; an existing administrator is never touched.
+        if (! app()->environment('local')) {
+            if (User::where('role', User::ROLE_ADMIN)->doesntExist()) {
+                $password = \App\Http\Controllers\Admin\SignInController::generate();
+
+                User::create([
+                    'name'     => 'Sutera Administrator',
+                    'email'    => 'admin@suteracares.org',
+                    'password' => Hash::make($password),
+                    'role'     => User::ROLE_ADMIN,
+                    'status'   => 'invited',
+                ]);
+
+                $this->command?->warn("First administrator: admin@suteracares.org / {$password}  (shown once)");
+            }
+
+            return;
+        }
+
         User::updateOrCreate(
             ['email' => 'admin@suteracares.org'],
             [
@@ -45,10 +64,6 @@ class DatabaseSeeder extends Seeder
                 'status'   => 'active',
             ],
         );
-
-        if (! app()->environment('local')) {
-            return;
-        }
 
         // --- Demo data, local only --------------------------------------
         // An empty dashboard shows nothing about whether it works.

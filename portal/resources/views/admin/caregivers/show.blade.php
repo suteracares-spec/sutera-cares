@@ -108,6 +108,10 @@
         </dl>
       </div>
 
+      @if ($caregiver->user)
+        @include('admin.partials.issue-password', ['user' => $caregiver->user])
+      @endif
+
       <div class="panel">
         <h2>Archive</h2>
         <div style="padding:16px 20px">

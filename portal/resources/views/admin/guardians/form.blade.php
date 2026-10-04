@@ -86,7 +86,10 @@
   </form>
 
   @if ($guardian->exists)
-    <div class="panel" style="max-width:860px;margin-top:22px">
+    <div style="max-width:860px;margin-top:22px">
+      @include('admin.partials.issue-password', ['user' => $guardian->user])
+    </div>
+    <div class="panel" style="max-width:860px">
       <h2>Remove from this client</h2>
       <form class="inset" method="POST" action="{{ route('admin.guardians.destroy', $guardian) }}"
             onsubmit="return confirm('Remove this family member from this client?')">

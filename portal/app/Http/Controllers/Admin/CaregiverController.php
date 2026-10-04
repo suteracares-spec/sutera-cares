@@ -94,8 +94,14 @@ class CaregiverController extends Controller
                 'name'  => $data['name'],
                 'email' => $data['email'],
                 'phone' => $data['phone'] ?? null,
-                // Leaving keeps the record but revokes the building.
-                'status' => in_array($data['status'], ['left', 'inactive'], true) ? 'suspended' : 'active',
+                // Leaving keeps the record but revokes the building. Someone
+                // still invited stays invited: they have not chosen their own
+                // password yet, and saving their record should not skip that.
+                'status' => match (true) {
+                    in_array($data['status'], ['left', 'inactive'], true) => 'suspended',
+                    $caregiver->user->status === 'invited'                => 'invited',
+                    default                                               => 'active',
+                },
             ]);
 
             $caregiver->update($this->staffFields($data));

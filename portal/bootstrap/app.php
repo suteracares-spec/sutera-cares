@@ -16,6 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\EnsureRole::class,
         ]);
 
+        // Signed in with a temporary password? Choose your own first.
+        $middleware->web(append: [\App\Http\Middleware\EnsurePasswordChosen::class]);
+
         // Sessions carry access to health records; treat them accordingly.
         $middleware->redirectGuestsTo(fn () => route('login'));
 

@@ -25,7 +25,9 @@ class EnsureRole
         }
 
         // A suspended account keeps its password but loses the building.
-        if (! $user->isActive()) {
+        // (An invited one is held on the choose-a-password page by
+        // EnsurePasswordChosen before it ever gets here.)
+        if ($user->status === 'suspended') {
             auth()->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

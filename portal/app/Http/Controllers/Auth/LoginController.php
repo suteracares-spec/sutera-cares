@@ -59,11 +59,14 @@ class LoginController extends Controller
 
         $user = Auth::user();
 
-        if (! $user->isActive()) {
+        // Invited accounts may sign in, with the temporary password the
+        // office gave them; middleware then holds them on the page where
+        // they choose their own. Suspended accounts may not.
+        if ($user->status === 'suspended') {
             Auth::logout();
 
             throw ValidationException::withMessages([
-                'email' => 'This account is not active yet. Contact your coordinator.',
+                'email' => 'This account is suspended. Contact your coordinator.',
             ]);
         }
 
@@ -77,6 +80,10 @@ class LoginController extends Controller
             'ip_address' => $request->ip(),
             'user_agent' => mb_substr((string) $request->userAgent(), 0, 300),
         ]);
+
+        if ($user->status === 'invited') {
+            return redirect()->route('account.welcome');
+        }
 
         return redirect()->intended(route($user->homeRoute()));
     }

@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\GuardianController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\PatientController;
+use App\Http\Controllers\Admin\SignInController;
+use App\Http\Controllers\Admin\SystemController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\IntakeController;
@@ -41,6 +43,9 @@ Route::middleware('auth')->prefix('account')->name('account.')->group(function (
     Route::put('/details', [AccountController::class, 'updateDetails'])->name('details');
     Route::put('/password', [AccountController::class, 'updatePassword'])
         ->middleware('throttle:6,1')->name('password');
+    Route::get('/welcome', [AccountController::class, 'welcome'])->name('welcome');
+    Route::post('/welcome', [AccountController::class, 'choosePassword'])
+        ->middleware('throttle:6,1')->name('choose-password');
 });
 
 // ---- Public intake --------------------------------------------------
@@ -74,9 +79,19 @@ Route::middleware(['auth', 'role:admin,coordinator'])
             ->parameters(['family' => 'guardian'])
             ->names('guardians');
 
+        Route::post('users/{user}/temporary-password', [SignInController::class, 'issue'])
+            ->middleware('throttle:20,1')->name('users.temp-password');
+
         Route::get('enquiries', [EnquiryController::class, 'index'])->name('enquiries.index');
         Route::patch('enquiries/{enquiry}/status', [EnquiryController::class, 'updateStatus'])->name('enquiries.status');
         Route::post('enquiries/{enquiry}/convert', [EnquiryController::class, 'convert'])->name('enquiries.convert');
+    });
+
+// ---- Administrators only --------------------------------------------
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin/system')->name('admin.')->group(function () {
+        Route::get('/', [SystemController::class, 'index'])->name('system');
+        Route::post('/migrate', [SystemController::class, 'migrate'])->name('system.migrate');
     });
 
 // ---- Caregiver, on a phone, in someone's home -----------------------
