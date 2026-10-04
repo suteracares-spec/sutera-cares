@@ -19,6 +19,11 @@ return Application::configure(basePath: dirname(__DIR__))
         // Sessions carry access to health records; treat them accordingly.
         $middleware->redirectGuestsTo(fn () => route('login'));
 
+        // A signed-in user opening the sign-in page goes to their own area.
+        // Laravel's default is '/', which redirects back to the sign-in
+        // page: an endless loop for anyone who is already signed in.
+        $middleware->redirectUsersTo(fn (Request $request) => route($request->user()->homeRoute()));
+
         // The two website forms post from the static marketing site, which is
         // a different origin and cannot carry a session CSRF token. Exempting
         // them costs nothing real: CSRF defends against an attacker making an

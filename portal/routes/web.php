@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\CaregiverController;
+use App\Http\Controllers\Admin\CarePlanController;
+use App\Http\Controllers\Admin\GuardianController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\PatientController;
@@ -21,7 +23,9 @@ use Illuminate\Support\Facades\Route;
 // Named route, not a literal path. The portal is served from a
 // subdirectory (/portal), and a literal '/login' would send visitors to
 // the site root, where no such page exists.
-Route::get('/', fn () => redirect()->route('login'));
+Route::get('/', fn () => auth()->check()
+    ? redirect()->route(auth()->user()->homeRoute())
+    : redirect()->route('login'));
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [LoginController::class, 'show'])->name('login');
@@ -54,6 +58,21 @@ Route::middleware(['auth', 'role:admin,coordinator'])
 
         Route::resource('patients', PatientController::class);
         Route::resource('caregivers', CaregiverController::class);
+
+        // Care plans and family members belong to a client. Shallow, so a
+        // plan or a family link is addressed by its own id once it exists.
+        Route::post('patients/{patient}/care-plans', [CarePlanController::class, 'store'])->name('care-plans.store');
+        Route::resource('care-plans', CarePlanController::class)
+            ->only(['show', 'edit', 'update', 'destroy'])
+            ->parameters(['care-plans' => 'carePlan']);
+        Route::post('care-plans/{carePlan}/activate', [CarePlanController::class, 'activate'])->name('care-plans.activate');
+
+        Route::get('patients/{patient}/family/create', [GuardianController::class, 'create'])->name('guardians.create');
+        Route::post('patients/{patient}/family', [GuardianController::class, 'store'])->name('guardians.store');
+        Route::resource('family', GuardianController::class)
+            ->only(['edit', 'update', 'destroy'])
+            ->parameters(['family' => 'guardian'])
+            ->names('guardians');
 
         Route::get('enquiries', [EnquiryController::class, 'index'])->name('enquiries.index');
         Route::patch('enquiries/{enquiry}/status', [EnquiryController::class, 'updateStatus'])->name('enquiries.status');
