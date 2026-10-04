@@ -179,6 +179,20 @@ class DatabaseSeeder extends Seeder
         app(\App\Services\Scheduler::class)->generate($placement, [1, 2, 3, 4, 5], '08:00', '13:00',
             now()->subWeeks(4)->startOfWeek()->toDateString(), now()->addWeeks(4)->toDateString());
 
+        // Past mornings happened: checked in and out, tasks done, a note.
+        $notes = ['Cheerful, ate all her porridge.', 'Tired today, slept after lunch.', 'Asked about her grandson. Good appetite.'];
+        foreach ($placement->shifts()->whereDate('shift_date', '<', today())->get() as $i => $shift) {
+            $shift->visitLog()->create([
+                'caregiver_id'    => $siti->id,
+                'check_in_at'     => $shift->startsAt()->addMinutes(random_int(-5, 10)),
+                'check_out_at'    => $shift->endsAt()->addMinutes(random_int(-5, 5)),
+                'minutes_worked'  => 300,
+                'tasks_completed' => ['Bed bath and change of clothes', 'Remind and record morning medication'],
+                'notes'           => $notes[$i % count($notes)],
+            ]);
+            $shift->update(['status' => 'completed']);
+        }
+
         $tan = Patient::where('name', 'like', 'Mr Tan%')->first();
         $massage = $tan->assignments()->create([
             'caregiver_id' => Caregiver::where('base_area', 'Petaling Jaya')->value('id'),

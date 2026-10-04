@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AssignmentController;
 use App\Http\Controllers\Admin\CaregiverController;
 use App\Http\Controllers\Admin\CarePlanController;
 use App\Http\Controllers\Admin\GuardianController;
+use App\Http\Controllers\Admin\InvoiceController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\PatientController;
@@ -98,6 +99,19 @@ Route::middleware(['auth', 'role:admin,coordinator'])
         Route::post('shifts/{shift}/cover', [ShiftController::class, 'cover'])->name('shifts.cover');
         Route::post('shifts/{shift}/correct', [ShiftController::class, 'correct'])->name('shifts.correct');
         Route::post('shifts/{shift}/missed', [ShiftController::class, 'missed'])->name('shifts.missed');
+
+        // Billing: invoices from completed shifts, payments recorded by hand.
+        Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+        Route::get('invoices/prepare', [InvoiceController::class, 'prepare'])->name('invoices.prepare');
+        Route::post('invoices/generate', [InvoiceController::class, 'generate'])->name('invoices.generate');
+        Route::get('invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+        Route::get('invoices/{invoice}/print', [InvoiceController::class, 'print'])->name('invoices.print');
+        Route::post('invoices/{invoice}/lines', [InvoiceController::class, 'addLine'])->name('invoices.lines.store');
+        Route::delete('invoices/{invoice}/lines/{line}', [InvoiceController::class, 'removeLine'])->name('invoices.lines.destroy');
+        Route::post('invoices/{invoice}/issue', [InvoiceController::class, 'issue'])->name('invoices.issue');
+        Route::post('invoices/{invoice}/payments', [InvoiceController::class, 'pay'])->name('invoices.pay');
+        Route::post('invoices/{invoice}/void', [InvoiceController::class, 'void'])->name('invoices.void');
+        Route::delete('invoices/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
 
         Route::post('users/{user}/temporary-password', [SignInController::class, 'issue'])
             ->middleware('throttle:20,1')->name('users.temp-password');

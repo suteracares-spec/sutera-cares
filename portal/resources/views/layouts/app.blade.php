@@ -28,6 +28,7 @@
       <a href="{{ route('admin.patients.index') }}" @class(['on' => request()->routeIs('admin.patients.*')])>Clients</a>
       <a href="{{ route('admin.schedule') }}" @class(['on' => request()->routeIs('admin.schedule', 'admin.assignments.*', 'admin.shifts.*')])>Schedule</a>
       <a href="{{ route('admin.caregivers.index') }}" @class(['on' => request()->routeIs('admin.caregivers.*')])>Caregivers</a>
+      <a href="{{ route('admin.invoices.index') }}" @class(['on' => request()->routeIs('admin.invoices.*')])>Invoices</a>
       <a href="{{ route('admin.enquiries.index') }}" @class(['on' => request()->routeIs('admin.enquiries.*')])>Enquiries</a>
       @if (auth()->user()->isAdmin())
         <a href="{{ route('admin.system') }}" @class(['on' => request()->routeIs('admin.system*')])>System</a>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Caregiver;
 use App\Models\Enquiry;
+use App\Models\Invoice;
 use App\Models\Patient;
 use App\Models\Shift;
 use Illuminate\View\View;
@@ -20,6 +21,7 @@ class DashboardController extends Controller
             'inAssessment'    => Patient::where('status', 'assessment')->count(),
             'activeCaregivers' => Caregiver::where('status', 'active')->count(),
             'newEnquiries'    => Enquiry::where('status', 'new')->count(),
+            'overdueInvoices' => Invoice::overdue()->count(),
 
             'shiftsToday'     => Shift::whereDate('shift_date', today())->count(),
             'unstaffedToday'  => Shift::whereDate('shift_date', today())

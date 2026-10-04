@@ -165,6 +165,20 @@
       </div>
 
       <div class="panel">
+        <h2 class="withaction">Invoices
+          <a class="btn btn-quiet btn-small" href="{{ route('admin.invoices.index', ['client' => $patient->id, 'show' => 'all']) }}">All</a></h2>
+        <form class="inset" method="POST" action="{{ route('admin.invoices.generate') }}">
+          @csrf
+          <input type="hidden" name="client" value="{{ $patient->id }}">
+          <div class="field">
+            <label for="bill_month">Bill a month</label>
+            <input id="bill_month" type="month" name="month" value="{{ today()->subMonthNoOverflow()->format('Y-m') }}">
+          </div>
+          <button class="btn btn-quiet" type="submit">Draft invoice</button>
+        </form>
+      </div>
+
+      <div class="panel">
         <h2>Archive</h2>
         <div style="padding:16px 20px">
           <p style="margin:0 0 12px;color:var(--ink-soft);font-size:14px">
