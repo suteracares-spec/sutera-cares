@@ -58,8 +58,32 @@ If `npm install` fails with `EALLOWSCRIPTS`, a global `allow-scripts` setting
 in `~/.npmrc` is the cause; run it with `--userconfig` pointing at an empty
 file.
 
-## Release APK
+## Building the APK
 
-See "Building the APK" below once the signing key exists. The key
-(`*.keystore`) is never committed: lose it and installed copies can no longer
-be updated in place.
+```
+npx expo prebuild --platform android
+cd android
+./gradlew assembleRelease
+```
+
+The APK lands in `android/app/build/outputs/apk/release/app-release.apk`.
+It talks to the live portal: make sure `EXPO_PUBLIC_API_URL` is **not** set.
+
+Before each new version, raise `android.versionCode` (and `version`) in
+`app.json`; Android refuses to install an update with the same or a lower
+versionCode.
+
+### The signing key
+
+Release builds are signed by `plugins/withReleaseSigning.js`, which reads
+`~/.sutera-keys/keystore.properties` (or the file named in
+`SUTERA_KEYSTORE_PROPERTIES`). That file and the keystore it points at live
+outside the repository and are never committed.
+
+**Back up `~/.sutera-keys/`.** Android only installs an update over an
+existing copy if it is signed with the same key. Lose the key and every
+caregiver must uninstall and reinstall, losing anything not yet sent. When the
+app moves to Google Play, this same key becomes the upload key.
+
+With no properties file, release builds fall back to the debug key: fine for
+a test, never for copies given to caregivers.

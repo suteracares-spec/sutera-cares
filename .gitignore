@@ -6,3 +6,5 @@ Thumbs.db
 
 suteracares-deploy.zip
 portal-update-*.zip
+# Built Android apps (sent to testers, never committed)
+*.apk

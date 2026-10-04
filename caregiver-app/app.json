@@ -46,7 +46,8 @@
           "locationWhenInUsePermission": "Sutera Care records where you are when you check in to a visit, and only then.",
           "isAndroidBackgroundLocationEnabled": false
         }
-      ]
+      ],
+      "./plugins/withReleaseSigning"
     ],
     "experiments": {
       "typedRoutes": true,
