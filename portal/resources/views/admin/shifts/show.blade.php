@@ -23,8 +23,8 @@
     </div>
   @endif
 
-  @if ($shift->status === 'cancelled')
-    <div class="notice">Cancelled: {{ $shift->cancel_reason }}</div>
+  @if (in_array($shift->status, ['cancelled', 'missed'], true))
+    <div class="notice">{{ ucfirst($shift->status) }}: {{ $shift->cancel_reason }}</div>
   @endif
 
   <div class="cols">
@@ -71,6 +71,47 @@
     </div>
 
     <div>
+      @if ($shift->status !== 'cancelled')
+        <div class="panel">
+          <h2>{{ $log ? 'Correct the visit record' : 'Record the visit by hand' }}</h2>
+          <form class="inset" method="POST" action="{{ route('admin.shifts.correct', $shift) }}">
+            @csrf
+            <p class="muted">For when the phone failed or someone forgot to check out. The old times and your reason are kept in the audit log.</p>
+            <div class="grid2">
+              <div class="field">
+                <label for="c_in">Arrived *</label>
+                <input id="c_in" name="check_in_at" type="datetime-local" required
+                       value="{{ ($log?->check_in_at ?? $shift->startsAt())->format('Y-m-d\TH:i') }}">
+              </div>
+              <div class="field">
+                <label for="c_out">Left *</label>
+                <input id="c_out" name="check_out_at" type="datetime-local" required
+                       value="{{ ($log?->check_out_at ?? $shift->endsAt())->format('Y-m-d\TH:i') }}">
+              </div>
+            </div>
+            <div class="field">
+              <label for="c_reason">Why *</label>
+              <input id="c_reason" name="reason" required maxlength="300" placeholder="e.g. Phone battery died; confirmed with the family">
+            </div>
+            <button class="btn btn-quiet" type="submit">Save record</button>
+          </form>
+        </div>
+      @endif
+
+      @if ($shift->status === 'scheduled' && $shift->endsAt()->isPast())
+        <div class="panel">
+          <h2>Nobody came</h2>
+          <form class="inset" method="POST" action="{{ route('admin.shifts.missed', $shift) }}">
+            @csrf
+            <div class="field">
+              <label for="missed_reason">What happened *</label>
+              <input id="missed_reason" name="reason" required maxlength="300" placeholder="e.g. Caregiver ill, no relief found">
+            </div>
+            <button class="btn btn-danger" type="submit">Mark as missed</button>
+          </form>
+        </div>
+      @endif
+
       @if ($shift->status === 'scheduled')
         <div class="panel">
           <h2>Relief cover</h2>

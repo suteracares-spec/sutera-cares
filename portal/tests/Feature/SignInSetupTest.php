@@ -41,6 +41,7 @@ class SignInSetupTest extends TestCase
     {
         $coordinator = $this->user(User::ROLE_COORDINATOR);
         $carer = $this->user(User::ROLE_CAREGIVER, 'invited');
+        \App\Models\Caregiver::create(['user_id' => $carer->id, 'code' => 'CG-001', 'status' => 'active']);
 
         $temp = $this->issue($coordinator, $carer);
         $this->assertMatchesRegularExpression('/^[a-z2-9]{4}-[a-z2-9]{4}-[a-z2-9]{4}$/', $temp);

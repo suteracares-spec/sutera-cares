@@ -32,6 +32,8 @@
       @if (auth()->user()->isAdmin())
         <a href="{{ route('admin.system') }}" @class(['on' => request()->routeIs('admin.system*')])>System</a>
       @endif
+    @elseif (auth()->user()->role === 'caregiver')
+      <a href="{{ route('caregiver.dashboard') }}" @class(['on' => request()->routeIs('caregiver.*')])>My shifts</a>
     @endif
   </nav>
 

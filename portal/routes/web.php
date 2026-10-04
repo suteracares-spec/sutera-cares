@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\SignInController;
 use App\Http\Controllers\Admin\SystemController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Caregiver\VisitController;
 use App\Http\Controllers\IntakeController;
 use Illuminate\Support\Facades\Route;
 
@@ -95,6 +96,8 @@ Route::middleware(['auth', 'role:admin,coordinator'])
         Route::put('shifts/{shift}', [ShiftController::class, 'update'])->name('shifts.update');
         Route::post('shifts/{shift}/cancel', [ShiftController::class, 'cancel'])->name('shifts.cancel');
         Route::post('shifts/{shift}/cover', [ShiftController::class, 'cover'])->name('shifts.cover');
+        Route::post('shifts/{shift}/correct', [ShiftController::class, 'correct'])->name('shifts.correct');
+        Route::post('shifts/{shift}/missed', [ShiftController::class, 'missed'])->name('shifts.missed');
 
         Route::post('users/{user}/temporary-password', [SignInController::class, 'issue'])
             ->middleware('throttle:20,1')->name('users.temp-password');
@@ -114,7 +117,12 @@ Route::middleware(['auth', 'role:admin'])
 // ---- Caregiver, on a phone, in someone's home -----------------------
 Route::middleware(['auth', 'role:caregiver'])
     ->prefix('caregiver')->name('caregiver.')->group(function () {
-        Route::view('/', 'placeholder', ['area' => 'Caregiver'])->name('dashboard');
+        Route::get('/', [VisitController::class, 'index'])->name('dashboard');
+        Route::get('/shifts/{shift}', [VisitController::class, 'show'])->name('shifts.show');
+        Route::post('/shifts/{shift}/check-in', [VisitController::class, 'checkIn'])
+            ->middleware('throttle:20,1')->name('shifts.check-in');
+        Route::post('/shifts/{shift}/check-out', [VisitController::class, 'checkOut'])
+            ->middleware('throttle:20,1')->name('shifts.check-out');
     });
 
 // ---- Family ---------------------------------------------------------
