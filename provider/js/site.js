@@ -7,31 +7,41 @@
   'use strict';
 
   /* ---------------------------------------------------------
-     The care line, written once. Fill in CARE_LINE with the
-     full international number, digits only (e.g. '60123456789')
-     and every phone link plus the WhatsApp button switch on.
-     While it is empty, the placeholder text stays and the
-     WhatsApp button stays hidden.
+     WhatsApp. The care line number is written into the HTML
+     (tel: and wa.me links) so it works without JavaScript; to
+     change it, search the provider/ folder for 60189422745.
+     Here we only add a greeting, in the language the visitor is
+     reading, so the office knows what the chat is about.
+     data-wa="job" marks links from the careers section.
      --------------------------------------------------------- */
-  var CARE_LINE = '';
+  var CARE_LINE = '60189422745';
 
-  function pretty(digits) {
-    // 60123456789 -> +60 12-345 6789 ; 601123456789 -> +60 11-2345 6789
-    var m = /^60(1\d)(\d{3,4})(\d{4})$/.exec(digits);
-    return m ? '+60 ' + m[1] + '-' + m[2] + ' ' + m[3] : '+' + digits;
+  var GREETING = {
+    care: {
+      en: 'Hi Sutera Care, I would like to ask about home care.',
+      ms: 'Hai Sutera Care, saya ingin bertanya tentang penjagaan di rumah.',
+      zh: '您好 Sutera Care，我想咨询居家护理服务。'
+    },
+    job: {
+      en: 'Hi Sutera Care, I would like to ask about working as a caregiver.',
+      ms: 'Hai Sutera Care, saya ingin bertanya tentang kerja sebagai penjaga.',
+      zh: '您好 Sutera Care，我想咨询看护员的工作。'
+    }
+  };
+
+  function currentLang() {
+    var l = (document.documentElement.getAttribute('lang') || 'en').slice(0, 2);
+    return l === 'ms' || l === 'zh' ? l : 'en';
   }
 
-  function wireCareLine() {
-    if (!/^\d{8,15}$/.test(CARE_LINE)) return;
-    var shown = pretty(CARE_LINE);
-    each('.js-careline', function (el) {
-      var text = el.querySelector('.js-careline-text') || el;
-      text.textContent = shown;
-      if (el.tagName === 'A') el.href = 'tel:+' + CARE_LINE;
-    });
-    each('.js-whatsapp', function (el) {
-      el.href = 'https://wa.me/' + CARE_LINE;
-      el.hidden = false;
+  /* Delegated, because the language switcher rewrites some links. */
+  function wireWhatsApp() {
+    each('.js-whatsapp[hidden]', function (el) { el.hidden = false; });
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest ? e.target.closest('.js-whatsapp') : null;
+      if (!link) return;
+      var kind = GREETING[link.getAttribute('data-wa')] ? link.getAttribute('data-wa') : 'care';
+      link.href = 'https://wa.me/' + CARE_LINE + '?text=' + encodeURIComponent(GREETING[kind][currentLang()]);
     });
   }
 
@@ -85,7 +95,7 @@
   }
 
   function init() {
-    wireCareLine();
+    wireWhatsApp();
     wireMenu();
     showSent();
     each('.js-year', function (el) { el.textContent = new Date().getFullYear(); });

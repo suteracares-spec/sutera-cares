@@ -30,6 +30,7 @@
   "logo": "https://providers.suteracares.org/img/favicon.svg",
   "image": "https://providers.suteracares.org/img/care-at-home.jpg",
   "email": "care@suteracares.org",
+  "telephone": "+60189422745",
   "description": "Trained, vetted non-medical caregivers for elderly and home care in the Klang Valley: daily personal care, mobility support, appointment escort, and massage and wellness visits.",
   "address": { "@type": "PostalAddress", "addressLocality": "Kuala Lumpur", "addressCountry": "MY" },
   "areaServed": [
@@ -63,9 +64,9 @@
         <button type="button" data-lang="ms" lang="ms" aria-pressed="false">BM</button>
         <button type="button" data-lang="zh" lang="zh-Hans" aria-pressed="false">中文</button>
       </div>
-      <a class="hotline js-careline" href="#contact">
+      <a class="hotline" href="tel:+60189422745">
         <span class="hotline-label" data-i18n="header.span3">Care line · 8am–10pm daily</span>
-        <span class="hotline-number js-careline-text">+60 1X-XXX XXXX</span>
+        <span class="hotline-number">+60 18-942 2745</span>
       </a>
       <a class="btn btn-login" href="/portal/">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -106,6 +107,7 @@
           <a class="btn btn-primary btn-lg" href="#quote" data-i18n="hero.a1">Get a quote</a>
           <a class="btn btn-ghost btn-lg" href="#services" data-i18n="hero.a2">See what caregivers do</a>
         </div>
+        <p class="hero-wa"><a class="js-whatsapp" href="https://wa.me/60189422745"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3.1 29l6.5-1.9c1.9 1 4.1 1.6 6.4 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4-.6-5.7-1.6l-.4-.2-3.9 1.1 1.1-3.7-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.8C5.1 9.9 10 5.2 16 5.2s10.9 4.7 10.9 10.6S22 26.4 16 26.4zm6-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.7s1.2 3.2 1.4 3.4c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.6.2 2.2.1.7-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg><span data-i18n="hero.wa">Or WhatsApp us now</span></a></p>
         <p class="hero-note" data-i18n="hero.p3">Looking for caregiver work? <a href="#careers">See caregiver jobs&nbsp;→</a></p>
       </div>
       <figure class="hero-photo">
@@ -280,11 +282,11 @@
   <section class="section" id="team">
     <div class="container">
       <h2 data-i18n="team.h21">Meet our caregivers</h2>
-      <p class="section-lead" data-i18n="team.p1">Families want to know who is coming through the door. Every caregiver below has been interviewed in person and has passed reference and police record checks — and you meet yours before care is confirmed.</p>
+      <p class="section-lead" data-i18n="team.p1">Families want to know who is coming through the door. Every caregiver we place has been interviewed in person and has passed reference and police record checks — and you meet yours before care is confirmed.</p>
 
       <!--
-        To publish a caregiver, replace one placeholder card with a filled-in
-        card like this (photo goes in img/team/, square, at least 320x320).
+        To publish a real caregiver, replace one example card (and remove the
+        example-note paragraph once none are left) with a card like this (photo goes in img/team/, square, at least 320x320).
         Only publish a profile with the caregiver's written consent, and never
         include their surname, IC number or home address.
 
@@ -305,44 +307,53 @@
           <p class="profile-bio">"Short quote from the caregiver in their own words: why they do this work."</p>
         </article>
       -->
-      <div class="team">
-        <article class="profile is-placeholder">
-          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
-          <p class="profile-role" data-i18n="team.p2">Elderly care</p>
-          <h3 class="profile-name" data-i18n="team.h31">Profile coming soon</h3>
-          <p class="profile-bio" data-i18n="team.p3">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
+      <div class="team team-4">
+        <article class="profile is-example">
+          <span class="example-badge" data-i18n="team.badge">Example profile</span>
+          <div class="profile-photo"><img src="img/team/example-bilal.svg" width="160" height="160" loading="lazy" alt="Illustration: Pakistani man in his twenties with short dark hair and a beard"></div>
+          <h3 class="profile-name">Bilal</h3>
+          <p class="profile-role" data-i18n="team.bilal.role">Caregiver · Elderly care &amp; mobility</p>
+          <ul class="profile-facts">
+            <li><span data-i18n="team.exp">Experience</span><b data-i18n="team.bilal.exp">3 years</b></li>
+            <li><span data-i18n="team.lang">Languages</span><b data-i18n="team.bilal.langs">English, Urdu, Bahasa Malaysia</b></li>
+          </ul>
+          <p class="profile-quote" data-i18n="team.bilal.quote">“I enjoy the small wins — like helping a grandfather walk out to his garden again after weeks in bed.”</p>
         </article>
-        <article class="profile is-placeholder">
-          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
-          <p class="profile-role" data-i18n="team.p4">Live-in care</p>
-          <h3 class="profile-name" data-i18n="team.h32">Profile coming soon</h3>
-          <p class="profile-bio" data-i18n="team.p5">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
+        <article class="profile is-example">
+          <span class="example-badge" data-i18n="team.badge">Example profile</span>
+          <div class="profile-photo"><img src="img/team/example-maricel.svg" width="160" height="160" loading="lazy" alt="Illustration: Filipino woman with long straight black hair"></div>
+          <h3 class="profile-name">Maricel</h3>
+          <p class="profile-role" data-i18n="team.maricel.role">Live-in caregiver</p>
+          <ul class="profile-facts">
+            <li><span data-i18n="team.exp">Experience</span><b data-i18n="team.maricel.exp">8 years</b></li>
+            <li><span data-i18n="team.lang">Languages</span><b data-i18n="team.maricel.langs">English, Tagalog, Bahasa Malaysia</b></li>
+          </ul>
+          <p class="profile-quote" data-i18n="team.maricel.quote">“Living in, you become part of the family’s routine. I like knowing they can finally sleep through the night.”</p>
         </article>
-        <article class="profile is-placeholder">
-          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
-          <p class="profile-role" data-i18n="team.p6">Dementia care</p>
-          <h3 class="profile-name" data-i18n="team.h33">Profile coming soon</h3>
-          <p class="profile-bio" data-i18n="team.p7">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
+        <article class="profile is-example">
+          <span class="example-badge" data-i18n="team.badge">Example profile</span>
+          <div class="profile-photo"><img src="img/team/example-joy.svg" width="160" height="160" loading="lazy" alt="Illustration: Filipino woman with a chin-length bob and a fringe"></div>
+          <h3 class="profile-name">Joy</h3>
+          <p class="profile-role" data-i18n="team.joy.role">Caregiver · Dementia care</p>
+          <ul class="profile-facts">
+            <li><span data-i18n="team.exp">Experience</span><b data-i18n="team.joy.exp">5 years</b></li>
+            <li><span data-i18n="team.lang">Languages</span><b data-i18n="team.joy.langs">English, Tagalog</b></li>
+          </ul>
+          <p class="profile-quote" data-i18n="team.joy.quote">“With dementia, patience is everything. The same question deserves a kind answer every single time.”</p>
         </article>
-        <article class="profile is-placeholder">
-          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
-          <p class="profile-role" data-i18n="team.p8">Home from hospital</p>
-          <h3 class="profile-name" data-i18n="team.h34">Profile coming soon</h3>
-          <p class="profile-bio" data-i18n="team.p9">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
-        </article>
-        <article class="profile is-placeholder">
-          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
-          <p class="profile-role" data-i18n="team.p10">Massage &amp; wellness</p>
-          <h3 class="profile-name" data-i18n="team.h35">Profile coming soon</h3>
-          <p class="profile-bio" data-i18n="team.p11">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
-        </article>
-        <article class="profile is-placeholder">
-          <div class="profile-photo"><svg viewBox="0 0 80 80" aria-hidden="true"><circle cx="40" cy="31" r="14" fill="none" stroke="currentColor" stroke-width="4"/><path d="M14 72 C 14 55 26 48 40 48 C 54 48 66 55 66 72" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg></div>
-          <p class="profile-role" data-i18n="team.p12">Care coordinator</p>
-          <h3 class="profile-name" data-i18n="team.h36">Profile coming soon</h3>
-          <p class="profile-bio" data-i18n="team.p13">We're adding introductions from our team. Ask your coordinator about the caregivers available in your area.</p>
+        <article class="profile is-example">
+          <span class="example-badge" data-i18n="team.badge">Example profile</span>
+          <div class="profile-photo"><img src="img/team/example-priya.svg" width="160" height="160" loading="lazy" alt="Illustration: Indian woman with her hair pulled back and small gold earrings"></div>
+          <h3 class="profile-name">Priya</h3>
+          <p class="profile-role" data-i18n="team.priya.role">Massage &amp; wellness · Home care</p>
+          <ul class="profile-facts">
+            <li><span data-i18n="team.exp">Experience</span><b data-i18n="team.priya.exp">6 years</b></li>
+            <li><span data-i18n="team.lang">Languages</span><b data-i18n="team.priya.langs">Tamil, English, Bahasa Malaysia</b></li>
+          </ul>
+          <p class="profile-quote" data-i18n="team.priya.quote">“A gentle massage helps bed-bound clients feel cared for, not just looked after.”</p>
         </article>
       </div>
+      <p class="example-note" data-i18n="team.note"><strong>These are example profiles with illustrated pictures</strong>, showing how caregiver introductions will look. Real profiles, shared with each caregiver’s consent, are coming soon.</p>
     </div>
   </section>
 
@@ -459,7 +470,7 @@
             <li data-i18n="quote.li3"><strong>Itemised quote</strong>Hours, level of assistance and any surcharges, shown line by line.</li>
             <li data-i18n="quote.li4"><strong>Meet your caregiver</strong>You meet the proposed caregiver before you confirm anything.</li>
           </ol>
-          <p class="side-call" data-i18n="quote.p5">Rather talk it through?<br><a href="#contact">Call or WhatsApp the care line&nbsp;→</a></p>
+          <p class="side-call" data-i18n="quote.p5">Rather talk it through?<br><a class="js-whatsapp" href="https://wa.me/60189422745">WhatsApp us&nbsp;→</a> or call <a href="tel:+60189422745">+60 18-942 2745</a></p>
         </aside>
 
       </div>
@@ -645,6 +656,7 @@
             <summary data-i18n="careers.summary5">Do you hire nurses?</summary>
             <p data-i18n="careers.p20">Not for nursing work. We place caregivers for daily living support, not clinical care. Nurses are welcome to apply as caregivers if that is the work they want.</p>
           </details>
+          <p class="side-call" data-i18n="careers.wa">Questions about the job?<br><a class="js-whatsapp" data-wa="job" href="https://wa.me/60189422745">WhatsApp us&nbsp;→</a></p>
         </aside>
       </div>
     </div>
@@ -724,7 +736,11 @@
       <div class="contact-grid">
         <div class="contact-card">
           <h3 data-i18n="contact.h31">Care line</h3>
-          <p class="contact-big"><a class="js-careline" href="#contact"><span class="js-careline-text">+60 1X-XXX XXXX</span></a></p>
+          <p class="contact-big"><a href="tel:+60189422745">+60 18-942 2745</a></p>
+          <p class="contact-actions">
+            <a class="btn btn-outline btn-sm" href="tel:+60189422745"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span data-i18n="contact.call">Call</span></a>
+            <a class="btn btn-wa btn-sm js-whatsapp" href="https://wa.me/60189422745"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3.1 29l6.5-1.9c1.9 1 4.1 1.6 6.4 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4-.6-5.7-1.6l-.4-.2-3.9 1.1 1.1-3.7-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.8C5.1 9.9 10 5.2 16 5.2s10.9 4.7 10.9 10.6S22 26.4 16 26.4zm6-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.7s1.2 3.2 1.4 3.4c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.6.2 2.2.1.7-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg><span>WhatsApp</span></a>
+          </p>
           <p data-i18n="contact.p1">8am–10pm daily · BM, English, Mandarin, Tamil</p>
         </div>
         <div class="contact-card">
@@ -763,7 +779,7 @@
   </div>
 </footer>
 
-<a class="wa-float js-whatsapp" href="#contact" hidden aria-label="Chat with us on WhatsApp" data-i18n-label="wa.label1">
+<a class="wa-float js-whatsapp" href="https://wa.me/60189422745" aria-label="Chat with us on WhatsApp" data-i18n-label="wa.label1">
   <svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3C8.8 3 3 8.7 3 15.8c0 2.5.7 4.9 2 6.9L3.1 29l6.5-1.9c1.9 1 4.1 1.6 6.4 1.6 7.2 0 13-5.7 13-12.8S23.2 3 16 3zm0 23.4c-2.1 0-4-.6-5.7-1.6l-.4-.2-3.9 1.1 1.1-3.7-.3-.4c-1.1-1.7-1.7-3.7-1.7-5.8C5.1 9.9 10 5.2 16 5.2s10.9 4.7 10.9 10.6S22 26.4 16 26.4zm6-7.9c-.3-.2-1.9-.9-2.2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.4-.5-2.6-1.6-1-.9-1.6-1.9-1.8-2.3-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.7s1.2 3.2 1.4 3.4c.2.2 2.4 3.6 5.8 5 .8.3 1.4.5 1.9.7.8.3 1.6.2 2.2.1.7-.1 1.9-.8 2.2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.4z"/></svg>
   <span data-i18n="wa.span1">WhatsApp us</span>
 </a>

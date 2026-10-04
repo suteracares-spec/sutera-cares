@@ -238,8 +238,16 @@ textarea { min-height: 92px; resize: vertical; }
 .profile-tags { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-bottom: 14px; }
 .profile-tags li { background: var(--teal-soft); color: var(--teal-deep); font-size: 12.5px; font-weight: 700; padding: 3px 10px; border-radius: 999px; }
 .profile-bio { color: var(--ink-soft); font-size: 15px; }
-.profile.is-placeholder .profile-name { color: var(--ink-soft); font-size: 18px; font-style: italic; font-weight: 400; }
-.profile.is-placeholder { border: 2px dashed var(--line); box-shadow: none; background: rgba(255,255,255,0.6); }
+.profile-facts b { font-weight: 700; color: var(--ink); }
+.profile-quote { color: var(--ink-soft); font-size: 15px; font-style: italic; line-height: 1.6; }
+
+/* Example profiles: illustrated, and labelled as examples on every card. */
+.team-4 { grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.profile.is-example { position: relative; padding-top: 40px; }
+.profile.is-example .profile-photo { width: 124px; height: 124px; border: 4px solid #fff; box-shadow: 0 0 0 3px var(--teal); background: #fff; }
+.example-badge { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: #6B5320; background: #FBF0DC; border: 1px solid #EBD6A6; border-radius: 999px; padding: 2px 10px; }
+.example-note { margin-top: 22px; font-size: 14.5px; color: var(--ink-soft); text-align: center; max-width: 720px; margin-left: auto; margin-right: auto; }
+.example-note strong { color: var(--ink); }
 
 /* ---------- Quote & careers side panels ---------- */
 
@@ -330,9 +338,18 @@ html[lang^="zh"] .eyebrow, html[lang^="zh"] .profile-role, html[lang^="zh"] lege
   padding: 12px 18px 12px 14px; border-radius: 999px; box-shadow: 0 10px 26px rgba(0,0,0,0.22);
   text-decoration: none !important;
 }
-.wa-float[hidden] { display: none; }
 .wa-float svg { width: 26px; height: 26px; }
 .wa-float:hover { background: #188547; }
+
+.btn-sm { padding: 8px 16px; font-size: 15px; display: inline-flex; align-items: center; gap: 7px; }
+.btn-sm svg { width: 18px; height: 18px; }
+.btn-wa { background: #1F9E55; color: #fff; }
+.btn-wa:hover { background: #188547; }
+.contact-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 4px 0 12px; }
+.hero-wa { margin: -4px 0 16px; }
+.hero-wa a { display: inline-flex; align-items: center; gap: 8px; color: #fff; font-weight: 800; }
+.hero-wa svg { width: 22px; height: 22px; color: #5BD68D; }
+.contact-big a { color: inherit; }
 
 /* ---------- Article pages (privacy, guides) ---------- */
 
