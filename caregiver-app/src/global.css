@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@import "uniwind";
+
+@import "heroui-native/styles";
+
+/* End-user path: heroui-native lives in the project's node_modules, one
+   level up from this src/global.css file. */
+@source '../node_modules/heroui-native/lib';
+
+/* Sutera teal, the same accent as the website and the portal. */
+@layer theme {
+  :root {
+    @variant light {
+      --accent: #1c6b62;
+      --accent-foreground: #ffffff;
+    }
+    @variant dark {
+      --accent: #54aea1;
+      --accent-foreground: #0e1a1e;
+    }
+  }
+}
