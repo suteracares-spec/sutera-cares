@@ -35,12 +35,17 @@ Options -Indexes
   ExpiresActive On
   ExpiresDefault                       "access plus 1 day"
   ExpiresByType text/html              "access plus 0 seconds"
+  # CSS and JS change with the HTML, so browsers must check for a new copy
+  # every time (a cheap 304 when nothing changed). Never cache them for a day.
+  ExpiresByType text/css               "access plus 0 seconds"
+  ExpiresByType application/javascript "access plus 0 seconds"
+  ExpiresByType text/javascript        "access plus 0 seconds"
   ExpiresByType image/jpeg             "access plus 30 days"
   ExpiresByType image/svg+xml          "access plus 30 days"
 </IfModule>
 
 <IfModule mod_headers.c>
-  <FilesMatch "\.(html)$">
+  <FilesMatch "\.(html|css|js)$">
     Header set Cache-Control "no-cache, must-revalidate"
   </FilesMatch>
   Header set X-Content-Type-Options "nosniff"
