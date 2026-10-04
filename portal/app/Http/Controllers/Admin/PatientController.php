@@ -53,6 +53,7 @@ class PatientController extends Controller
             'guardians' => fn ($q) => $q->orderByDesc('is_primary')->orderBy('id'),
             'guardians.user',
             'assignments.caregiver.user',
+            'assignments.service',
             'carePlans' => fn ($q) => $q->withCount('tasks')->orderByDesc('version'),
         ]);
 

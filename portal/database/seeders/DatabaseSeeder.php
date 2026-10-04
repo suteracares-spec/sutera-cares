@@ -163,6 +163,34 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
+        // Puan Aminah's placement: Siti on weekday mornings, four weeks
+        // either side of today, so the schedule and the visit history both
+        // have something in them. Plus a one-off massage for Mr Tan.
+        $siti = Caregiver::where('base_area', 'Cheras')->first();
+        $placement = $aminah->assignments()->create([
+            'caregiver_id' => $siti->id,
+            'service_id'   => Service::where('code', 'HOURLY-PC')->value('id'),
+            'care_plan_id' => $plan->id,
+            'role'         => 'primary',
+            'start_date'   => now()->subWeeks(4)->startOfWeek(),
+            'charge_rate'  => 35.00,
+            'status'       => 'active',
+        ]);
+        app(\App\Services\Scheduler::class)->generate($placement, [1, 2, 3, 4, 5], '08:00', '13:00',
+            now()->subWeeks(4)->startOfWeek()->toDateString(), now()->addWeeks(4)->toDateString());
+
+        $tan = Patient::where('name', 'like', 'Mr Tan%')->first();
+        $massage = $tan->assignments()->create([
+            'caregiver_id' => Caregiver::where('base_area', 'Petaling Jaya')->value('id'),
+            'service_id'   => Service::where('code', 'MASSAGE-60')->value('id'),
+            'role'         => 'primary',
+            'start_date'   => now()->addDays(2),
+            'end_date'     => now()->addDays(2),
+            'charge_rate'  => 120.00,
+            'status'       => 'active',
+        ]);
+        $massage->shifts()->create(['shift_date' => now()->addDays(2), 'start_time' => '15:00', 'end_time' => '16:00']);
+
         Enquiry::create([
             'client_name'         => 'Wong Mei Ling',
             'client_phone'        => '+60 12-345 6789',

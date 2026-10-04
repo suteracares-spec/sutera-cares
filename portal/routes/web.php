@@ -1,11 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\AssignmentController;
 use App\Http\Controllers\Admin\CaregiverController;
 use App\Http\Controllers\Admin\CarePlanController;
 use App\Http\Controllers\Admin\GuardianController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\PatientController;
+use App\Http\Controllers\Admin\ScheduleController;
+use App\Http\Controllers\Admin\ShiftController;
 use App\Http\Controllers\Admin\SignInController;
 use App\Http\Controllers\Admin\SystemController;
 use App\Http\Controllers\AccountController;
@@ -78,6 +81,20 @@ Route::middleware(['auth', 'role:admin,coordinator'])
             ->only(['edit', 'update', 'destroy'])
             ->parameters(['family' => 'guardian'])
             ->names('guardians');
+
+        // Placing caregivers and booking their time.
+        Route::get('schedule', ScheduleController::class)->name('schedule');
+        Route::get('patients/{patient}/assignments/create', [AssignmentController::class, 'create'])->name('assignments.create');
+        Route::post('patients/{patient}/assignments', [AssignmentController::class, 'store'])->name('assignments.store');
+        Route::get('assignments/{assignment}', [AssignmentController::class, 'show'])->name('assignments.show');
+        Route::put('assignments/{assignment}', [AssignmentController::class, 'update'])->name('assignments.update');
+        Route::post('assignments/{assignment}/end', [AssignmentController::class, 'end'])->name('assignments.end');
+        Route::post('assignments/{assignment}/shifts', [ShiftController::class, 'store'])->name('shifts.store');
+        Route::post('assignments/{assignment}/shifts/generate', [ShiftController::class, 'generate'])->name('shifts.generate');
+        Route::get('shifts/{shift}', [ShiftController::class, 'show'])->name('shifts.show');
+        Route::put('shifts/{shift}', [ShiftController::class, 'update'])->name('shifts.update');
+        Route::post('shifts/{shift}/cancel', [ShiftController::class, 'cancel'])->name('shifts.cancel');
+        Route::post('shifts/{shift}/cover', [ShiftController::class, 'cover'])->name('shifts.cover');
 
         Route::post('users/{user}/temporary-password', [SignInController::class, 'issue'])
             ->middleware('throttle:20,1')->name('users.temp-password');

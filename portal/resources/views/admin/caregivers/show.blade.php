@@ -54,20 +54,22 @@
       </div>
 
       <div class="panel">
-        <h2>Clients assigned</h2>
+        <h2 class="withaction">Clients assigned
+          <a class="btn btn-quiet btn-small" href="{{ route('admin.schedule', ['caregiver' => $caregiver->id]) }}">Their week</a></h2>
         @if ($caregiver->assignments->isEmpty())
           <div class="empty">No clients assigned.</div>
         @else
           <div class="scroll">
             <table>
-              <thead><tr><th>Client</th><th>Role</th><th>From</th><th>Status</th></tr></thead>
+              <thead><tr><th>Client</th><th>Role</th><th>From</th><th>Status</th><th></th></tr></thead>
               <tbody>
-                @foreach ($caregiver->assignments as $a)
+                @foreach ($caregiver->assignments->sortByDesc('start_date') as $a)
                   <tr>
                     <td><span class="code">{{ $a->patient?->code }}</span> {{ $a->patient?->name }}</td>
                     <td>{{ ucfirst($a->role) }}</td>
-                    <td class="num">{{ $a->start_date }}</td>
-                    <td><span class="pill {{ $a->status }}">{{ ucfirst($a->status) }}</span></td>
+                    <td class="num">{{ $a->start_date->format('j M Y') }}</td>
+                    <td><span class="pill {{ $a->status }}">{{ $a->status === 'active' ? 'Confirmed' : ucfirst($a->status) }}</span></td>
+                    <td><a href="{{ route('admin.assignments.show', $a) }}">Open</a></td>
                   </tr>
                 @endforeach
               </tbody>
