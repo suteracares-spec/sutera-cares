@@ -62,3 +62,9 @@ export function ago(iso: string): string {
 export function firstName(name: string): string {
   return name.split(" ")[0] ?? name;
 }
+
+/** "Good morning", by the hour in Malaysia. */
+export function greeting(): string {
+  const hour = inMalaysia(new Date()).getUTCHours();
+  return hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+}

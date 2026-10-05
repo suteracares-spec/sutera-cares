@@ -54,7 +54,11 @@ export function Initials({ name, size = 40 }: { name: string; size?: number }) {
       className="bg-accent-soft items-center justify-center rounded-full"
       style={{ width: size, height: size }}
     >
-      <Typography weight="bold" className="text-accent-soft-foreground">
+      <Typography
+        weight="bold"
+        className="text-accent-soft-foreground"
+        style={{ fontSize: Math.round(size * 0.38), lineHeight: Math.round(size * 0.5) }}
+      >
         {letters || "?"}
       </Typography>
     </View>
